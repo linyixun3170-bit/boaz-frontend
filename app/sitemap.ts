@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+// Static export requires force-static for route handlers
+export const dynamic = "force-static";
+
 // ============================================================
 // 🗺️ 动态站点地图
 // 
