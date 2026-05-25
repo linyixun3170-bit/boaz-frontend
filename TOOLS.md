@@ -8,26 +8,27 @@
 
 ## 部署
 - **boaz-frontend** Next.js 项目 (GitHub: linyixun3170-bit/boazclothes)
-- **Netlify** → boazclothes.com (site: dreamy-biscochitos-7382af)
-- **部署命令**: 
-  ```
-  # 静态导出模式
-  # 1. 设置 next.config.js: output: 'export', images: { unoptimized: true }
-  # 2. npm run build
-  # 3. NETFLIFY_AUTH_TOKEN="xxx" npx netlify-cli deploy --prod --auth $TOKEN --site dreamy-biscochitos-7382af --dir out
-  # 4. 完后记得把 next.config.js 改回正常模式
-  ```
-- **GitHub推送**: SSH 比 HTTPS 稳定（git@github.com:linyixun3170-bit/boazclothes.git）
+- **Cloudflare Pages** → boazclothes.com (project: boaz)
+- **部署**: Git push to main → Cloudflare Pages 自动构建
+- **GitHub推送**: SSH（git@github.com:linyixun3170-bit/boaz-frontend.git）
 
 ## API 凭证
 - 都存于 CREDENTIALS.md（已 gitignore，权限600）
-- OpenRouter: sk-c50e... — 可调用视觉模型看图
+- OpenRouter: sk-c50…e40b — 可调用视觉模型看图（⚠️ 2026-05-25 检查时 401，可能已失效）
+- Cloudflare: cfut_e9Vul…（Pages+DNS+SSL+Zone 全权限）
 
 ## 常用路径
-- 项目根: /root/.openclaw/workspace/boaz-frontend/
-- 产品图片: public/images/products/
-- 工厂图片: public/images/factory/
+- 项目根: /root/.openclaw/workspace/
+- 网站代码: app/ components/ lib/ public/
 - 知识库: /root/.openclaw/workspace/boaz-knowledge/
+- 审计脚本: scripts/weekly-audit.sh
+- 备份脚本: scripts/auto-backup.sh
 
 ## SSEditor / 视觉模型 prompt
 当用户发图片时，调用 OpenRouter 视觉模型描述图片内容，不要再说"模型不支持看图"。
+
+## OpenCLI（@jackwener/opencli）
+- 用途: 任何一个网站或网页都可以变成 CLI 工具，AI 驱动
+- 版本: 1.8.0
+- 全局安装: npm install -g @jackwener/opencli
+- 命令: browser、list、plugin、adapter、doctor 等

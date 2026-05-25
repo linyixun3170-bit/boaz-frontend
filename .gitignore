@@ -103,3 +103,6 @@ vite.config.ts.timestamp-*
 .vite/
 CREDENTIALS.md
 .openclaw/
+memory/.dreams/
+# Next.js
+next-env.d.ts
