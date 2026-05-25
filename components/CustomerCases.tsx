@@ -7,8 +7,6 @@ import { motion, useInView } from "framer-motion";
 interface CaseImage {
   src: string;
   alt: string;
-  product: string;
-  client: string;
 }
 
 interface CustomerCasesProps {
@@ -18,10 +16,9 @@ interface CustomerCasesProps {
 }
 
 const defaultImages: CaseImage[] = [
-  // 占位 — 等 Richel 发客户案例图后替换
-  { src: "/images/customer_cases/placeholder-1.jpg", alt: "客户定制T恤实物", product: "280g Heavyweight Tee", client: "Brand A" },
-  { src: "/images/customer_cases/placeholder-2.jpg", alt: "客户定制卫衣实物", product: "360g Crewneck", client: "Brand B" },
-  { src: "/images/customer_cases/placeholder-3.jpg", alt: "客户定制长袖实物", product: "Colorblock LS", client: "Brand C" },
+  { src: "/images/customer_cases/case-01.jpg", alt: "客户定制产品实物" },
+  { src: "/images/customer_cases/case-01.jpg", alt: "客户定制产品实物" },
+  { src: "/images/customer_cases/case-01.jpg", alt: "客户定制产品实物" },
 ];
 
 export default function CustomerCases({ images = defaultImages, title = "Real Products,", subtitle = "Real Customers" }: CustomerCasesProps) {
@@ -121,24 +118,22 @@ export default function CustomerCases({ images = defaultImages, title = "Real Pr
               }}
               className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw] snap-start"
             >
-              <div className="group relative aspect-[3/4] overflow-hidden bg-white rounded-sm">
-                <div className="absolute inset-0 flex items-center justify-center text-muted/30 text-body-sm">
-                  {item.alt}
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <p className="text-cream text-body-sm font-medium">{item.product}</p>
-                  <p className="text-cream/60 text-caption">{item.client}</p>
-                </div>
+              <div className="group relative aspect-[4/5] overflow-hidden bg-white rounded-sm">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, (max-width: 1024px) 40vw, 30vw"
+                />
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* 渐变遮罩提示可滑动 */}
         <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-cream to-transparent pointer-events-none md:hidden" />
       </div>
 
-      {/* 移动端滑动提示 */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
