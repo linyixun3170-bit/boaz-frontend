@@ -27,6 +27,11 @@
 ## SSEditor / 视觉模型 prompt
 当用户发图片时，调用 OpenRouter 视觉模型描述图片内容，不要再说"模型不支持看图"。
 
+## 图片处理 SOP
+- 文件: boaz-knowledge/IMAGE-SOP.md
+- 用途: 给 Kimi/QClaw 等外部 AI 用的标准化产品图片上传流程
+- 风险控制: 命名即身份、不删原图、每步验证
+
 ## OpenCLI（@jackwener/opencli）
 - 用途: 任何一个网站或网页都可以变成 CLI 工具，AI 驱动
 - 版本: 1.8.0
