@@ -3,6 +3,7 @@ import Stats from "@/components/Stats";
 import About from "@/components/About";
 import TwoWaysSection from "@/components/TwoWaysSection";
 import Products from "@/components/Products";
+import CustomerCases from "@/components/CustomerCases";
 import FactoryTour from "@/components/FactoryTour";
 import Testimonials from "@/components/Testimonials";
 import CTASection from "@/components/CTASection";
@@ -19,6 +20,7 @@ export default function Home() {
       <About />
       <TwoWaysSection />
       <Products />
+      <CustomerCases />
       <FactoryTour />
       <Testimonials />
       <CTASection />
