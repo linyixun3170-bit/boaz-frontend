@@ -118,9 +118,9 @@ export default function CustomerCases({ images = defaultImages, title = "Real Pr
                 delay: i * 0.1,
                 ease: [0.19, 1, 0.22, 1],
               }}
-              className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw] snap-start"
+              className="flex-shrink-0 w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[18vw] snap-start"
             >
-              <div className="group relative aspect-[4/5] overflow-hidden bg-white rounded-sm">
+              <div className="group relative aspect-[3/4] overflow-hidden bg-white rounded-sm">
                 <Image
                   src={item.src}
                   alt={item.alt}

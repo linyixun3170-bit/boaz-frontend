@@ -9,6 +9,13 @@ import { ArrowUpRight } from "lucide-react";
 
 const products = [
   {
+    name: "XJ-78000 Drop Shoulder Tee",
+    desc: "280gsm / 6XL / 12 Colors",
+    image: productImages.XJ78000,
+    tag: "New",
+    slug: "XJ-78000-heavyweight-drop-shoulder-tee",
+  },
+  {
     name: "Classic Heavyweight Tee",
     desc: "240gsm / 100% Combed Cotton",
     image: productImages.heavyweightTee,
@@ -79,6 +86,12 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
             {product.name}
           </h3>
           <p className="text-body-sm text-muted">{product.desc}</p>
+          <Link
+            href={"/custom?product=" + product.slug}
+            className="inline-flex items-center gap-1.5 mt-2 text-[11px] uppercase tracking-widest text-gold hover:text-charcoal transition-colors"
+          >
+            Customize This Style →
+          </Link>
         </div>
       </Link>
     </motion.div>

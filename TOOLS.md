@@ -27,6 +27,17 @@
 ## SSEditor / 视觉模型 prompt
 当用户发图片时，调用 OpenRouter 视觉模型描述图片内容，不要再说"模型不支持看图"。
 
+使用方式：
+```bash
+# base64 编码图片，调视觉模型描述
+base64 <图片路径> | tr -d '\n' > /tmp/b64.txt
+curl -X POST https://openrouter.ai/api/v1/chat/completions \
+  -H "Authorization: Bearer $KEY" \
+  -d '{"model":"qwen/qwen2.5-vl-72b-instruct","messages":[{"role":"user","content":[{"type":"text","text":"描述这张图片"},{"type":"image_url","image_url":{"url":"data:image/jpeg;base64,..."}}]}]}'
+```
+
+⚠️ 当前 OpenRouter Key 已失效（401），需要用户更新。
+
 ## 图片处理 SOP
 - 文件: boaz-knowledge/IMAGE-SOP.md
 - 用途: 给 Kimi/QClaw 等外部 AI 用的标准化产品图片上传流程
