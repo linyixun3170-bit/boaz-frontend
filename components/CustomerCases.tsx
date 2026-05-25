@@ -19,6 +19,7 @@ const defaultImages: CaseImage[] = [
   { src: "/images/customer_cases/case-01.jpg", alt: "客户定制T恤实物" },
   { src: "/images/customer_cases/case-02.jpg", alt: "客户定制卫衣实物" },
   { src: "/images/customer_cases/case-03.jpg", alt: "客户定制卫衣实物" },
+  { src: "/images/customer_cases/case-04.jpg", alt: "客户定制卫衣实物" },
 ];
 
 export default function CustomerCases({ images = defaultImages, title = "Real Products,", subtitle = "Real Customers" }: CustomerCasesProps) {
