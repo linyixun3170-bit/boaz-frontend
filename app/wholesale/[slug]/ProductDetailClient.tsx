@@ -234,6 +234,65 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
       </section>
 
+      {/* 3x3 Color Grid — all SKU flat lays */}
+      {product.colors.filter(c => c.image).length > 6 && (
+        <section className="py-20 section-padding bg-offwhite">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4 text-center">Available Colors</p>
+            <h2 className="text-display-md font-serif text-charcoal mb-12 text-center">
+              All <span className="italic">{product.colors.length} Colors</span>
+            </h2>
+            <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
+              {product.colors.filter(c => c.image).map((color) => (
+                <div key={color.name} className="group">
+                  <div className="relative aspect-square overflow-hidden bg-warmgray mb-2">
+                    <Image
+                      src={color.image!}
+                      alt={color.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 33vw, 25vw"
+                    />
+                  </div>
+                  <p className="text-[11px] text-center text-muted">{color.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Detail Images — only for products with detail-en folder */}
+      {product.id === "240g-vintage-crop" && (
+        <section className="py-20 section-padding bg-cream">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4 text-center">Product Details</p>
+            <h2 className="text-display-md font-serif text-charcoal mb-12 text-center">
+              Craftsmanship <span className="italic">Up Close</span>
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+                "/images/products/240g-vintage-crop/detail-en/1_06-en.jpg",
+                "/images/products/240g-vintage-crop/detail-en/1_08-en.jpg",
+                "/images/products/240g-vintage-crop/detail-en/1_09-en.jpg",
+                "/images/products/240g-vintage-crop/detail-en/1_17-en.jpg",
+                "/images/products/240g-vintage-crop/detail-en/1_18-en.jpg",
+              ].map((img) => (
+                <div key={img} className="relative aspect-[4/3] overflow-hidden bg-warmgray">
+                  <Image
+                    src={img}
+                    alt="Product detail"
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* More Products */}
       <section className="py-20 section-padding bg-cream">
         <div className="max-w-7xl mx-auto">
