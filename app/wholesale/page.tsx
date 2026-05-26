@@ -1,6 +1,5 @@
 "use client";
 
-import { wholesaleImages } from "@/lib/images";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
@@ -8,19 +7,9 @@ import Link from "next/link";
 import { ArrowUpRight, Filter } from "lucide-react";
 import Footer from "@/components/Footer";
 import SchemaOrg from "@/components/SchemaOrg";
+import { products, type Product } from "@/lib/products-catalog";
 
-const categories = ["All", "T-Shirts", "Hoodies", "Crewnecks", "Long Sleeve"];
-
-const products = [
-  { name: "Classic Heavyweight Tee", category: "T-Shirts", weight: "240gsm", fabric: "Combed Cotton", price: "From $4.50", image: wholesaleImages.heavyweightTee, moq: "50" },
-  { name: "Premium Oversized Hoodie", category: "Hoodies", weight: "400gsm", fabric: "French Terry", price: "From $12.00", image: wholesaleImages.oversizedHoodie, moq: "50" },
-  { name: "Vintage Washed Tee", category: "T-Shirts", weight: "220gsm", fabric: "Garment Dyed", price: "From $5.20", image: wholesaleImages.vintageWashedTee, moq: "50" },
-  { name: "French Terry Crewneck", category: "Crewnecks", weight: "350gsm", fabric: "Unisex Fit", price: "From $9.80", image: wholesaleImages.crewneck, moq: "50" },
-  { name: "Long Sleeve Base Layer", category: "Long Sleeve", weight: "200gsm", fabric: "Ribbed Cuffs", price: "From $5.80", image: wholesaleImages.longSleeve, moq: "50" },
-  { name: "Crop Boxy Tee", category: "T-Shirts", weight: "230gsm", fabric: "Drop Shoulder", price: "From $4.80", image: wholesaleImages.cropBoxyTee, moq: "50" },
-  { name: "Fleece Lined Hoodie", category: "Hoodies", weight: "450gsm", fabric: "Cotton Fleece", price: "From $14.00", image: wholesaleImages.fleeceHoodie, moq: "50" },
-  { name: "Raglan Sleeve Tee", category: "T-Shirts", weight: "200gsm", fabric: "Sport Fit", price: "From $4.20", image: wholesaleImages.raglanTee, moq: "50" },
-];
+const categories = ["All", "T-Shirts", "Hoodies", "Long Sleeves", "Kids"];
 
 export default function WholesalePage() {
   const ref = useRef(null);
@@ -44,7 +33,7 @@ export default function WholesalePage() {
               <span className="italic">To Build a Brand</span>
             </h1>
             <p className="text-body-lg text-muted max-w-xl">
-              All products in stock. Customization available from 50 units. Click any product to request a quote.
+              All products in stock. Customization available from 50 units. Click any product for details and pricing.
             </p>
           </motion.div>
         </div>
@@ -66,36 +55,7 @@ export default function WholesalePage() {
       <section ref={ref} className="pb-32 md:pb-40 section-padding bg-cream">
         <div className="max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product, i) => (
-            <motion.div
-              key={product.name}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.19, 1, 0.22, 1] }}
-              className="group"
-            >
-              <Link href="/contact">
-                <div className="relative aspect-[3/4] mb-4 overflow-hidden bg-warmgray">
-                  <Image
-                    src={product.image.src}
-                    alt={product.image.alt}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-expo-out group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 bg-cream/90 text-caption uppercase tracking-wider text-charcoal">
-                    {product.moq} MOQ
-                  </div>
-                  <div className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-cream flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
-                    <ArrowUpRight size={16} className="text-charcoal" />
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-body-sm font-medium text-charcoal group-hover:text-ink transition-colors">{product.name}</h3>
-                  <p className="text-caption text-muted uppercase tracking-wide">{product.weight} · {product.fabric}</p>
-                  <p className="text-body-sm text-charcoal font-medium mt-1">{product.price}</p>
-                </div>
-              </Link>
-            </motion.div>
+            <ProductCard key={product.id} product={product} index={i} isInView={isInView} />
           ))}
         </div>
 
@@ -121,5 +81,50 @@ export default function WholesalePage() {
 
       <Footer />
     </main>
+  );
+}
+
+function ProductCard({ product, index, isInView }: { product: Product; index: number; isInView: boolean }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.19, 1, 0.22, 1] }}
+      className="group"
+    >
+      <Link href={`/wholesale/${product.slug}`}>
+        <div className="relative aspect-[3/4] mb-4 overflow-hidden bg-warmgray">
+          <Image
+            src={product.images.main}
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-700 ease-expo-out group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+          {/* MOQ badge */}
+          <div className="absolute top-3 left-3 px-2.5 py-1 bg-cream/90 text-caption uppercase tracking-wider text-charcoal">
+            {product.moq} MOQ
+          </div>
+          {/* Tags */}
+          <div className="absolute top-3 right-3 flex gap-1">
+            {product.isNew && (
+              <span className="px-2 py-1 bg-gold/90 text-cream text-[10px] uppercase tracking-wider">New</span>
+            )}
+            {product.isBestSeller && (
+              <span className="px-2 py-1 bg-charcoal/90 text-cream text-[10px] uppercase tracking-wider">Best</span>
+            )}
+          </div>
+          <div className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-cream flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+            <ArrowUpRight size={16} className="text-charcoal" />
+          </div>
+        </div>
+        <div className="space-y-1">
+          <h3 className="text-body-sm font-medium text-charcoal group-hover:text-ink transition-colors">{product.name}</h3>
+          <p className="text-caption text-muted uppercase tracking-wide">{product.weight} · {product.fabric}</p>
+          <p className="text-body-sm text-charcoal font-medium mt-1">{product.priceFOB}</p>
+          <p className="text-[11px] text-gold">{product.colors.length} colors · {product.sizes.length} sizes</p>
+        </div>
+      </Link>
+    </motion.div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
@@ -16,12 +17,13 @@ if (typeof window !== "undefined") {
 const products = [
   { id: "280g-heavy-tee", name: "280gsm Heavyweight T-Shirt", priceBase: 4.50, moq: 50, category: "T-Shirts" },
   { id: "360g-crewneck", name: "360gsm Washed Crewneck", priceBase: 10.00, moq: 50, category: "Hoodies" },
-  { id: "180g-classic", name: "180gsm Classic Crewneck Tee", priceBase: 1.20, moq: 50, category: "T-Shirts" },
-  { id: "260g-american", name: "260gsm American Streetwear Tee", priceBase: 3.80, moq: 50, category: "T-Shirts" },
-  { id: "220g-relaxed", name: "220gsm Relaxed Fit Tee", priceBase: 2.80, moq: 50, category: "T-Shirts" },
-  { id: "210g-kids", name: "210gsm Kids Drop Shoulder Tee", priceBase: 1.00, moq: 50, category: "Kids" },
-  { id: "230g-washed", name: "230gsm Washed Vintage Tee", priceBase: 3.50, moq: 50, category: "T-Shirts" },
+  { id: "180g-classic-tee", name: "180gsm Classic Crewneck T-Shirt", priceBase: 1.20, moq: 50, category: "T-Shirts" },
+  { id: "260g-american-tee", name: "260gsm American Streetwear T-Shirt", priceBase: 3.80, moq: 50, category: "T-Shirts" },
+  { id: "220g-heavy-tee", name: "220gsm Relaxed Fit T-Shirt", priceBase: 2.80, moq: 50, category: "T-Shirts" },
+  { id: "kids-210g-tee", name: "210gsm Kids Drop Shoulder T-Shirt", priceBase: 1.00, moq: 50, category: "Kids" },
+  { id: "230g-washed-tee", name: "230gsm Washed Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts" },
   { id: "colorblock-longsleeve", name: "Color-Block Raglan Long Sleeve", priceBase: 5.00, moq: 50, category: "Long Sleeves" },
+  { id: "XJ-78000", name: "XJ-78000 180gsm Combed Cotton T-Shirt", priceBase: 4.80, moq: 50, category: "T-Shirts" },
 ];
 
 const decorationMethods = [
@@ -58,8 +60,19 @@ const steps = [
   { number: "04", title: "Confirm & Quote", desc: "Set quantity and get an instant estimate. We'll confirm within 24 hours." },
 ];
 
-export default function CustomPage() {
-  const [selectedProduct, setSelectedProduct] = useState(products[0]);
+export default function CustomPageWrapper() {
+  return (
+    <Suspense fallback={<div className="pt-28 text-center text-muted">Loading...</div>}>
+      <CustomPage />
+    </Suspense>
+  );
+}
+
+function CustomPage() {
+  const searchParams = useSearchParams();
+  const productParam = searchParams.get("product");
+  const initialProduct = products.find(p => p.id === productParam) || products[0];
+  const [selectedProduct, setSelectedProduct] = useState(initialProduct);
   const [selectedColor, setSelectedColor] = useState("#ffffff");
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [placement, setPlacement] = useState("center");
