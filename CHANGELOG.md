@@ -1,0 +1,29 @@
+# 📋 站点修改日志
+
+> 每次修改前先记录，修改后更新状态。
+> 格式: [日期] 修改内容 | 备份标签
+
+---
+
+## 2026-05-26
+
+| 时间 | 修改 | 备份标签 | 状态 |
+|------|------|---------|------|
+| 09:22 | 关闭SEO索引（基建中） | backup-20260526_0922 | ✅ 已部署 |
+| 09:27 | 产品目录上线：真实数据替换假数据，新增产品详情页 | backup-20260526_0927 | ✅ 已部署 |
+
+## 基线定义
+
+**当前结构（v1.0）：**
+- 主页: Hero + Stats + About + TwoWays + Products + FactoryTour + Testimonials + CTA
+- 批发页: 9个真实产品，用 `lib/products-catalog.ts` 数据源
+- 产品详情页: `/wholesale/[slug]`，含 gallery、颜色、尺码、定制入口
+- 定制页: `/custom`，可接收 `?product=` 预选
+- 联系页: `/contact`，含文件上传
+- 关于页: `/why-boaz`
+
+**架构决策：**
+- Next.js 15 + Tailwind v4 + Cloudflare Pages 部署
+- 产品数据统一在 `lib/products-catalog.ts` 管理
+- 图片放 `public/images/products/<产品名>/`
+- 所有代码经 GitHub → 手动 pages deploy
