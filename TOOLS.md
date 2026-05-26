@@ -36,7 +36,7 @@ curl -X POST https://openrouter.ai/api/v1/chat/completions \
   -d '{"model":"qwen/qwen2.5-vl-72b-instruct","messages":[{"role":"user","content":[{"type":"text","text":"描述这张图片"},{"type":"image_url","image_url":{"url":"data:image/jpeg;base64,..."}}]}]}'
 ```
 
-⚠️ 当前 OpenRouter Key 已失效（401），需要用户更新。
+✅ OpenRouter Key 已更新（2026-05-26）
 
 ## 图片处理 SOP
 - 文件: boaz-knowledge/IMAGE-SOP.md

@@ -23,7 +23,7 @@ const products = [
   { id: "kids-210g-tee", name: "210gsm Kids Drop Shoulder T-Shirt", priceBase: 1.00, moq: 50, category: "Kids" },
   { id: "230g-washed-tee", name: "230gsm Washed Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts" },
   { id: "colorblock-longsleeve", name: "Color-Block Raglan Long Sleeve", priceBase: 5.00, moq: 50, category: "Long Sleeves" },
-  { id: "XJ-78000", name: "XJ-78000 180gsm Combed Cotton T-Shirt", priceBase: 4.80, moq: 50, category: "T-Shirts" },
+  { id: "XJ-78000", name: "180gsm Combed Cotton T-Shirt", priceBase: 4.80, moq: 50, category: "T-Shirts" },
 ];
 
 const decorationMethods = [

@@ -10,6 +10,10 @@ import { type Product, products } from "@/lib/products-catalog";
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [colorPreview, setColorPreview] = useState<string | null>(null);
+
+  // Main image: show color preview if set, otherwise gallery
+  const mainImage = colorPreview || product.images.gallery[selectedImage] || product.images.main;
 
   return (
     <main>
@@ -31,7 +35,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <div className="space-y-4">
             <div className="relative aspect-[4/5] overflow-hidden bg-warmgray">
               <Image
-                src={product.images.gallery[selectedImage] || product.images.main}
+                src={mainImage}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -52,16 +56,16 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 {product.images.gallery.map((img, i) => (
                   <button
                     key={i}
-                    onClick={() => setSelectedImage(i)}
+                    onClick={() => { setSelectedImage(i); setColorPreview(null); }}
                     className={`relative w-16 h-20 shrink-0 overflow-hidden border-2 transition-all ${
-                      selectedImage === i ? "border-charcoal" : "border-transparent hover:border-stone"
+                      selectedImage === i && !colorPreview ? "border-charcoal" : "border-transparent hover:border-stone"
                     }`}
                   >
                     <Image src={img} alt="" fill className="object-cover" sizes="64px" />
                   </button>
                 ))}
               </div>
-            )}
+            )
           </div>
 
           {/* Product Info */}
@@ -109,7 +113,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 {product.colors.map((color, i) => (
                   <button
                     key={color.name}
-                    onClick={() => setSelectedColor(i)}
+                    onClick={() => {
+                      setSelectedColor(i);
+                      setColorPreview(color.image || null);
+                    }}
                     className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
                       selectedColor === i ? "border-charcoal scale-110" : "border-stone hover:border-charcoal/40"
                     }`}

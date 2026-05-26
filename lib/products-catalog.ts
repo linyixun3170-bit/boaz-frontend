@@ -329,9 +329,10 @@ export const products: Product[] = [
   },
   {
     id: "XJ-78000",
-    name: "XJ-78000 180gsm Combed Cotton T-Shirt",
-    slug: "XJ-78000-180gsm-combed-cotton-tee",
-    tagline: "100% combed cotton, American relaxed fit, round neck — 12 colors available",
+    name: "180gsm Combed Cotton T-Shirt",
+    slug: "180gsm-combed-cotton-tee",
+    tagline: "Model XJ-78000 — 100% combed cotton, American relaxed fit, round neck, 12 colors",
+    tags: ["New", "12 Colors", "180gsm", "100% Cotton", "Model XJ-78000"],
     category: "T-Shirts",
     weight: "180gsm",
     fabric: "100% Combed Cotton",
