@@ -265,23 +265,27 @@ export default function CustomPageInner() {
                   ref={fileInputRef}
                 />
                 <div
-                  className="relative w-3/4 aspect-[3/4] transition-colors duration-500"
-                  style={{ backgroundColor: selectedColorHex }}
+                  className="relative w-3/4 aspect-[3/4] overflow-hidden"
                 >
-                  <svg
-                    viewBox="0 0 300 400"
-                    className="absolute inset-0 w-full h-full"
-                    style={{ filter: "drop-shadow(0 4px 20px rgba(0,0,0,0.1))" }}
-                  >
-                    <path
-                      d="M75 60 L110 40 L150 70 L190 40 L225 60 L240 120 L210 130 L210 380 L90 380 L90 130 L60 120 Z"
-                      fill={selectedColorHex}
-                      stroke="#00000010"
-                      strokeWidth="1"
-                    />
-                  </svg>
+                  {/* Product image for the selected color */}
+                  <div className="absolute inset-0 bg-light-gray">
+                    {currentColors[selectedColorIdx]?.image ? (
+                      <Image
+                        src={currentColors[selectedColorIdx].image}
+                        alt={currentColors[selectedColorIdx].name}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 75vw, 40vw"
+                      />
+                    ) : (
+                      <div
+                        className="w-full h-full"
+                        style={{ backgroundColor: selectedColorHex }}
+                      />
+                    )}
+                  </div>
 
-                  {/* This is the long SVG path for the t-shirt shape */}
+                  {/* Overlaid uploaded design */}
                   {uploadedImage && (
                     <div
                       className="absolute inset-0"
@@ -293,7 +297,7 @@ export default function CustomPageInner() {
                       <img
                         src={uploadedImage}
                         alt="Your design"
-                        className="opacity-90 pointer-events-none select-none"
+                        className="opacity-85 pointer-events-none select-none"
                         style={{
                           width: `${60 * imgScale}%`,
                           height: `${40 * imgScale}%`,
@@ -309,7 +313,7 @@ export default function CustomPageInner() {
                   )}
 
                   {!uploadedImage && (
-                    <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/5 transition-colors">
+                    <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/5 transition-colors pointer-events-none">
                       <div className="text-center">
                         <svg className="w-10 h-10 mx-auto mb-2 text-warm-gray/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
