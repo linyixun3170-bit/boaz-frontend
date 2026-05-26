@@ -35,3 +35,18 @@
 |------|------|---------|------|
 | 10:09 | 批量修复：假品牌名移除、生产基地统一河北、货币改美元、FOB宁波港、FAQ展开修复、样品政策细化、物流信息新增、定制页上传优化 | backup-20260526_1009 | ✅ 已部署 |
 
+
+---
+
+## 📌 基线 v1 — 2026-05-26 17:44
+
+**标签:** `stable-v1` · `revert-point-ui-changes` · `baseline/backup-20260526_174446-v1-final-baseline-before-ui-redesign`
+
+**当前状态：**
+- 2个产品：230gsm Washed Vintage T-Shirt + 240gsm Vintage Washed Cropped T-Shirt
+- 产品详情页：全幅主图、滑动画廊、尺码表、B2B信息区
+- 定制页：搜索框、动态SKU色块、阶梯价提示、折叠尺码表
+- SOP v1.1 已写入指令体系
+- 所有图片按标准 1536×2752 / 800×800 WebP 处理
+
+**恢复命令：** `git checkout stable-v1` 可回到此版本
