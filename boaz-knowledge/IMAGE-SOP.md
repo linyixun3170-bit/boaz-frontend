@@ -9,7 +9,7 @@
 每个产品一个文件夹：
 ```
 public/images/products/<产品id>/
-├── model/                  # 模特图 1200×1600px
+├── model/                  # 模特图 1536×2752px
 │   ├── model-front-1.webp
 │   ├── model-front-2.webp
 │   └── model-back-1.webp
@@ -33,8 +33,8 @@ public/images/products/<产品id>/
 
 | 类型 | 用途 | 建议张数 | 尺寸 | 说明 |
 |------|------|---------|------|------|
-| **模特正面** | Gallery/主图 | 2-3张 | 1200×1600px | 上身正面展示，白底或简洁场景 |
-| **模特背面** | Gallery | 1-2张 | 1200×1600px | 上身背面展示 |
+| **模特正面** | Gallery/主图 | 2-3张 | 1536×2752px | 上身正面展示，白底或简洁场景 |
+| **模特背面** | Gallery | 1-2张 | 1536×2752px | 上身背面展示 |
 | **白底正面** | 颜色选择器/SKU展示 | 每色1张 | 800×800px | 纯白底，产品正面平铺 |
 | **白底背面** | 定制页颜色预览 | 每色1张（可选） | 800×800px | 产品背面平铺 |
 | **细节图** | 面料/做工/领口/洗标 | 3-5张 | 800×800px | 面料纹理、缝线、领口、水洗标 |
@@ -68,7 +68,7 @@ public/images/products/<产品id>/
 | 降级 | 保留 JPG 源文件备查 |
 | 品质 | 82% |
 | 色彩空间 | sRGB |
-| 模特图尺寸 | **1200×1600**px（竖版，不补白） |
+| 模特图尺寸 | **1536×2752**px（竖版，不补白） |
 | 白底图尺寸 | 800×800px（方形） |
 | 细节图尺寸 | 800×800px（方形） |
 | 尺码表尺寸 | 800×600px |
@@ -86,7 +86,7 @@ public/images/products/<产品id>/
 ④ 翻译（OpenRouter视觉模型）
     ↓
 ⑤ 分类：
-   模特图 → 1200×1600 JPG
+   模特图 → 1536×2752 JPG
    白底正面 → 800×800 WebP
    白底背面 → 800×800 WebP（可选）
    细节图 → 800×800 WebP
@@ -112,8 +112,8 @@ python3 scripts/check-chinese-text.py <产品slug>
 
 **批量处理图片（需确认尺寸）：**
 ```bash
-# 模特图 → 1200×1600，不补白
-convert input.jpg -resize 1200x1600 model/model-front-1.jpg
+# 模特图 → 1536×2752，不补白
+convert input.jpg -resize 1536x2752 model/model-front-1.jpg
 
 # 白底图 → 800×800 方形
 convert input.jpg -resize 800x800 flat/flat-white.webp

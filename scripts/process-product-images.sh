@@ -42,12 +42,12 @@ echo "   ⚠️  请用 OpenRouter 视觉模型检查 raw/ 目录下的图片是
 echo "   命令: python3 scripts/check-chinese-text.py $SLUG"
 echo ""
 
-# Step 3: Process model images (1200x1600, NO padding, WebP)
-echo "③ 处理模特图 → 1200×1600 WebP..."
+# Step 3: Process model images (1536x2752, NO padding, WebP)
+echo "③ 处理模特图 → 1536×2752 WebP..."
 for f in "$PROD_DIR/raw/"*model* "$PROD_DIR/raw/"*front* "$PROD_DIR/raw/"*back* "$PROD_DIR/raw/"*side* "$PROD_DIR/raw/"*angle*; do
   [ -f "$f" ] || continue
   name=$(basename "$f" | sed 's/\.[a-zA-Z]*$//')
-  convert "$f" -resize 1200x1600 -quality 82 "$PROD_DIR/model/$name.webp" 2>/dev/null && \
+  convert "$f" -resize 1536x2752 -quality 82 "$PROD_DIR/model/$name.webp" 2>/dev/null && \
     echo "  ✓ model/$name.webp"
 done
 

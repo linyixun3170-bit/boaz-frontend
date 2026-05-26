@@ -54,15 +54,15 @@ curl -X POST https://openrouter.ai/api/v1/chat/completions \
 ### 尺寸表
 | 图类型 | 尺寸 |
 |--------|------|
-| 模特图 | 1200×1600（竖版，不补白） |
+| 模特图 | 1536×2752（竖版，不补白） |
 | 白底平铺 | 800×800 |
 | 细节图 | 800×800 |
 | 尺码表 | 800×600 |
 
 ### ImageMagick 命令备忘
 ```bash
-# 模特图 → 1200×1600
-convert input.jpg -resize 1200x1600 output.webp
+# 模特图 → 1536×2752
+convert input.jpg -resize 1536x2752 output.webp
 
 # 白底/细节图 → 800²
 convert input.jpg -resize 800x800 output.webp
