@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
@@ -13,9 +14,42 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const products = [
-  { id: "230g-washed-tee", name: "230gsm Washed Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts" },
-  { id: "240g-vintage-crop", name: "240gsm Vintage Washed Cropped T-Shirt", priceBase: 3.80, moq: 50, category: "T-Shirts" },
+const imgBase = "/images/products";
+
+interface ProductOption {
+  id: string;
+  name: string;
+  priceBase: number;
+  moq: number;
+  category: string;
+  colors: { name: string; hex: string; image?: string }[];
+}
+
+const products: ProductOption[] = [
+  {
+    id: "230g-washed-tee", name: "230gsm Washed Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "Black", hex: "#111111", image: `${imgBase}/230g-washed-tee/1-黑色.jpg` },
+      { name: "Light Gray", hex: "#d3d3d3", image: `${imgBase}/230g-washed-tee/2-浅灰色.jpg` },
+      { name: "Brown", hex: "#8b4513", image: `${imgBase}/230g-washed-tee/3-棕色.jpg` },
+      { name: "Rose Pink", hex: "#ffc0cb", image: `${imgBase}/230g-washed-tee/4-玫红色.jpg` },
+      { name: "Green", hex: "#228b22", image: `${imgBase}/230g-washed-tee/5-绿色.jpg` },
+    ],
+  },
+  {
+    id: "240g-vintage-crop", name: "240gsm Vintage Washed Cropped T-Shirt", priceBase: 3.80, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "White", hex: "#ffffff", image: `${imgBase}/240g-vintage-crop/flat/flat-white.webp` },
+      { name: "Black", hex: "#1a1a1a", image: `${imgBase}/240g-vintage-crop/flat/flat-black.webp` },
+      { name: "Charcoal", hex: "#555555", image: `${imgBase}/240g-vintage-crop/flat/flat-charcoal.webp` },
+      { name: "Army Green", hex: "#4b5320", image: `${imgBase}/240g-vintage-crop/flat/flat-army.webp` },
+      { name: "Brick Red", hex: "#cb4154", image: `${imgBase}/240g-vintage-crop/flat/flat-brick.webp` },
+      { name: "Sage", hex: "#88b04b", image: `${imgBase}/240g-vintage-crop/flat/flat-sage.webp` },
+      { name: "Cream", hex: "#f5f0e8", image: `${imgBase}/240g-vintage-crop/flat/flat-cropped-1.webp` },
+      { name: "Light Blue", hex: "#8db6ce", image: `${imgBase}/240g-vintage-crop/flat/flat-cropped-2.webp` },
+      { name: "Pink", hex: "#ffb6c1", image: `${imgBase}/240g-vintage-crop/flat/flat-cropped-3.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [
@@ -25,18 +59,10 @@ const decorationMethods = [
   { id: "transfer", label: "Heat Transfer", desc: "Small runs, complex", pricePerPc: 2.00, tag: null, minQty: 25 },
 ];
 
-const colors = [
-  { name: "White", hex: "#ffffff" },
-  { name: "Black", hex: "#1a1a1a" },
-  { name: "Cream", hex: "#FAF9F6" },
-  { name: "Heather", hex: "#B0B0B0" },
-  { name: "Navy", hex: "#1B3A5C" },
-  { name: "Sage", hex: "#8FA68E" },
-  { name: "Wine Red", hex: "#722F37" },
-  { name: "Charcoal", hex: "#36454F" },
-  { name: "Khaki", hex: "#C3B091" },
-  { name: "Royal Blue", hex: "#4169E1" },
-];
+const productColors = products.reduce((acc: Record<string, ProductOption["colors"]>, p) => {
+  acc[p.id] = p.colors;
+  return acc;
+}, {} as Record<string, ProductOption["colors"]>);
 
 const placements = [
   { id: "center", label: "Center Chest" },
@@ -58,7 +84,10 @@ export default function CustomPageInner() {
   const initialProduct = products.find(p => p.id === productParam) || products[0];
 
   const [selectedProduct, setSelectedProduct] = useState(initialProduct);
-  const [selectedColor, setSelectedColor] = useState("#ffffff");
+  const [searchQuery, setSearchQuery] = useState("");
+  const currentColors = productColors[selectedProduct.id] || [];
+  const [selectedColorIdx, setSelectedColorIdx] = useState(0);
+  const selectedColorHex = currentColors[selectedColorIdx]?.hex || "#ffffff";
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [placement, setPlacement] = useState("center");
   const [quantity, setQuantity] = useState(50);
@@ -79,7 +108,7 @@ export default function CustomPageInner() {
     const params = new URLSearchParams({
       subject: `Custom Order: ${selectedProduct.name} x ${quantity}pcs`,
       product: selectedProduct.id,
-      color: colors.find(c => c.hex === selectedColor)?.name || "White",
+      color: currentColors[selectedColorIdx]?.name || "White",
       method: selectedMethod || "",
       qty: quantity.toString(),
       placement,
@@ -218,7 +247,7 @@ export default function CustomPageInner() {
                 />
                 <div
                   className="relative w-3/4 aspect-[3/4] transition-colors duration-500"
-                  style={{ backgroundColor: selectedColor }}
+                  style={{ backgroundColor: selectedColorHex }}
                 >
                   <svg
                     viewBox="0 0 300 400"
@@ -227,7 +256,7 @@ export default function CustomPageInner() {
                   >
                     <path
                       d="M75 60 L110 40 L150 70 L190 40 L225 60 L240 120 L210 130 L210 380 L90 380 L90 130 L60 120 Z"
-                      fill={selectedColor}
+                      fill={selectedColorHex}
                       stroke="#00000010"
                       strokeWidth="1"
                     />
@@ -286,50 +315,70 @@ export default function CustomPageInner() {
 
               {/* Controls */}
               <div className="space-y-8">
-                {/* Product Selector */}
+                {/* Search + Product Selector */}
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
-                    Product
+                    Search Product
                   </label>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search by name or style..."
+                    className="w-full px-4 py-3 bg-cream border border-stone text-sm text-dark focus:outline-none focus:border-dark mb-3"
+                  />
                   <select
                     value={selectedProduct.id}
                     onChange={(e) => {
                       const p = products.find(pr => pr.id === e.target.value);
                       if (p) {
                         setSelectedProduct(p);
+                        setSelectedColorIdx(0);
                         setQuantity(Math.max(quantity, p.moq));
                       }
                     }}
                     className="w-full px-4 py-3 bg-cream border border-stone text-sm text-dark focus:outline-none focus:border-dark"
                   >
-                    {products.map(p => (
+                    {products
+                      .filter(p => !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map(p => (
                       <option key={p.id} value={p.id}>{p.name} -- From ${p.priceBase.toFixed(2)}/pc</option>
                     ))}
                   </select>
                 </div>
 
-                {/* Color */}
+                {/* Color — dynamically shows selected product's SKU colors */}
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
-                    Garment Color ({colors.length})
+                    {selectedProduct.name} — Color ({currentColors.length})
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {colors.map((c) => (
+                    {currentColors.map((c, idx) => (
                       <button
-                        key={c.hex}
-                        onClick={() => setSelectedColor(c.hex)}
-                        className={`w-10 h-10 rounded-full border-2 transition-all ${
-                          selectedColor === c.hex
+                        key={c.name}
+                        onClick={() => setSelectedColorIdx(idx)}
+                        className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
+                          selectedColorIdx === idx
                             ? "border-dark scale-110"
-                            : "border-transparent"
+                            : "border-transparent hover:border-dark/40"
                         }`}
                         style={{ backgroundColor: c.hex }}
                         title={c.name}
-                      />
+                      >
+                        {c.image && (
+                          <Image
+                            src={c.image}
+                            alt={c.name}
+                            fill
+                            className="object-cover"
+                            sizes="40px"
+                          />
+                        )}
+                      </button>
                     ))}
                   </div>
                   <p className="text-[11px] text-warm-gray mt-2">
-                    Current: {colors.find((c) => c.hex === selectedColor)?.name}
+                    Selected: {currentColors[selectedColorIdx]?.name}
                   </p>
                 </div>
 
