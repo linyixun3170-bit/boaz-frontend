@@ -13,20 +13,20 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedColor, setSelectedColor] = useState(0);
   const [showingColor, setShowingColor] = useState(false);
 
-  const imgSrc = showingColor
+  const mainPic = showingColor
     ? (product.colors[selectedColor]?.image ?? product.images.main)
     : (product.images.gallery[selectedImage] ?? product.images.main);
 
   return (
-    <main>
+    <div>
       {/* Breadcrumb */}
       <section className="pt-28 pb-4 section-padding bg-cream">
         <div className="max-w-7xl mx-auto">
-          <nav className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-muted">
+          <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-muted">
             <Link href="/wholesale" className="hover:text-charcoal transition-colors">Products</Link>
             <span>/</span>
             <span className="text-charcoal">{product.name}</span>
-          </nav>
+          </div>
         </div>
       </section>
 
@@ -37,36 +37,37 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           <div className="space-y-4">
             <div className="relative p-3 bg-cream border border-stone shadow-sm">
               <div className="absolute inset-3 border border-charcoal/5 pointer-events-none z-10" />
-              <div className="relative aspect-[4/5] overflow-hidden bg-warmgray">
-              <Image
-                src={imgSrc}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
-              <div className="absolute top-4 left-4 flex gap-2">
-                {product.isNew && (
-                  <span className="px-3 py-1 bg-gold text-cream text-[10px] uppercase tracking-wider">New</span>
-                )}
-                {product.isBestSeller && (
-                  <span className="px-3 py-1 bg-charcoal text-cream text-[10px] uppercase tracking-wider">Best Seller</span>
-                )}
+              <div className="relative w-full flex items-center justify-center bg-warmgray" style={{minHeight:"500px",maxHeight:"85vh"}}>
+                <Image
+                  src={mainPic}
+                  alt={product.name}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
+                <div className="absolute top-4 left-4 flex gap-2">
+                  {product.isNew && (
+                    <span className="px-3 py-1 bg-gold text-cream text-[10px] uppercase tracking-wider">New</span>
+                  )}
+                  {product.isBestSeller && (
+                    <span className="px-3 py-1 bg-charcoal text-cream text-[10px] uppercase tracking-wider">Best Seller</span>
+                  )}
+                </div>
               </div>
             </div>
-            </div>
+            {/* Gallery strip */}
             {product.images.gallery.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-2">
+              <div className="flex gap-3 overflow-x-auto pb-2">
                 {product.images.gallery.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => { setSelectedImage(i); setShowingColor(false); }}
-                    className={`relative w-16 h-20 shrink-0 overflow-hidden border-2 transition-all ${
+                    className={"relative w-24 h-28 md:w-28 md:h-32 shrink-0 overflow-hidden border-2 transition-all " + (
                       selectedImage === i && !showingColor ? "border-charcoal" : "border-transparent hover:border-stone"
-                    }`}
+                    )}
                   >
-                    <Image src={img} alt="" fill className="object-cover" sizes="64px" />
+                    <Image src={img} alt="" fill className="object-cover" sizes="112px" />
                   </button>
                 ))}
               </div>
@@ -81,13 +82,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <p className="text-body-lg text-muted">{product.tagline}</p>
             </div>
 
-            {/* Price */}
             <div className="py-4 border-y border-stone">
               <p className="text-2xl font-medium text-charcoal">{product.priceFOB}</p>
               <p className="text-[11px] text-muted mt-1">FOB Ningbo · Minimum {product.moq} pcs per color/size</p>
             </div>
 
-            {/* Specs grid */}
             <div className="grid grid-cols-3 gap-4">
               <div className="p-3 bg-offwhite">
                 <p className="text-[10px] uppercase tracking-wider text-muted mb-1">Weight</p>
@@ -103,7 +102,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
 
-            {/* Fabric */}
             <div>
               <p className="text-[11px] uppercase tracking-wider text-muted mb-1">Fabric</p>
               <p className="text-body-md text-charcoal">{product.fabric}</p>
@@ -119,20 +117,14 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   <button
                     key={color.name}
                     onClick={() => { setSelectedColor(i); setShowingColor(true); }}
-                    className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
+                    className={"relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all " + (
                       selectedColor === i ? "border-charcoal scale-110" : "border-stone hover:border-charcoal/40"
-                    }`}
+                    )}
                     style={{ backgroundColor: color.hex }}
                     title={color.name}
                   >
                     {color.image && (
-                      <Image
-                        src={color.image}
-                        alt={color.name}
-                        fill
-                        className="object-cover"
-                        sizes="40px"
-                      />
+                      <Image src={color.image} alt={color.name} fill className="object-cover" sizes="40px" />
                     )}
                     {selectedColor === i && (
                       <span className="absolute inset-0 flex items-center justify-center bg-black/20">
@@ -147,7 +139,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </p>
             </div>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-2">
               {product.tags.map((tag) => (
                 <span key={tag} className="px-3 py-1 bg-offwhite text-[10px] uppercase tracking-wider text-muted">
@@ -156,19 +147,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               ))}
             </div>
 
-            {/* CTA Buttons */}
             <div className="pt-4 space-y-3">
-              <Link
-                href={`/custom?product=${product.id}`}
-                className="btn-capsule w-full block text-center"
-              >
+              <Link href={`/custom?product=${product.id}`} className="btn-capsule w-full block text-center">
                 Customize This Style
                 <ArrowUpRight size={14} className="inline ml-1" />
               </Link>
-              <Link
-                href={`/contact?subject=${encodeURIComponent("Inquiry: " + product.name)}&product=${product.id}`}
-                className="pill-btn w-full block text-center"
-              >
+              <Link href={`/contact?subject=${encodeURIComponent("Inquiry: " + product.name)}&product=${product.id}`} className="pill-btn w-full block text-center">
                 Request Quote
               </Link>
             </div>
@@ -184,6 +168,15 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <Ruler size={20} className="inline mr-2" />
               Size Chart
             </h2>
+            <div className="mb-8 max-w-md mx-auto">
+              <Image
+                src={"/images/products/" + product.id + "/detail/size-chart.webp"}
+                alt={"Size chart for " + product.name}
+                width={400}
+                height={300}
+                className="w-full h-auto object-contain border border-stone"
+              />
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -234,64 +227,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* 3x3 Color Grid — all SKU flat lays */}
-      {product.colors.filter(c => c.image).length > 6 && (
-        <section className="py-20 section-padding bg-offwhite">
-          <div className="max-w-7xl mx-auto">
-            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4 text-center">Available Colors</p>
-            <h2 className="text-display-md font-serif text-charcoal mb-12 text-center">
-              All <span className="italic">{product.colors.length} Colors</span>
-            </h2>
-            <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
-              {product.colors.filter(c => c.image).map((color) => (
-                <div key={color.name} className="group">
-                  <div className="relative aspect-square overflow-hidden bg-warmgray mb-2">
-                    <Image
-                      src={color.image!}
-                      alt={color.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 33vw, 25vw"
-                    />
-                  </div>
-                  <p className="text-[11px] text-center text-muted">{color.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Detail Images — only for products with detail-en folder */}
-      {product.id === "240g-vintage-crop" && (
-        <section className="py-20 section-padding bg-cream">
-          <div className="max-w-7xl mx-auto">
-            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4 text-center">Product Details</p>
-            <h2 className="text-display-md font-serif text-charcoal mb-12 text-center">
-              Craftsmanship <span className="italic">Up Close</span>
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {[
-                "/images/products/240g-vintage-crop/detail/detail-colors.webp",
-                "/images/products/240g-vintage-crop/detail/detail-fabric.webp",
-                "/images/products/240g-vintage-crop/detail/detail-stitch.webp",
-                "/images/products/240g-vintage-crop/detail/detail-collar.webp",
-              ].map((img) => (
-                <div key={img} className="relative aspect-[4/3] overflow-hidden bg-warmgray">
-                  <Image
-                    src={img}
-                    alt="Product detail"
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* More Products */}
       <section className="py-20 section-padding bg-cream">
         <div className="max-w-7xl mx-auto">
@@ -302,16 +237,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             {products
               .filter((p) => p.id !== product.id)
               .slice(0, 4)
-              .map((p, i) => (
-                <Link key={p.id} href={`/wholesale/${p.slug}`} className="group">
+              .map((p) => (
+                <Link key={p.id} href={"/wholesale/" + p.slug} className="group">
                   <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-warmgray">
-                    <Image
-                      src={p.images.main}
-                      alt={p.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, 25vw"
-                    />
+                    <Image src={p.images.main} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 25vw" />
                     <div className="absolute top-3 left-3 px-2 py-1 bg-cream/90 text-[10px] uppercase tracking-wider">
                       {p.moq} MOQ
                     </div>
@@ -325,6 +254,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       </section>
 
       <Footer />
-    </main>
+    </div>
   );
 }
