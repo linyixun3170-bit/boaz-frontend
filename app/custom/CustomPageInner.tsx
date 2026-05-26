@@ -53,10 +53,10 @@ const products: ProductOption[] = [
 ];
 
 const decorationMethods = [
-  { id: "screen", label: "Screen Print", desc: "Best for bulk 50+ units", pricePerPc: 1.50, tag: "Popular", minQty: 50 },
-  { id: "dtg", label: "DTG", desc: "Full-color, no minimum", pricePerPc: 3.00, tag: null, minQty: 1 },
-  { id: "embroidery", label: "Embroidery", desc: "Premium stitched logo", pricePerPc: 2.50, tag: "Premium", minQty: 50 },
-  { id: "transfer", label: "Heat Transfer", desc: "Small runs, complex", pricePerPc: 2.00, tag: null, minQty: 25 },
+  { id: "screen", label: "Screen Print", desc: "Best for bold flat colors. Most cost-effective for 50+ pcs.", pricePerPc: 1.50, tag: "Popular", minQty: 50 },
+  { id: "dtg", label: "DTG", desc: "Full-color photo-quality prints. No minimum quantity, ideal for samples.", pricePerPc: 3.00, tag: null, minQty: 1 },
+  { id: "embroidery", label: "Embroidery", desc: "Premium stitched logo with texture. Best for hats, polos, and outerwear.", pricePerPc: 2.50, tag: "Premium", minQty: 50 },
+  { id: "transfer", label: "Heat Transfer", desc: "Complex designs & small runs. Quick turnaround, vivid colors.", pricePerPc: 2.00, tag: null, minQty: 25 },
 ];
 
 const productColors = products.reduce((acc: Record<string, ProductOption["colors"]>, p) => {
@@ -221,18 +221,34 @@ export default function CustomPageInner() {
 
           {/* Main Customizer */}
           <div className="max-w-[1400px] mx-auto section-padding mb-24">
-            {/* Mobile Step Indicator */}
-            <div className="flex items-center gap-3 py-4 overflow-x-auto lg:hidden mb-6">
-              {["Product", "Color", "Method", "Upload", "Quote"].map((label, i) => (
-                <div key={label} className="flex items-center gap-2 shrink-0">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium ${
-                    i <= 2 ? "bg-dark text-cream" : "bg-light-gray text-warm-gray"
-                  }`}>
-                    {i + 1}
+            {/* Step Navigator — visual progress bar */}
+            <div className="py-6 mb-6 border-b border-stone">
+              <div className="flex items-center justify-between max-w-md mx-auto">
+                {[
+                  { num: 1, label: "Product" },
+                  { num: 2, label: "Color" },
+                  { num: 3, label: "Method" },
+                  { num: 4, label: "Upload" },
+                  { num: 5, label: "Quote" },
+                ].map((step, i) => (
+                  <div key={step.label} className="flex flex-col items-center gap-1.5 relative flex-1">
+                    {/* Connector line */}
+                    {i < 4 && (
+                      <div className={"absolute top-3 left-[60%] w-full h-0.5 " + (i <= 2 ? "bg-dark" : "bg-stone")} />
+                    )}
+                    <div className={
+                      "relative w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-medium z-10 " +
+                      (i <= 2 ? "bg-dark text-cream" : "bg-light-gray text-warm-gray")
+                    }>
+                      {i < 2 ? "\u2713" : step.num}
+                    </div>
+                    <span className={
+                      "text-[10px] whitespace-nowrap " +
+                      (i <= 2 ? "text-dark font-medium" : "text-warm-gray")
+                    }>{step.label}</span>
                   </div>
-                  <span className="text-[11px] text-warm-gray whitespace-nowrap">{label}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
