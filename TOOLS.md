@@ -38,10 +38,40 @@ curl -X POST https://openrouter.ai/api/v1/chat/completions \
 
 ✅ OpenRouter Key 已更新（2026-05-26）
 
-## 图片处理 SOP
+## 🖼️ 图片处理 SOP（强制遵守）
 - 文件: boaz-knowledge/IMAGE-SOP.md
-- 用途: 给 Kimi/QClaw 等外部 AI 用的标准化产品图片上传流程
-- 风险控制: 命名即身份、不删原图、每步验证
+- 收到任何新产品图片包时，**必须**按 SOP 流程处理，不得跳过
+- 每一步都必须执行：备份 → 检查中文 → 翻译 → 重命名 → Resize+WebP → 更新目录 → 构建部署
+
+### 快速对照卡
+```
+收到图片 → 存 raw/ → 检查中文水印（OpenRouter视觉）→ 翻译 → 重命名
+→ ImageMagick: 模特图1200², 白底800², 细节图1200², WebP q82
+→ 更新 products-catalog.ts（路径+alt文本）→ 构建 → 部署
+```
+
+### 缺图清单模板
+缺图时以下格式告知用户：
+```
+| 缺什么 | 需要什么样的 |
+|--------|-------------|
+| 面料纹理特写 | 微距拍面料表面，白底，1200² |
+| 模特背面 | 穿产品背对镜头，白底或简洁背景 |
+```
+
+### ImageMagick 命令备忘
+```bash
+# 模特/细节图 → 1200² 补白 + WebP
+convert input.jpg -resize 1200x1200 -background white -gravity center -extent 1200x1200 -quality 82 output.webp
+
+# 白底平铺 → 800² + WebP
+convert input.jpg -resize 800x800 -quality 82 output.webp
+```
+
+### 风险控制
+- 原始文件永远保留在 raw/，不删除
+- 未检查中文的图片不上线
+- 目录结构必须和 SOP 一致（model/flat/detail/raw）
 
 ## OpenCLI（@jackwener/opencli）
 - 用途: 任何一个网站或网页都可以变成 CLI 工具，AI 驱动

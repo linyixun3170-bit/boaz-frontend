@@ -69,25 +69,51 @@ public/images/products/<产品id>/
 ## 5. 处理流程
 
 ```
-① 你发原始图片（zip/文件夹/飞书文件）
+① 收到图片（zip/文件夹/飞书文件）
     ↓
 ② 存 raw/ 原始备份（不改原图，不删）
     ↓
-③ 检查：缺什么图？哪些有中文水印？
+③ 检查中文 → python3 scripts/check-chinese-text.py <slug>
     ↓
-④ 翻译中文 → 英文（OpenRouter视觉模型辅助）
+④ 翻译（OpenRouter视觉模型）
     ↓
-⑤ 重命名 → 统一命名规范
+⑤ 批量转 → bash scripts/process-product-images.sh <slug> <源目录>
     ↓
-⑥ Resize + 转 WebP（ImageMagick批量处理）
+⑥ 手工整理：重命名确认、核对目录
     ↓
-⑦ 补Alt文本
+⑦ 更新 lib/products-catalog.ts（路径+颜色+Alt文本）
     ↓
-⑧ 拷贝到 public/images/products/<产品id>/
+⑧ 更新定制页 app/custom/CustomPageInner.tsx（产品列表）
     ↓
-⑨ 更新 lib/products-catalog.ts
+⑨ 构建测试 → npx next build
     ↓
-⑩ 构建测试 → 部署上线
+⑩ 部署 → wrangler pages deploy out/ --project-name boaz
+```
+
+### 处理命令速查
+
+**检查中文：**
+```bash
+python3 scripts/check-chinese-text.py <产品slug>
+```
+
+**批量处理图片：**
+```bash
+bash scripts/process-product-images.sh <产品slug> <原始图片目录>
+```
+
+**添加产品到网站：**
+- 编辑 `lib/products-catalog.ts` → 新增产品对象
+- 编辑 `app/custom/CustomPageInner.tsx` → 加入产品列表
+
+**构建部署：**
+```bash
+npx next build && wrangler pages deploy out/ --project-name boaz --branch main --commit-dirty=true
+```
+
+**创建基线备份：**
+```bash
+bash scripts/create-baseline.sh "新加产品: XXX"
 ```
 
 ## 6. 图片依赖关系
