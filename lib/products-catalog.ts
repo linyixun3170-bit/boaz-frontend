@@ -395,10 +395,10 @@ export const products: Product[] = [
       { name: "Pink", hex: "#ffb6c1", image: `${imgBase}/240g-vintage-crop/front-cropped-3.jpg` },
     ],
     images: {
-      main: `${imgBase}/240g-vintage-crop/model-front-1.png`,
+      main: `${imgBase}/240g-vintage-crop/model-front-1.jpg`,
       gallery: [
-        `${imgBase}/240g-vintage-crop/model-front-1.png`,
-        `${imgBase}/240g-vintage-crop/model-angle-1.png`,
+        `${imgBase}/240g-vintage-crop/model-front-1.jpg`,
+        `${imgBase}/240g-vintage-crop/model-angle-1.jpg`,
         `${imgBase}/240g-vintage-crop/detail-en/1_06-en.jpg`,
         `${imgBase}/240g-vintage-crop/detail-en/1_08-en.jpg`,
         `${imgBase}/240g-vintage-crop/detail-en/1_09-en.jpg`,
