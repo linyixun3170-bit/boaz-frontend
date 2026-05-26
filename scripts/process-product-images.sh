@@ -42,26 +42,41 @@ echo "   ⚠️  请用 OpenRouter 视觉模型检查 raw/ 目录下的图片是
 echo "   命令: python3 scripts/check-chinese-text.py $SLUG"
 echo ""
 
-# Step 3: Process model images (1200x1200, white padding, WebP)
-echo "③ 处理模特图 → 1200×1200 WebP..."
+# Step 3: Process model images (1200x1600, NO padding, WebP)
+echo "③ 处理模特图 → 1200×1600 WebP..."
 for f in "$PROD_DIR/raw/"*model* "$PROD_DIR/raw/"*front* "$PROD_DIR/raw/"*back* "$PROD_DIR/raw/"*side* "$PROD_DIR/raw/"*angle*; do
   [ -f "$f" ] || continue
   name=$(basename "$f" | sed 's/\.[a-zA-Z]*$//')
-  convert "$f" -resize 1200x1200 -background white -gravity center -extent 1200x1200 -quality 82 "$PROD_DIR/model/$name.webp" 2>/dev/null && \
+  convert "$f" -resize 1200x1600 -quality 82 "$PROD_DIR/model/$name.webp" 2>/dev/null && \
     echo "  ✓ model/$name.webp"
 done
 
 # Step 4: Process flat white bg images (800x800, WebP)
-echo "④ 处理白底平铺图 → 800×800 WebP..."
+echo "④ 处理白底正面图 → 800×800 WebP..."
+mkdir -p "$PROD_DIR/flat-back"
 for f in "$PROD_DIR/raw/"*flat* "$PROD_DIR/raw/"*white* "$PROD_DIR/raw/"*color* "$PROD_DIR/raw/"*sku* "$PROD_DIR/raw"/*.jpg; do
   [ -f "$f" ] || continue
-  # Skip if already processed as model
   name=$(basename "$f" | sed 's/\.[a-zA-Z]*$//')
-  # Only process non-model images
   if echo "$name" | grep -qvE 'model|front|back|side|angle'; then
-    convert "$f" -resize 800x800 -quality 82 "$PROD_DIR/flat/$name.webp" 2>/dev/null && \
-      echo "  ✓ flat/$name.webp"
+    # Check if it's a back view
+    if echo "$name" | grep -qi 'back'; then
+      convert "$f" -resize 800x800 -quality 82 "$PROD_DIR/flat-back/$name.webp" 2>/dev/null && \
+        echo "  ✓ flat-back/$name.webp (背面)"
+    else
+      convert "$f" -resize 800x800 -quality 82 "$PROD_DIR/flat/$name.webp" 2>/dev/null && \
+        echo "  ✓ flat/$name.webp"
+    fi
   fi
+done
+
+# Step 5: Process detail images (800x800, WebP)
+echo "⑤ 处理细节图 → 800×800 WebP..."
+mkdir -p "$PROD_DIR/detail"
+for f in "$PROD_DIR/raw/"*detail* "$PROD_DIR/raw/detail-en/"* "$PROD_DIR/raw/"*stitch* "$PROD_DIR/raw/"*collar* "$PROD_DIR/raw/"*fabric* "$PROD_DIR/raw/"*label*; do
+  [ -f "$f" ] || continue
+  name=$(basename "$f" | sed 's/\.[a-zA-Z]*$//')
+  convert "$f" -resize 800x800 -quality 82 "$PROD_DIR/detail/$name.webp" 2>/dev/null && \
+    echo "  ✓ detail/$name.webp"
 done
 
 echo ""

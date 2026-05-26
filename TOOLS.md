@@ -46,32 +46,38 @@ curl -X POST https://openrouter.ai/api/v1/chat/completions \
 ### 快速对照卡
 ```
 收到图片 → 存 raw/ → 检查中文水印（OpenRouter视觉）→ 翻译 → 重命名
-→ ImageMagick: 模特图1200², 白底800², 细节图1200², WebP q82
-→ 更新 products-catalog.ts（路径+alt文本）→ 构建 → 部署
+→ ImageMagick resize：模特图1200×1600, 白底800², 细节800², 尺码800×600
+→ 全部转 WebP q82
+→ 更新 products-catalog.ts（路径+alt文本）→ 更新定制页颜色 → 构建 → 部署
 ```
 
-### 缺图清单模板
-缺图时以下格式告知用户：
-```
-| 缺什么 | 需要什么样的 |
-|--------|-------------|
-| 面料纹理特写 | 微距拍面料表面，白底，1200² |
-| 模特背面 | 穿产品背对镜头，白底或简洁背景 |
-```
+### 尺寸表
+| 图类型 | 尺寸 |
+|--------|------|
+| 模特图 | 1200×1600（竖版，不补白） |
+| 白底平铺 | 800×800 |
+| 细节图 | 800×800 |
+| 尺码表 | 800×600 |
 
 ### ImageMagick 命令备忘
 ```bash
-# 模特/细节图 → 1200² 补白 + WebP
-convert input.jpg -resize 1200x1200 -background white -gravity center -extent 1200x1200 -quality 82 output.webp
+# 模特图 → 1200×1600
+convert input.jpg -resize 1200x1600 output.webp
 
-# 白底平铺 → 800² + WebP
-convert input.jpg -resize 800x800 -quality 82 output.webp
+# 白底/细节图 → 800²
+convert input.jpg -resize 800x800 output.webp
+
+# 尺码表 → 800×600
+convert input.jpg -resize 800x600 output.webp
+
+# 统一转 WebP q82
+convert input.jpg -quality 82 output.webp
 ```
 
-### 风险控制
-- 原始文件永远保留在 raw/，不删除
-- 未检查中文的图片不上线
-- 目录结构必须和 SOP 一致（model/flat/detail/raw）
+### 定制页颜色要求
+- 定制页展示每个颜色的正反面
+- 目录：`flat/` 放正面 + `flat-back/` 放背面（每色一张）
+- 如果只有正面没有背面，仍上线但注明
 
 ## OpenCLI（@jackwener/opencli）
 - 用途: 任何一个网站或网页都可以变成 CLI 工具，AI 驱动

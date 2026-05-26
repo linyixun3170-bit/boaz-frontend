@@ -88,9 +88,9 @@ export const products: Product[] = [
       gallery: [
         `${imgBase}/240g-vintage-crop/model/model-front-1.webp`,
         `${imgBase}/240g-vintage-crop/model/model-back-1.webp`,
-        `${imgBase}/240g-vintage-crop/detail/detail-collar.webp`,
-        `${imgBase}/240g-vintage-crop/detail/detail-colors.webp`,
-        `${imgBase}/240g-vintage-crop/detail/detail-neckline.webp`,
+        `${imgBase}/240g-vintage-crop/detail/detail-06.webp`,
+        `${imgBase}/240g-vintage-crop/detail/detail-08.webp`,
+        `${imgBase}/240g-vintage-crop/detail/detail-09.webp`,
         `${imgBase}/240g-vintage-crop/detail/size-chart.webp`,
       ],
     },
