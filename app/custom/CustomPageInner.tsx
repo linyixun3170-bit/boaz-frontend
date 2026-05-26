@@ -173,11 +173,14 @@ export default function CustomPageInner() {
             </p>
           </div>
 
-          {/* Size Chart Quick Reference */}
+          {/* Size Chart Quick Reference — collapsible */}
           <div className="max-w-[1400px] mx-auto section-padding mb-8">
-            <div className="bg-offwhite p-6 border border-stone">
-              <p className="text-[11px] uppercase tracking-wider text-dark mb-2">Size Chart Reference</p>
-              <div className="overflow-x-auto text-[11px]">
+            <details className="bg-offwhite border border-stone group">
+              <summary className="p-4 text-[11px] uppercase tracking-wider text-dark cursor-pointer hover:bg-stone/10 transition-colors flex items-center justify-between list-none">
+                <span>Size Chart Reference</span>
+                <span className="transform group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="p-4 pt-0 overflow-x-auto text-[11px]">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-stone">
@@ -213,7 +216,7 @@ export default function CustomPageInner() {
                 </table>
               </div>
               <p className="text-[10px] text-warm-gray mt-2">* Measurements vary by product. See product detail for exact specs.</p>
-            </div>
+            </details>
           </div>
 
           {/* Main Customizer */}
@@ -573,7 +576,7 @@ export default function CustomPageInner() {
               <p className="text-[10px] text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit + (${(currentMethod?.pricePerPc || 0).toFixed(2)}/unit decoration)</p>
             </div>
             <a href={buildQuoteUrl()} className="px-6 py-3 bg-dark text-cream text-sm uppercase tracking-widest">
-              Quote -
+              Get Quote
             </a>
           </div>
         </div>

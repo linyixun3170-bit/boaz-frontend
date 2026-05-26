@@ -44,7 +44,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   src={mainPic}
                   alt={product.name}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 58vw"
                   priority
                   fetchPriority="high"
@@ -140,7 +140,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       selectedColor === i ? "border-charcoal scale-110" : "border-stone hover:border-charcoal/40"
                     )}
                     style={{ backgroundColor: color.hex }}
-                    title={color.name}
+                    title={color.name + " - click to preview"}
+                    data-color-name={color.name}
                   >
                     {color.image && (
                       <Image src={color.image} alt={color.name} fill className="object-cover" sizes="40px" />

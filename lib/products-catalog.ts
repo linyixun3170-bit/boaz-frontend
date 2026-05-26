@@ -44,11 +44,11 @@ export const products: Product[] = [
     moq: 50,
     priceFOB: "From $3.50/unit (FOB)",
     colors: [
-      { name: "Black", hex: "#111111", image: `${imgBase}/230g-washed-tee/1-black.jpg` },
-      { name: "Light Gray", hex: "#d3d3d3", image: `${imgBase}/230g-washed-tee/2-light-gray.jpg` },
-      { name: "Brown", hex: "#8b4513", image: `${imgBase}/230g-washed-tee/3-brown.jpg` },
-      { name: "Pink", hex: "#ffc0cb", image: `${imgBase}/230g-washed-tee/4-rose.jpg` },
-      { name: "Green", hex: "#228b22", image: `${imgBase}/230g-washed-tee/5-green.jpg` },
+      { name: "Black", hex: "#111111", image: `${imgBase}/230g-washed-tee/1-黑色.jpg` },
+      { name: "Light Gray", hex: "#d3d3d3", image: `${imgBase}/230g-washed-tee/2-浅灰色.jpg` },
+      { name: "Brown", hex: "#8b4513", image: `${imgBase}/230g-washed-tee/3-棕色.jpg` },
+      { name: "Pink", hex: "#ffc0cb", image: `${imgBase}/230g-washed-tee/4-玫红色.jpg` },
+      { name: "Green", hex: "#228b22", image: `${imgBase}/230g-washed-tee/5-绿色.jpg` },
     ],
     images: {
       main: `${imgBase}/230g-washed-tee/washed-tee-model.jpg`,
