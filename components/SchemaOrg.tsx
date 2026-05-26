@@ -28,10 +28,10 @@ export default function SchemaOrg({ type = "home" }: SchemaOrgProps) {
             url: "https://boaz.apparel/logo.png",
           },
           description:
-            "Premium T-shirt and hoodie manufacturing factory in Guangzhou. 50 MOQ. Direct production line ownership.",
+            "Premium T-shirt and hoodie manufacturing factory in Hebei. 50 MOQ. Direct production line ownership.",
           address: {
             "@type": "PostalAddress",
-            addressLocality: "Guangzhou",
+            addressLocality: "Hebei",
             addressCountry: "CN",
           },
           contactPoint: {

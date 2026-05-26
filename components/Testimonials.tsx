@@ -7,19 +7,19 @@ const testimonials = [
   {
     quote: "BOAZ cut our lead time in half. The fabric quality is consistent batch after batch — our customers noticed immediately.",
     author: "Sarah Chen",
-    role: "Founder, MØDRN Label",
+    role: "Founder, Independent Label",
     location: "Los Angeles",
   },
   {
     quote: "We tested five factories. BOAZ was the only one where the sample matched the spec sheet exactly. No games.",
     author: "James O'Brien",
-    role: "Head of Production, Kinfolk Co.",
+    role: "Head of Production, Streetwear Brand",
     location: "London",
   },
   {
     quote: "From 200 units to 10,000 — they scaled without a single quality dip. That alone is worth the partnership.",
     author: "Mika Tanaka",
-    role: "COO, Studio Essentials",
+    role: "COO, Apparel Startup",
     location: "Tokyo",
   },
 ];

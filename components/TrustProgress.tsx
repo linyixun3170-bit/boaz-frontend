@@ -16,7 +16,7 @@ import { CheckCircle, ArrowRight } from "lucide-react";
 
 const steps = [
   { label: "Request Quote", desc: "2 minutes", active: true },
-  { label: "Get Free Sample", desc: "72hr dispatch", active: false },
+  { label: "Request Sample", desc: "5-7 day dispatch · Deductible", active: false },
   { label: "Approve & Produce", desc: "15-45 days", active: false },
   { label: "Receive & Sell", desc: "Door delivery", active: false },
 ];

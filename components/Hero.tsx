@@ -64,8 +64,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.7, ease: [0.19, 1, 0.22, 1] }}
           className="text-body-lg text-muted max-w-xl mb-12 text-balance"
         >
-          From ¥6 blanks to ¥70 heavyweight hoodies. Five-day turnaround. 
-          Three generations of needle-to-coast manufacturing.
+          From $0.85 blanks to $9.90 heavyweight hoodies. Five-day turnaround. 
+          Three generations of needle-to-coast manufacturing. FOB Ningbo.
         </motion.p>
 
         <motion.div

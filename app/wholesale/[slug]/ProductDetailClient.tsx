@@ -84,7 +84,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             {/* Price */}
             <div className="py-4 border-y border-stone">
               <p className="text-2xl font-medium text-charcoal">{product.priceFOB}</p>
-              <p className="text-[11px] text-muted mt-1">FOB Guangzhou · Minimum {product.moq} pcs per color/size</p>
+              <p className="text-[11px] text-muted mt-1">FOB Ningbo · Minimum {product.moq} pcs per color/size</p>
             </div>
 
             {/* Specs grid */}
@@ -208,7 +208,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 </tbody>
               </table>
             </div>
-            <p className="text-[11px] text-muted mt-4">* Measurements may vary ±0.5" due to manufacturing tolerances.</p>
+            <p className="text-[11px] text-muted mt-4">FOB Ningbo. * Measurements may vary ±0.5" due to manufacturing tolerances.</p>
           </div>
         </section>
       )}

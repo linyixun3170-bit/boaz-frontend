@@ -30,6 +30,16 @@ const defaultFaqs: FAQItem[] = [
       "Stock + custom orders: 5-day standard turnaround. Rush orders: 3 days when needed. Large-volume custom orders follow contracted timelines. One of our Amazon clients places 4 orders per week, averaging 3,000+ pieces each — and we have never missed a window.",
   },
   {
+    question: "What are your shipping options and costs?",
+    answer:
+      "We ship worldwide via sea, air, and express courier (DHL/FedEx/UPS). Sea freight is most economical for bulk orders (20-40 days). Air freight balances speed and cost (7-15 days). Express courier is best for samples and small orders (3-7 days). All prices are FOB Ningbo — we provide freight quotes upon receiving your shipping details.",
+  },
+  {
+    question: "How do samples work? What is the cost?",
+    answer:
+      "No minimums for samples. We offer sample service for any product in our catalog. Sample cost varies by product but is fully deductible from your first bulk order. Samples are dispatched within 5-7 days of confirmation. Shipping for samples is charged separately and varies by destination.",
+  },
+  {
     question: "Do you offer custom labels, packaging, and branding?",
     answer:
       "Yes — neck labels, hang tags, poly bags, custom boxes, and garment finishing. We also offer three curated package tiers: an entry-level 'traffic builder' set, a balanced 'quality-value' set, and a premium 'high-margin' set. Each tier is transparently priced so you know exactly what you are paying for.",
@@ -37,7 +47,7 @@ const defaultFaqs: FAQItem[] = [
   {
     question: "What is your price range?",
     answer:
-      "Our blank garment prices range from ¥6 for lightweight basic tees to ¥70 for heavyweight premium hoodies. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you.",
+      "Our blank garment prices range from $0.85 for lightweight basic tees to $9.90 for heavyweight premium hoodies. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you.",
   },
   {
     question: "Can you develop a completely custom garment from a tech pack or sketch?",
@@ -52,7 +62,7 @@ const defaultFaqs: FAQItem[] = [
   {
     question: "Where are you located?",
     answer:
-      "Our online sales team is based in Hangzhou. Our production bases are in Zhejiang and Hebei — strategically located to minimize overhead and maximize speed. We do not charge you for expensive downtown real estate.",
+      "Our online sales team is based in Hangzhou. Our production base is in Hebei — strategically located to minimize overhead and maximize speed. All FOB prices are quoted Ningbo port. We do not charge you for expensive downtown real estate.",
   },
   {
     question: "What makes BOAZ different from other factories?",
@@ -89,11 +99,9 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
-            className="overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
           >
             <p className="text-body-md text-muted pb-6 max-w-3xl leading-relaxed">
               {item.answer}

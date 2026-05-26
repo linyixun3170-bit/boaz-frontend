@@ -40,7 +40,8 @@ export default function CTASection() {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
           className="text-body-lg text-muted max-w-xl mx-auto mb-12"
         >
-          No minimums for samples. Feel the fabric, test the fit, inspect the stitch — then decide.
+          No minimums for samples. Sample fee fully deductible from bulk orders.
+                Samples dispatched within 5-7 days. Feel the fabric, test the fit, inspect the stitch — then decide.
         </motion.p>
 
         <motion.div

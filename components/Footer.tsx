@@ -32,7 +32,7 @@ export default function Footer() {
               BOAZ
             </Link>
             <p className="text-body-sm text-subtle max-w-xs leading-relaxed">
-              Premium apparel manufacturing. From Guangzhou to the world. No middlemen. No surprises.
+              Premium apparel manufacturing. From Hebei to the world. No middlemen. No surprises.
             </p>
           </div>
 

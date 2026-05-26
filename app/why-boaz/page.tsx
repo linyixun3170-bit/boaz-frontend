@@ -27,7 +27,7 @@ const trustSignals = [
   },
 ];
 
-const clients = ["Kinfolk", "MØDRN", "Studio", "Aesop", "Everlane", "COS"];
+const clients: string[] = [];
 
 const ugcGrid = [
   ugcImages.grid1,
@@ -85,35 +85,77 @@ export default function WhyBoazPage() {
         </div>
       </section>
 
-      {/* Client Logo Wall */}
+      {/* Shipping & Logistics */}
       <section className="py-24 md:py-32 section-padding bg-cream">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            className="text-center mb-16"
           >
-            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-6">Trusted By</p>
-            <h2 className="text-display-md font-serif text-charcoal mb-16">
-              Brands That Don't <span className="italic">Compromise</span>
+            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-6">Shipping & Logistics</p>
+            <h2 className="text-display-md font-serif text-charcoal">
+              From Ningbo Port <span className="italic">To Your Door</span>
             </h2>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20">
-            {clients.map((client, i) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Sea Freight",
+                desc: "Most economical for bulk orders (200+ pcs). 20-40 day transit. Full container or LCL consolidation available.",
+                tag: "Bulk",
+              },
+              {
+                title: "Air Freight",
+                desc: "Balance of speed and cost. 7-15 day transit. Ideal for mid-size orders and time-sensitive projects.",
+                tag: "Express",
+              },
+              {
+                title: "Courier (DHL/FedEx/UPS)",
+                desc: "Fastest option: 3-7 day door-to-door delivery. Best for samples and small orders. Trackable worldwide.",
+                tag: "Fastest",
+              },
+            ].map((item) => (
               <motion.div
-                key={client}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="text-2xl md:text-3xl font-serif text-stone hover:text-charcoal transition-colors duration-300 cursor-default"
+                transition={{ duration: 0.6 }}
+                className="p-8 bg-offwhite border border-stone/40"
               >
-                {client}
+                <span className="text-[10px] uppercase tracking-wider text-gold mb-3 block">{item.tag}</span>
+                <h3 className="text-body-md font-medium text-charcoal mb-3">{item.title}</h3>
+                <p className="text-body-sm text-muted leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-12 p-8 bg-offwhite border border-stone/40 text-center"
+          >
+            <h3 className="text-display-sm font-serif text-charcoal mb-4">Sample Policy</h3>
+            <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto text-left">
+              <div>
+                <p className="text-sm font-medium text-charcoal">No Minimum</p>
+                <p className="text-[13px] text-muted mt-1">Request 1-5 pieces of any product in our catalog.</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-charcoal">Fully Deductible</p>
+                <p className="text-[13px] text-muted mt-1">Sample cost is deducted from your first bulk order.</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-charcoal">5-7 Day Dispatch</p>
+                <p className="text-[13px] text-muted mt-1">Samples ready and shipped within 5-7 business days.</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

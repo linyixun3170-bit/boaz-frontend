@@ -18,7 +18,7 @@ export interface Product {
   fabric: string;
   fit: string;
   moq: number;
-  priceFOB: string; // USD FOB Guangzhou
+  priceFOB: string; // USD FOB Ningbo
   colors: { name: string; hex: string; image?: string }[];
   images: { main: string; gallery: string[] };
   tags: string[];

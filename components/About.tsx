@@ -59,7 +59,7 @@ export default function About() {
               </p>
               <p>
                 We grew up in that workshop. Our school dresses were cut and sewn there.
-                Today, BOAZ operates two production bases — Zhejiang and Hebei. 
+                Today, BOAZ's production base is in Hebei. 
                 Our online sales team sits in Hangzhou.
               </p>
               <p className="text-charcoal font-medium">
