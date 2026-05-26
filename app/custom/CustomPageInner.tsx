@@ -14,15 +14,7 @@ if (typeof window !== "undefined") {
 }
 
 const products = [
-  { id: "280g-heavy-tee", name: "280gsm Heavyweight T-Shirt", priceBase: 4.50, moq: 50, category: "T-Shirts" },
-  { id: "360g-crewneck", name: "360gsm Washed Crewneck", priceBase: 10.00, moq: 50, category: "Hoodies" },
-  { id: "180g-classic-tee", name: "180gsm Classic Crewneck T-Shirt", priceBase: 1.20, moq: 50, category: "T-Shirts" },
-  { id: "260g-american-tee", name: "260gsm American Streetwear T-Shirt", priceBase: 3.80, moq: 50, category: "T-Shirts" },
-  { id: "220g-heavy-tee", name: "220gsm Relaxed Fit T-Shirt", priceBase: 2.80, moq: 50, category: "T-Shirts" },
-  { id: "kids-210g-tee", name: "210gsm Kids Drop Shoulder T-Shirt", priceBase: 1.00, moq: 50, category: "Kids" },
   { id: "230g-washed-tee", name: "230gsm Washed Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts" },
-  { id: "colorblock-longsleeve", name: "Color-Block Raglan Long Sleeve", priceBase: 5.00, moq: 50, category: "Long Sleeves" },
-  { id: "XJ-78000", name: "180gsm Combed Cotton T-Shirt", priceBase: 4.80, moq: 50, category: "T-Shirts" },
   { id: "240g-vintage-crop", name: "240gsm Vintage Washed Cropped T-Shirt", priceBase: 3.80, moq: 50, category: "T-Shirts" },
 ];
 
