@@ -272,11 +272,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                "/images/products/240g-vintage-crop/detail-en/1_06-en.jpg",
-                "/images/products/240g-vintage-crop/detail-en/1_08-en.jpg",
-                "/images/products/240g-vintage-crop/detail-en/1_09-en.jpg",
-                "/images/products/240g-vintage-crop/detail-en/1_17-en.jpg",
-                "/images/products/240g-vintage-crop/detail-en/1_18-en.jpg",
+                "/images/products/240g-vintage-crop/detail/detail-collar.webp",
+                "/images/products/240g-vintage-crop/detail/detail-colors.webp",
+                "/images/products/240g-vintage-crop/detail/detail-neckline.webp",
+                "/images/products/240g-vintage-crop/detail/detail-finish.webp",
+                "/images/products/240g-vintage-crop/detail/detail-stitch.webp",
               ].map((img) => (
                 <div key={img} className="relative aspect-[4/3] overflow-hidden bg-warmgray">
                   <Image
