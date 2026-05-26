@@ -508,18 +508,21 @@ export default function CustomPageInner() {
                       </button>
                     ))}
                   </div>
+                  <p className="text-[10px] text-warm-gray mt-2 leading-relaxed">
+                    50 pcs: Base price {"|"} 200+: -10% {"|"} 500+: -15% {"|"} 1000+: Custom quote
+                  </p>
                 </div>
 
                 {/* Price Summary (Desktop) */}
                 <div className="hidden lg:block border-t border-stone pt-6">
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between text-sm">
-                      <span className="text-warm-gray">Garment</span>
+                      <span className="text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit x {quantity} pcs (garment)</span>
                       <span className="text-dark">${(selectedProduct.priceBase * quantity).toFixed(2)}</span>
                     </div>
                     {currentMethod && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-warm-gray">{currentMethod.label}</span>
+                        <span className="text-warm-gray">+ ${currentMethod.pricePerPc.toFixed(2)}/unit x {quantity} pcs ({currentMethod.label})</span>
                         <span className="text-dark">${(currentMethod.pricePerPc * quantity).toFixed(2)}</span>
                       </div>
                     )}
@@ -527,10 +530,10 @@ export default function CustomPageInner() {
                       <span className="text-dark">Estimated Total</span>
                       <span className="text-dark text-lg">${calculateTotal().toFixed(2)}</span>
                     </div>
-                    <p className="text-[10px] text-warm-gray">FOB Ningbo - Excludes shipping and sample - Final quote may vary</p>
+                    <p className="text-[10px] text-warm-gray">FOB Ningbo. Price includes garment + decoration. Shipping calculated separately.</p>
                   </div>
                   <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
-                    Request Quote -- ${calculateTotal().toFixed(0)} est.
+                    Request Quote
                   </a>
                 </div>
               </div>
@@ -565,8 +568,9 @@ export default function CustomPageInner() {
               <p className="text-xl font-medium text-dark">${calculateTotal().toFixed(2)}</p>
               <p className="text-[10px] text-warm-gray">
                 {selectedProduct.name} - {quantity} pcs
-                {currentMethod && ` - ${currentMethod.label}`}
+                {currentMethod ? ` (${currentMethod.label})` : ""}
               </p>
+              <p className="text-[10px] text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit + (${(currentMethod?.pricePerPc || 0).toFixed(2)}/unit decoration)</p>
             </div>
             <a href={buildQuoteUrl()} className="px-6 py-3 bg-dark text-cream text-sm uppercase tracking-widest">
               Quote -
