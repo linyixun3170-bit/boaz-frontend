@@ -372,6 +372,42 @@ export const products: Product[] = [
     ],
     isNew: true,
   },
+  {
+    id: "240g-vintage-crop",
+    name: "240gsm Vintage Washed Cropped T-Shirt",
+    slug: "240g-vintage-washed-cropped-tee",
+    tagline: "Cropped silhouette, vintage wash — relaxed fit with a modern edge",
+    category: "T-Shirts",
+    weight: "240gsm",
+    fabric: "100% Cotton (Vintage Washed)",
+    fit: "Cropped / Relaxed",
+    moq: 50,
+    priceFOB: "From $3.80/unit (FOB Ningbo)",
+    colors: [
+      { name: "White", hex: "#ffffff", image: `${imgBase}/240g-vintage-crop/front-white.jpg` },
+      { name: "Black", hex: "#1a1a1a", image: `${imgBase}/240g-vintage-crop/front-black.jpg` },
+      { name: "Charcoal", hex: "#555555", image: `${imgBase}/240g-vintage-crop/front-charcoal.jpg` },
+      { name: "Army Green", hex: "#4b5320", image: `${imgBase}/240g-vintage-crop/front-army.jpg` },
+      { name: "Brick Red", hex: "#8b4513", image: `${imgBase}/240g-vintage-crop/front-brick.jpg` },
+      { name: "Sage", hex: "#88b04b", image: `${imgBase}/240g-vintage-crop/front-sage.jpg` },
+    ],
+    images: {
+      main: `${imgBase}/240g-vintage-crop/image_1779599849031.png`,
+      gallery: [
+        `${imgBase}/240g-vintage-crop/image_1779599849031.png`,
+        `${imgBase}/240g-vintage-crop/image_1779599864894.png`,
+        `${imgBase}/240g-vintage-crop/image_1779599872676.png`,
+        `${imgBase}/240g-vintage-crop/front-black.jpg`,
+      ],
+    },
+    tags: ["New", "Cropped", "Vintage Wash", "Women's"],
+    sizes: ["S", "M", "L", "XL"],
+    sizeChart: [
+      { label: "Bust (in)", values: { "S": "21.7", "M": "22.4", "L": "23.2", "XL": "24" } },
+      { label: "Length (in)", values: { "S": "19.7", "M": "20.5", "L": "21.3", "XL": "22" } },
+    ],
+    isNew: true,
+  },
 ];
 
 export function getFeaturedProducts(): Product[] {
