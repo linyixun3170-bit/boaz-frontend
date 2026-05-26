@@ -5,15 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check, Ruler, Package, Clock } from "lucide-react";
 import Footer from "@/components/Footer";
-import { type Product, products } from "@/lib/products-catalog";
+import { products } from "@/lib/products-catalog";
+import type { Product } from "@/lib/products-catalog";
 
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
-  const [colorPreview, setColorPreview] = useState<string | null>(null);
+  const [showingColor, setShowingColor] = useState(false);
 
-  // Main image: show color preview if set, otherwise gallery
-  const mainImage = colorPreview || product.images.gallery[selectedImage] || product.images.main;
+  const imgSrc = showingColor
+    ? (product.colors[selectedColor]?.image ?? product.images.main)
+    : (product.images.gallery[selectedImage] ?? product.images.main);
 
   return (
     <main>
@@ -33,9 +35,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="relative aspect-[4/5] overflow-hidden bg-warmgray">
+            <div className="relative p-3 bg-cream border border-stone shadow-sm">
+              <div className="absolute inset-3 border border-charcoal/5 pointer-events-none z-10" />
+              <div className="relative aspect-[4/5] overflow-hidden bg-warmgray">
               <Image
-                src={mainImage}
+                src={imgSrc}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -51,21 +55,22 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 )}
               </div>
             </div>
+            </div>
             {product.images.gallery.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-2">
                 {product.images.gallery.map((img, i) => (
                   <button
                     key={i}
-                    onClick={() => { setSelectedImage(i); setColorPreview(null); }}
+                    onClick={() => { setSelectedImage(i); setShowingColor(false); }}
                     className={`relative w-16 h-20 shrink-0 overflow-hidden border-2 transition-all ${
-                      selectedImage === i && !colorPreview ? "border-charcoal" : "border-transparent hover:border-stone"
+                      selectedImage === i && !showingColor ? "border-charcoal" : "border-transparent hover:border-stone"
                     }`}
                   >
                     <Image src={img} alt="" fill className="object-cover" sizes="64px" />
                   </button>
                 ))}
               </div>
-            )
+            )}
           </div>
 
           {/* Product Info */}
@@ -113,10 +118,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 {product.colors.map((color, i) => (
                   <button
                     key={color.name}
-                    onClick={() => {
-                      setSelectedColor(i);
-                      setColorPreview(color.image || null);
-                    }}
+                    onClick={() => { setSelectedColor(i); setShowingColor(true); }}
                     className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
                       selectedColor === i ? "border-charcoal scale-110" : "border-stone hover:border-charcoal/40"
                     }`}
