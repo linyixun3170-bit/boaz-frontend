@@ -292,10 +292,9 @@ export default function CustomPageInner() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              {/* Preview Area — click to upload */}
+              {/* Preview Area — click center area to upload */}
               <div
-                className="relative aspect-[3/4] bg-light-gray flex items-center justify-center overflow-hidden cursor-pointer group"
-                onClick={() => fileInputRef.current?.click()}
+                className="relative aspect-[3/4] bg-light-gray flex items-center justify-center overflow-hidden group"
               >
                 <input
                   type="file"
@@ -305,7 +304,8 @@ export default function CustomPageInner() {
                   ref={fileInputRef}
                 />
                 <div
-                  className="relative w-3/4 aspect-[3/4] overflow-hidden"
+                  className="relative w-3/4 aspect-[3/4] overflow-hidden cursor-pointer"
+                  onClick={() => fileInputRef.current?.click()}
                 >
                   {/* Product image for the selected color — front or back */}
                   <div className="absolute inset-0 bg-light-gray">
@@ -374,19 +374,20 @@ export default function CustomPageInner() {
                 </div>
 
                 {/* Front / Back toggle */}
-                <div className="absolute top-4 right-4 flex gap-1 bg-white/90 backdrop-blur-sm rounded p-0.5 border border-stone/30">
+                {/* Front / Back toggle — always visible */}
+                <div className="absolute top-4 right-4 flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/40 shadow-sm">
                   <button
                     onClick={() => setShowingBack(false)}
-                    className={"px-3 py-1 text-[10px] uppercase tracking-wider transition-all " + (
-                      !showingBack ? "bg-dark text-white" : "text-warm-gray hover:text-dark"
+                    className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium transition-all " + (
+                      !showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10"
                     )}
                   >
                     Front
                   </button>
                   <button
                     onClick={() => setShowingBack(true)}
-                    className={"px-3 py-1 text-[10px] uppercase tracking-wider transition-all " + (
-                      showingBack ? "bg-dark text-white" : "text-warm-gray hover:text-dark"
+                    className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium transition-all " + (
+                      showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10"
                     )}
                     disabled={!currentColors[selectedColorIdx]?.imageBack}
                   >
