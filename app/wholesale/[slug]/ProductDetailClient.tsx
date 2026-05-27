@@ -75,7 +75,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       selectedImage === i && isGalleryView ? "border-charcoal" : "border-transparent hover:border-stone"
                     )}
                   >
-                    <Image src={img} alt="" fill className="object-cover" sizes="112px" />
+                    <Image src={img} alt="" fill className="object-cover" sizes="112px" loading="lazy" />
                   </button>
                 ))}
               </div>
@@ -137,7 +137,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
 
-            {/* Colors with preview */}
+            {/* Colors with preview — pure color circles */}
             <div>
               <p className="text-[11px] uppercase tracking-wider text-muted mb-3">
                 Colors ({product.colors.length} available)
@@ -147,26 +147,25 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   <button
                     key={color.name}
                     onClick={() => { setSelectedColor(i); setShowingColor(true); }}
-                    className={"relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all " + (
-                      selectedColor === i && isColorView ? "border-charcoal scale-110 ring-2 ring-charcoal/20" : "border-stone hover:border-charcoal/40"
+                    className={"w-9 h-9 rounded-full border-2 transition-all " + (
+                      selectedColor === i && isColorView
+                        ? "border-charcoal ring-2 ring-charcoal/20"
+                        : "border-stone/60 hover:border-charcoal/50"
                     )}
                     style={{ backgroundColor: color.hex }}
-                    title={color.name + " - click to preview"}
+                    title={color.name}
                     data-color-name={color.name}
                   >
-                    {color.image && (
-                      <Image src={color.image} alt={color.name} fill className="object-cover" sizes="40px" />
-                    )}
                     {selectedColor === i && isColorView && (
-                      <span className="absolute inset-0 flex items-center justify-center bg-black/20">
-                        <Check size={14} className="text-white" />
+                      <span className="flex items-center justify-center w-full h-full">
+                        <Check size={12} className={color.hex === "#ffffff" || color.hex === "#f5f0e8" || color.hex === "#d3d3d3" ? "text-charcoal" : "text-white"} />
                       </span>
                     )}
                   </button>
                 ))}
               </div>
               <p className="text-[11px] text-muted mt-2">
-                Selected: {product.colors[selectedColor]?.name}
+                Selected: {product.colors[selectedColor]?.name} — <button onClick={() => setShowingColor(false)} className="underline text-charcoal">Show all photos</button>
               </p>
             </div>
 
@@ -260,7 +259,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               {otherProducts.map((p) => (
                 <Link key={p.id} href={"/wholesale/" + p.slug} className="group">
                   <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-warmgray">
-                    <Image src={p.images.main} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 25vw" />
+                    <Image src={p.images.main} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 25vw" loading="lazy" />
                     <div className="absolute top-3 left-3 px-2 py-1 bg-cream/90 text-[10px] uppercase tracking-wider">
                       {p.moq} MOQ
                     </div>

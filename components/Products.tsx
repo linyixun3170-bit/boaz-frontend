@@ -70,6 +70,7 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
             fill
             className="object-cover transition-transform duration-700 ease-expo-out group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            loading="lazy"
           />
           {product.tag && (
             <span className="absolute top-4 left-4 px-3 py-1 bg-cream/90 backdrop-blur-sm text-caption uppercase tracking-wider text-charcoal">

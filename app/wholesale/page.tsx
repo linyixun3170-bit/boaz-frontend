@@ -100,6 +100,7 @@ function ProductCard({ product, index, isInView }: { product: Product; index: nu
             fill
             className="object-cover transition-transform duration-700 ease-expo-out group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            loading="lazy"
           />
           {/* MOQ badge */}
           <div className="absolute top-3 left-3 px-2.5 py-1 bg-cream/90 text-caption uppercase tracking-wider text-charcoal">
