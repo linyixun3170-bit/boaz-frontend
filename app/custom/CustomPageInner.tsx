@@ -216,9 +216,17 @@ export default function CustomPageInner() {
                         <table className="w-full text-left border-collapse text-[11px]">
                           <thead>
                             <tr className="border-b border-stone">
-                              <th className="py-2 pr-4 text-muted font-medium">Measurement</th>
+                              <th className="py-2 pr-4 text-muted font-medium" rowSpan={2}>Measurement</th>
                               {sizeInfo.sizes.map(s => (
                                 <th key={s} className="py-2 px-3 text-dark font-medium text-center" colSpan={2}>{s}</th>
+                              ))}
+                            </tr>
+                            <tr className="border-b border-stone/30">
+                              {sizeInfo.sizes.map(s => (
+                                <>
+                                  <th key={`${s}-cm`} className="py-1 px-2 text-[9px] text-warm-gray text-center">cm</th>
+                                  <th key={`${s}-in`} className="py-1 px-2 text-[9px] text-warm-gray text-center">in</th>
+                                </>
                               ))}
                             </tr>
                           </thead>
@@ -227,10 +235,10 @@ export default function CustomPageInner() {
                               <tr key={row.label} className="border-b border-stone/50">
                                 <td className="py-2 pr-4 text-dark font-medium whitespace-nowrap">{row.label}</td>
                                 {sizeInfo.sizes.map((_, i) => (
-                                  <td key={i} className="py-2 px-3 text-center">
-                                    <span className="text-warm-gray">{row.cm[i]} cm</span>
-                                    <span className="text-[9px] text-stone/70 block">{row.inch[i]}"</span>
-                                  </td>
+                                  <>
+                                    <td key={`${i}-cm`} className="py-2 px-3 text-center text-warm-gray">{row.cm[i]}</td>
+                                    <td key={`${i}-in`} className="py-2 px-3 text-center text-stone/70">{row.inch[i]}"</td>
+                                  </>
                                 ))}
                               </tr>
                             ))}

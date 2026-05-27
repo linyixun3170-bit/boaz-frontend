@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check, Ruler, Package, Clock, Shirt, Truck, FlaskConical } from "lucide-react";
@@ -24,9 +24,17 @@ function SizeTable({ product }: { product: Product }) {
             <table className="w-full text-left border-collapse text-[12px] md:text-sm">
               <thead>
                 <tr className="border-b border-stone">
-                  <th className="py-2 md:py-3 pr-4 text-[10px] md:text-[11px] uppercase tracking-wider text-muted font-medium">Measurement</th>
+                  <th className="py-2 md:py-3 pr-4 text-[10px] md:text-[11px] uppercase tracking-wider text-muted font-medium" rowSpan={2}>Measurement</th>
                   {product.sizes.map(s => (
                     <th key={s} className="py-2 md:py-3 px-2 md:px-4 font-medium text-charcoal text-center" colSpan={2}>{s}</th>
+                  ))}
+                </tr>
+                <tr className="border-b border-stone/30">
+                  {product.sizes.map(s => (
+                    <Fragment key={s}>
+                      <th className="py-1 px-2 text-[9px] text-muted text-center">cm</th>
+                      <th className="py-1 px-2 text-[9px] text-muted text-center">in</th>
+                    </Fragment>
                   ))}
                 </tr>
               </thead>
@@ -35,10 +43,10 @@ function SizeTable({ product }: { product: Product }) {
                   <tr key={row.label} className="border-b border-stone/50">
                     <td className="py-2 md:py-3 pr-4 text-charcoal font-medium whitespace-nowrap">{row.label}</td>
                     {product.sizes.map((_, i) => (
-                      <td key={i} className="py-2 md:py-3 px-1 md:px-2 text-center">
-                        <span className="text-muted">{row.cm[i]} cm</span>
-                        <span className="text-[10px] md:text-[11px] text-stone/70 block">{row.inch[i]}"</span>
-                      </td>
+                      <Fragment key={i}>
+                        <td className="py-2 md:py-3 px-1 md:px-2 text-center text-muted">{row.cm[i]}</td>
+                        <td className="py-2 md:py-3 px-1 md:px-2 text-center text-stone/70">{row.inch[i]}"</td>
+                      </Fragment>
                     ))}
                   </tr>
                 ))}
