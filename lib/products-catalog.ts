@@ -240,6 +240,44 @@ export const products: Product[] = [
     ],
     isNew: true,
   },
+  {
+    id: "cl-230g-tanktop",
+    name: "230gsm Vintage Washed Tank Top",
+    slug: "cl-230g-tanktop",
+    tagline: "Vintage washed sleeveless — relaxed summer essential",
+    category: "Tank Tops",
+    weight: "230gsm",
+    fabric: "100% Cotton (vintage washed)",
+    fit: "Relaxed / Sleeveless",
+    moq: 50,
+    priceFOB: "TBD",
+    colors: [
+      { name: "Army Green", hex: "#4B5320", image: `${imgBase}/cl-230g-tanktop/sku/sku-army-green.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-army-green-back.webp` },
+      { name: "Coffee", hex: "#8B6914", image: `${imgBase}/cl-230g-tanktop/sku/sku-coffee.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-coffee-back.webp` },
+      { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/cl-230g-tanktop/sku/sku-apricot.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-apricot-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-230g-tanktop/sku/sku-gray.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-gray-back.webp` },
+      { name: "Rose Red", hex: "#C0392B", image: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red-back.webp` },
+    ],
+    images: {
+      main: `${imgBase}/cl-230g-tanktop/model/DPP_397.webp`,
+      gallery: [
+        `${imgBase}/cl-230g-tanktop/model/DPP_397.webp`,
+        `${imgBase}/cl-230g-tanktop/model/DPP_398.webp`,
+        `${imgBase}/cl-230g-tanktop/model/DPP_399.webp`,
+        `${imgBase}/cl-230g-tanktop/model/image_1769389966452.webp`,
+        `${imgBase}/cl-230g-tanktop/model/image_1769389989108.webp`,
+        `${imgBase}/cl-230g-tanktop/model/unnamed.webp`,
+        `${imgBase}/cl-230g-tanktop/size-chart/size-chart.webp`,
+      ],
+    },
+    tags: ["New", "Tank Top", "Sleeveless", "Vintage Wash", "230gsm"],
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    sizeChart: [
+      { label: "Chest", valuesCm: { "S": "53", "M": "56", "L": "59", "XL": "62", "2XL": "65" } },
+      { label: "Length", valuesCm: { "S": "68", "M": "71", "L": "74", "XL": "77", "2XL": "80" } },
+    ],
+    isNew: true,
+  },
 ];
 
 export function getFeaturedProducts(): Product[] {

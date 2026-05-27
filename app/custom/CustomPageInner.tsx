@@ -97,6 +97,16 @@ const products: ProductOption[] = [
       { name: "Light Pink", hex: "#FFD1DC", image: `${imgBase}/cl-180g-basic/sku/sku-light-pink.webp` },
     ],
   },
+  {
+    id: "cl-230g-tanktop", name: "230gsm Vintage Tank Top", priceBase: 3.50, moq: 50, category: "Tank Tops",
+    colors: [
+      { name: "Army Green", hex: "#4B5320", image: `${imgBase}/cl-230g-tanktop/sku/sku-army-green.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-army-green-back.webp` },
+      { name: "Coffee", hex: "#8B6914", image: `${imgBase}/cl-230g-tanktop/sku/sku-coffee.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-coffee-back.webp` },
+      { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/cl-230g-tanktop/sku/sku-apricot.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-apricot-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-230g-tanktop/sku/sku-gray.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-gray-back.webp` },
+      { name: "Rose Red", hex: "#C0392B", image: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red-back.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [
