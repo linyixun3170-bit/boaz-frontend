@@ -9,6 +9,7 @@ import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { products as catalogProducts } from "@/lib/products-catalog";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -24,6 +25,11 @@ interface ProductOption {
   category: string;
   colors: { name: string; hex: string; image?: string }[];
 }
+
+const productSizeData = catalogProducts.reduce((acc: Record<string, { sizes: string[]; chart?: any[] }>, p) => {
+  acc[p.id] = { sizes: p.sizes, chart: p.sizeChart };
+  return acc;
+}, {} as Record<string, { sizes: string[]; chart?: any[] }>);
 
 const products: ProductOption[] = [
   {
@@ -173,49 +179,34 @@ export default function CustomPageInner() {
             </p>
           </div>
 
-          {/* Size Chart Quick Reference — collapsible */}
+          {/* Size Chart — dynamically shows selected product's sizes */}
           <div className="max-w-[1400px] mx-auto section-padding mb-8">
             <details className="bg-offwhite border border-stone group">
               <summary className="p-4 text-[11px] uppercase tracking-wider text-dark cursor-pointer hover:bg-stone/10 transition-colors flex items-center justify-between list-none">
-                <span>Size Chart Reference</span>
+                <span>Size Chart — {selectedProduct.name}</span>
                 <span className="transform group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="p-4 pt-0 overflow-x-auto text-[11px]">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-stone">
-                      <th className="text-left py-1 pr-4 text-muted">Size</th>
-                      <th className="text-center px-2 text-muted">S</th>
-                      <th className="text-center px-2 text-muted">M</th>
-                      <th className="text-center px-2 text-muted">L</th>
-                      <th className="text-center px-2 text-muted">XL</th>
-                      <th className="text-center px-2 text-muted">2XL</th>
-                      <th className="text-center px-2 text-muted">3XL</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="py-1 pr-4 text-dark">Chest (in)</td>
-                      <td className="text-center px-2 text-dark">36</td>
-                      <td className="text-center px-2 text-dark">38</td>
-                      <td className="text-center px-2 text-dark">40</td>
-                      <td className="text-center px-2 text-dark">42</td>
-                      <td className="text-center px-2 text-dark">44</td>
-                      <td className="text-center px-2 text-dark">46</td>
-                    </tr>
-                    <tr>
-                      <td className="py-1 pr-4 text-dark">Length (in)</td>
-                      <td className="text-center px-2 text-dark">27</td>
-                      <td className="text-center px-2 text-dark">28</td>
-                      <td className="text-center px-2 text-dark">29</td>
-                      <td className="text-center px-2 text-dark">30</td>
-                      <td className="text-center px-2 text-dark">31</td>
-                      <td className="text-center px-2 text-dark">32</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="p-4 pt-0 overflow-x-auto">
+                {(() => {
+                  const sizeInfo = productSizeData[selectedProduct.id];
+                  if (!sizeInfo) return (
+                    <div className="flex items-center justify-center h-16 text-[11px] text-warm-gray">
+                      <span>No size chart available for this product.</span>
+                    </div>
+                  );
+                  if (sizeInfo.chart && sizeInfo.chart.length > 0) {
+                    return (
+                      <SizeChartTable sizes={sizeInfo.sizes} chart={sizeInfo.chart} />
+                    );
+                  }
+                  return (
+                    <div className="flex items-center justify-center h-16 text-[11px] text-warm-gray">
+                      <span>Sizes: {sizeInfo.sizes.join(" · ")} — See product page for exact measurements.</span>
+                    </div>
+                  );
+                })()}
               </div>
-              <p className="text-[10px] text-warm-gray mt-2">* Measurements vary by product. See product detail for exact specs.</p>
+              <p className="text-[10px] text-warm-gray px-4 pb-3">* Measurements vary by product. See product detail for exact specs.</p>
             </details>
           </div>
 
