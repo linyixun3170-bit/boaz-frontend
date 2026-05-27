@@ -127,7 +127,7 @@ export const products: Product[] = [
       { name: "Light Green", hex: "#90EE90", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-light-green.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-light-green-back.webp` },
       { name: "Purple", hex: "#800080", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-purple.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-purple-back.webp` },
       { name: "Beige", hex: "#F5F5DC", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-beige.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-beige-back.webp` },
-      // 橙色Orange等待你补充正背面图
+      { name: "Orange", hex: "#FFA500", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-orange.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-orange-back.webp` },
     ],
     images: {
       main: `${imgBase}/cl-230g-drop-shoulder/model/275329452_0.webp`,
