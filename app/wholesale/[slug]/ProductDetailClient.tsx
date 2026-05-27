@@ -176,7 +176,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             {/* Main image */}
             <div className="relative p-2 md:p-3 bg-cream border border-stone shadow-sm">
               <div className="absolute inset-2 md:inset-3 border border-charcoal/5 pointer-events-none z-10" />
-              <div className="relative w-full bg-warmgray" style={{aspectRatio:"4/5", maxHeight:"80vh"}}>
+              <div className="relative w-full bg-warmgray" style={{aspectRatio:"3/4", maxHeight:"70vh"}}>
                 <Image
                   src={mainPic}
                   alt={product.name}
@@ -289,12 +289,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
 
             {/* CTA */}
-            <div className="pt-2 md:pt-4 space-y-2 md:space-y-3">
-              <Link href={`/custom?product=${product.id}`} className="btn-capsule w-full block text-center text-sm md:text-base">
+            <div className="pt-2 md:pt-4 space-y-3">
+              <Link href={`/custom?product=${product.id}`} className="w-full block text-center text-sm md:text-base py-3.5 px-6 bg-charcoal text-cream uppercase tracking-widest font-medium hover:bg-ink transition-all duration-300">
                 Customize This Style
-                <ArrowUpRight size={14} className="inline ml-1" />
+                <ArrowUpRight size={14} className="inline ml-1.5" />
               </Link>
-              <Link href={`/contact?subject=${encodeURIComponent("Inquiry: " + product.name)}&product=${product.id}`} className="pill-btn w-full block text-center text-sm md:text-base">
+              <Link href={`/contact?subject=${encodeURIComponent("Inquiry: " + product.name)}&product=${product.id}`} className="w-full block text-center text-sm md:text-base py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300">
                 Request Quote
               </Link>
             </div>

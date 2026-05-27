@@ -94,7 +94,7 @@ export default function CustomerCases({
     isDown.current = false;
     setIsDragging(false);
     const v = velocity.current;
-    if (Math.abs(v) > 2 && moved.current) startMomentum(-v * 8);
+    if (Math.abs(v) > 2 && moved.current) startMomentum(-v * 3);
     if (!moved.current) setIsPaused(p => !p);
   }, [startMomentum]);
 
@@ -106,7 +106,7 @@ export default function CustomerCases({
       if (!el) return;
       const dt = Date.now() - last;
       last = Date.now();
-      if (!isDragging && !isPaused) el.scrollLeft += 0.4 * (dt / 16);
+      if (!isDragging && !isPaused) el.scrollLeft += 0.25 * (dt / 16);
       autoId.current = requestAnimationFrame(tick);
     };
     autoId.current = requestAnimationFrame(tick);
