@@ -1,4 +1,4 @@
-# 📐 BOAZ 产品图片 SOP v1.2
+# 📐 BOAZ 产品图片 SOP v2.0
 
 > 适用所有新产品。发给我的方式和后续处理标准。
 
@@ -16,17 +16,14 @@
 | **产品名称** | 如 `240gsm Vintage Washed Cropped T-Shirt` | ✅ |
 | **颜色列表** | 每个颜色的名称 + 十六进制色值 | ✅ |
 | **4类图片** | SKU颜色图 / 主图框 / 正背面图 / 尺码图 | ✅ |
-| **尺码表** | 每个尺码对应的胸围/衣长/肩宽数据（cm）| 建议提供 |
+| **尺码数据** | 每个尺码对应的胸围/衣长/肩宽（cm）| 建议提供 |
 | **价格/FOB** | 产品单价 | 建议提供 |
 
-### 怎么发图片给我
-目前推荐方式（排序从优到劣）：
+### 怎么发图片
 
-1. **飞书文档里的表格** — 表格里贴图片链接，我读文档下载处理
-2. **直接聊天发图片/压缩包** — 我收到后按 SOP 处理
-3. **GitHub `/raw-images/` 目录** — push 上来我处理
-
-> 📌 飞书多维表格暂时不行，我读不了表格数据。用飞书**文档**（Doc）里的表格可以。
+1. **直接聊天发图片/压缩包** — 最直接
+2. **飞书文档表格贴图片链接** — 我能读文档处理
+3. **GitHub `/raw-images/` 目录** — push 上来
 
 ### 我处理完会做什么
 
@@ -44,13 +41,13 @@
 每个产品一个文件夹：
 ```
 public/images/products/<产品id>/
-├── sku/                    # SKU颜色图 800×800px（每色一张，白底正面平铺）
-│   ├── sku-white.webp
-│   ├── sku-black.webp
+├── sku/                    # SKU图（白底平铺，每色2张：正+背）
+│   ├── sku-<颜色名>.webp          # 正面
+│   └── sku-<颜色名>-back.webp    # 背面（定制页正反面切换用）
+├── model/                  # 主图框-模特图
+│   ├── model-1.webp
+│   ├── model-2.webp
 │   └── ...
-├── model/                  # 主图框-模特图（展示上身效果 + 正背面）
-│   ├── model-front.webp
-│   └── model-back.webp
 ├── size-chart/             # 尺码图
 │   └── size-chart.webp
 └── raw/                    # 原始备份（不改原图）
@@ -58,132 +55,39 @@ public/images/products/<产品id>/
 
 ## 2. 你只需发 4 类原图
 
-| 类型 | 说明 | 建议 |
+| 类型 | 数量 | 说明 |
 |------|------|------|
-| **SKU颜色图** | 每色一张白底正面平铺 | 突出颜色，800×800px 最好 |
-| **主图框** | 模特上身图，展示版型 | 怎么拍都行，我来裁 |
-| **正背面图** | 产品正面+背面 | 展示做工，同上尺寸 |
-| **尺码表** | 工厂原始尺码表 | 有中文我来翻译 |
+| **SKU颜色图** | 每色 **1 张** | 白底正面平铺，突出颜色 |
+| **正背面图** | 每色 **2 张**（正面+背面） | 定制页展示正反面用 |
+| **主图框** | 2-5 张 | 模特上身图，展示版型 |
+| **尺码表** | 1 张 | 工厂原始尺码表（有中文我来翻） |
 
-> 发原图。resize、webp 转换、翻译我都包了。
+> 发原图。resize、webp 转换、翻译我都包了，不需要你自己处理。
 
-## 3. 命名规则
+## 3. 命名规则（我来做）
 
-```
-<产品slug>-<类型>-<序号>.webp
-```
+| 类型 | 命名格式 | 例 |
+|------|---------|-----|
+| SKU正面 | `sku-<颜色>.webp` | `sku-white.webp` |
+| SKU背面 | `sku-<颜色>-back.webp` | `sku-white-back.webp` |
+| 模特图 | `model-<序号>.webp` | `model-1.webp` |
+| 尺码表 | `size-chart.webp` | `size-chart.webp` |
 
-- `slug`: 产品唯一标识（例: `240g-vintage-cropped-tee`）
-- `类型`: `model-front` / `model-back` / `flat-<颜色名>` / `detail-<部位>` / `size-chart`
-- `序号`: 同类多张时用 `-1`, `-2`
-
-例：
-```
-240g-vintage-model-front-1.webp
-240g-vintage-model-back-1.webp
-240g-vintage-flat-white.webp
-240g-vintage-flat-back-white.webp
-240g-vintage-detail-fabric.webp
-240g-vintage-size-chart.webp
-```
+> 你不用管命名，发原图来我统一处理。
 
 ## 4. 格式标准
 
 | 参数 | 标准 |
 |------|------|
-| 格式 | **WebP**（浏览器兼容） |
-| 降级 | 保留 JPG 源文件备查 |
+| 格式 | **WebP** |
 | 品质 | 82% |
-| 色彩空间 | sRGB |
-| 模特图尺寸 | **1536×2752**px（竖版，不补白） |
-| 白底图尺寸 | 800×800px（方形） |
-| 细节图尺寸 | 800×800px（方形） |
-| 尺码表尺寸 | 800×600px |
-| Alt文本 | `BOAZ [产品名] - [颜色] - [角度/用途]` |
+| SKU图 | 800×800px（方形） |
+| 模特图 | 1536×2752px（竖版，不补白） |
+| 尺码表 | 800×600px |
 
-## 5. 处理流程
+## 5. 我处理流程
 
 ```
-① 收到图片（zip/文件夹/飞书文件）
-    ↓
-② 存 raw/ 原始备份（不改原图，不删）
-    ↓
-③ 检查中文 → python3 scripts/check-chinese-text.py <slug>
-    ↓
-④ 翻译（OpenRouter视觉模型）
-    ↓
-⑤ 分类：
-   模特图 → 1536×2752 JPG
-   白底正面 → 800×800 WebP
-   白底背面 → 800×800 WebP（可选）
-   细节图 → 800×800 WebP
-   尺码表 → 800×600 WebP
-    ↓
-⑥ 重命名 → 统一命名规范
-    ↓
-⑦ 更新 lib/products-catalog.ts（路径+颜色+Alt文本）
-    ↓
-⑧ 更新定制页 app/custom/CustomPageInner.tsx（产品+颜色列表）
-    ↓
-⑨ 构建测试 → npx next build
-    ↓
-⑩ 部署 → wrangler pages deploy out/ --project-name boaz
+收到图片 → 存 raw/ 备份 → 分类 → resize → 转 WebP → 
+更新 products-catalog.ts → 更新定制页 → 构建 → 部署 → 通知你
 ```
-
-### 处理命令速查
-
-**检查中文：**
-```bash
-python3 scripts/check-chinese-text.py <产品slug>
-```
-
-**批量处理图片（需确认尺寸）：**
-```bash
-# 模特图 → 1536×2752，不补白
-convert input.jpg -resize 1536x2752 model/model-front-1.jpg
-
-# 白底图 → 800×800 方形
-convert input.jpg -resize 800x800 flat/flat-white.webp
-
-# 细节图 → 800×800 方形
-convert input.jpg -resize 800x800 detail/detail-fabric.webp
-
-# 尺码表 → 800×600
-convert input.jpg -resize 800x600 detail/size-chart.webp
-
-# 最终格式：全部转 WebP quality 82
-convert model-front-1.jpg -quality 82 model-front-1.webp
-```
-
-**构建部署：**
-```bash
-npx next build
-wrangler pages deploy out/ --project-name boaz --branch main --commit-dirty=true
-```
-
-**创建基线备份：**
-```bash
-bash scripts/create-baseline.sh "新加产品: XXX"
-```
-
-## 6. 图片依赖关系
-
-```
-批发页卡片         → 模特正面-1（裁剪为3:4）
-产品详情主图       → 模特正面-1
-Gallery            → 模特正/背 + 细节图切换
-颜色选择器         → 白底正面图（每色一张）
-定制页颜色预览     → 白底正面图 + 白底背面图（展示正反面）
-详情区 SKU 网格     → 所有白底正面图 3×3 排列
-详情区 细节展示     → 细节图组
-尺码表             → 尺码翻译图
-```
-
-## 7. 缺图处理
-
-如果某个产品缺某类图（比如没有面料特写），我会：
-- 列出缺图清单
-- 描述需要什么角度/内容
-- 等你补充后再上线
-
-不做"随便拿张图凑合"的事。

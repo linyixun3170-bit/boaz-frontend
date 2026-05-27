@@ -21,7 +21,7 @@ export interface Product {
   fit: string;
   moq: number;
   priceFOB: string; // USD FOB Ningbo
-  colors: { name: string; hex: string; image?: string }[];
+  colors: { name: string; hex: string; image?: string; imageBack?: string }[];
   images: { main: string; gallery: string[] };
   tags: string[];
   sizes: string[];

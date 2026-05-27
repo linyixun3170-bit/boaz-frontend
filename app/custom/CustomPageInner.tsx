@@ -24,7 +24,7 @@ interface ProductOption {
   priceBase: number;
   moq: number;
   category: string;
-  colors: { name: string; hex: string; image?: string }[];
+  colors: { name: string; hex: string; image?: string; imageBack?: string }[];
 }
 
 const productSizeData = catalogProducts.reduce((acc: Record<string, { sizes: string[]; chart?: any[] }>, p) => {
