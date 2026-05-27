@@ -13,9 +13,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedColor, setSelectedColor] = useState(0);
   const [showingColor, setShowingColor] = useState(false);
 
+  // Current image: color preview or gallery selection
   const mainPic = showingColor
     ? (product.colors[selectedColor]?.image ?? product.images.main)
     : (product.images.gallery[selectedImage] ?? product.images.main);
+
+  const isColorView = showingColor;
+  const isGalleryView = !showingColor;
 
   const otherProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
 
@@ -35,16 +39,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       {/* Product Hero */}
       <section className="pb-16 section-padding bg-cream">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Image Gallery — 7 columns on desktop */ }
+          {/* Image Gallery — 7 cols */}
           <div className="lg:col-span-7 space-y-4">
+            {/* Main image — 5:9 ratio shows full model, no crop */}
             <div className="relative p-3 bg-cream border border-stone shadow-sm">
               <div className="absolute inset-3 border border-charcoal/5 pointer-events-none z-10" />
-              <div className="relative w-full flex items-center justify-center bg-warmgray" style={{minHeight:"500px",maxHeight:"85vh"}}>
+              <div className="relative w-full bg-warmgray" style={{aspectRatio:"5/9", maxHeight:"85vh"}}>
                 <Image
                   src={mainPic}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 58vw"
                   priority
                   fetchPriority="high"
@@ -59,25 +64,32 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 </div>
               </div>
             </div>
-            {/* Gallery strip */}
+            {/* Gallery thumbnails strip — model + detail images */}
             {product.images.gallery.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {product.images.gallery.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => { setSelectedImage(i); setShowingColor(false); }}
-                    className={"relative w-24 h-28 md:w-28 md:h-32 shrink-0 overflow-hidden border-2 transition-all " + (
-                      selectedImage === i && !showingColor ? "border-charcoal" : "border-transparent hover:border-stone"
+                    className={"relative w-28 h-32 shrink-0 overflow-hidden border-2 transition-all " + (
+                      selectedImage === i && isGalleryView ? "border-charcoal" : "border-transparent hover:border-stone"
                     )}
                   >
-                    <Image src={img} alt="" fill className="object-cover" sizes="112px" />
+                    <Image src={img} alt="" fill className="object-cover" sizes="112px" loading="lazy" />
                   </button>
                 ))}
               </div>
             )}
+            {/* Color preview indicator */}
+            {isColorView && (
+              <p className="text-[11px] text-muted text-center">
+                Showing color: <strong>{product.colors[selectedColor]?.name}</strong>
+                {" "}— <button onClick={() => setShowingColor(false)} className="underline">Back to gallery</button>
+              </p>
+            )}
           </div>
 
-          {/* Product Info — 5 columns on desktop */ }
+          {/* Product Info — 5 cols */}
           <div className="lg:col-span-5 space-y-6">
             <div>
               <p className="text-caption uppercase tracking-[0.3em] text-muted mb-2">{product.category}</p>
@@ -85,7 +97,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <p className="text-body-md text-muted">{product.tagline}</p>
             </div>
 
-            {/* Price */}
             <div className="py-4 border-y border-stone">
               <p className="text-2xl font-medium text-charcoal">{product.priceFOB}</p>
               <p className="text-[11px] text-muted mt-1">FOB Ningbo · Minimum {product.moq} pcs per color/size</p>
@@ -110,7 +121,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
 
-            {/* Specs grid */}
+            {/* Specs */}
             <div className="grid grid-cols-3 gap-3">
               <div className="p-2.5 bg-offwhite">
                 <p className="text-[9px] uppercase tracking-wider text-muted mb-0.5">Weight</p>
@@ -126,7 +137,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
 
-            {/* Colors */}
+            {/* Colors with preview — pure color circles */}
             <div>
               <p className="text-[11px] uppercase tracking-wider text-muted mb-3">
                 Colors ({product.colors.length} available)
@@ -136,30 +147,28 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   <button
                     key={color.name}
                     onClick={() => { setSelectedColor(i); setShowingColor(true); }}
-                    className={"relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all " + (
-                      selectedColor === i ? "border-charcoal scale-110" : "border-stone hover:border-charcoal/40"
+                    className={"w-9 h-9 rounded-full border-2 transition-all " + (
+                      selectedColor === i && isColorView
+                        ? "border-charcoal ring-2 ring-charcoal/20"
+                        : "border-stone/60 hover:border-charcoal/50"
                     )}
                     style={{ backgroundColor: color.hex }}
-                    title={color.name + " - click to preview"}
+                    title={color.name}
                     data-color-name={color.name}
                   >
-                    {color.image && (
-                      <Image src={color.image} alt={color.name} fill className="object-cover" sizes="40px" />
-                    )}
-                    {selectedColor === i && (
-                      <span className="absolute inset-0 flex items-center justify-center bg-black/20">
-                        <Check size={14} className="text-white" />
+                    {selectedColor === i && isColorView && (
+                      <span className="flex items-center justify-center w-full h-full">
+                        <Check size={12} className={color.hex === "#ffffff" || color.hex === "#f5f0e8" || color.hex === "#d3d3d3" ? "text-charcoal" : "text-white"} />
                       </span>
                     )}
                   </button>
                 ))}
               </div>
               <p className="text-[11px] text-muted mt-2">
-                Selected: {product.colors[selectedColor]?.name}
+                Selected: {product.colors[selectedColor]?.name} — <button onClick={() => setShowingColor(false)} className="underline text-charcoal">Show all photos</button>
               </p>
             </div>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-2">
               {product.tags.map((tag) => (
                 <span key={tag} className="px-3 py-1 bg-offwhite text-[10px] uppercase tracking-wider text-muted">
@@ -168,7 +177,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               ))}
             </div>
 
-            {/* CTA Buttons */}
             <div className="pt-2 space-y-3">
               <Link href={`/custom?product=${product.id}`} className="btn-capsule w-full block text-center">
                 Customize This Style
@@ -182,7 +190,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Size Chart — table only (image might not exist) */}
+      {/* Size Chart */}
       {product.sizeChart && product.sizeChart.length > 0 && (
         <section className="py-20 section-padding bg-offwhite">
           <div className="max-w-7xl mx-auto">
@@ -241,17 +249,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       </section>
 
       {/* More Products */}
-      <section className="py-20 section-padding bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-display-md font-serif text-charcoal mb-12 text-center">
-            More <span className="italic">Products</span>
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {otherProducts.length > 0 ? (
-              otherProducts.map((p) => (
+      {otherProducts.length > 0 && (
+        <section className="py-20 section-padding bg-cream">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-display-md font-serif text-charcoal mb-12 text-center">
+              More <span className="italic">Products</span>
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {otherProducts.map((p) => (
                 <Link key={p.id} href={"/wholesale/" + p.slug} className="group">
                   <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-warmgray">
-                    <Image src={p.images.main} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 25vw" />
+                    <Image src={p.images.main} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 25vw" loading="lazy" />
                     <div className="absolute top-3 left-3 px-2 py-1 bg-cream/90 text-[10px] uppercase tracking-wider">
                       {p.moq} MOQ
                     </div>
@@ -259,15 +267,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   <p className="text-sm font-medium text-charcoal group-hover:text-ink transition-colors">{p.name}</p>
                   <p className="text-[11px] text-muted">{p.priceFOB}</p>
                 </Link>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-muted text-sm">More products coming soon.</p>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <Footer />
     </div>

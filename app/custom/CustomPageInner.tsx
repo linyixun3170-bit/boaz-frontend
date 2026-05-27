@@ -53,10 +53,10 @@ const products: ProductOption[] = [
 ];
 
 const decorationMethods = [
-  { id: "screen", label: "Screen Print", desc: "Best for bulk 50+ units", pricePerPc: 1.50, tag: "Popular", minQty: 50 },
-  { id: "dtg", label: "DTG", desc: "Full-color, no minimum", pricePerPc: 3.00, tag: null, minQty: 1 },
-  { id: "embroidery", label: "Embroidery", desc: "Premium stitched logo", pricePerPc: 2.50, tag: "Premium", minQty: 50 },
-  { id: "transfer", label: "Heat Transfer", desc: "Small runs, complex", pricePerPc: 2.00, tag: null, minQty: 25 },
+  { id: "screen", label: "Screen Print", desc: "Best for bold flat colors. Most cost-effective for 50+ pcs.", pricePerPc: 1.50, tag: "Popular", minQty: 50 },
+  { id: "dtg", label: "DTG", desc: "Full-color photo-quality prints. No minimum quantity, ideal for samples.", pricePerPc: 3.00, tag: null, minQty: 1 },
+  { id: "embroidery", label: "Embroidery", desc: "Premium stitched logo with texture. Best for hats, polos, and outerwear.", pricePerPc: 2.50, tag: "Premium", minQty: 50 },
+  { id: "transfer", label: "Heat Transfer", desc: "Complex designs & small runs. Quick turnaround, vivid colors.", pricePerPc: 2.00, tag: null, minQty: 25 },
 ];
 
 const productColors = products.reduce((acc: Record<string, ProductOption["colors"]>, p) => {
@@ -221,18 +221,34 @@ export default function CustomPageInner() {
 
           {/* Main Customizer */}
           <div className="max-w-[1400px] mx-auto section-padding mb-24">
-            {/* Mobile Step Indicator */}
-            <div className="flex items-center gap-3 py-4 overflow-x-auto lg:hidden mb-6">
-              {["Product", "Color", "Method", "Upload", "Quote"].map((label, i) => (
-                <div key={label} className="flex items-center gap-2 shrink-0">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium ${
-                    i <= 2 ? "bg-dark text-cream" : "bg-light-gray text-warm-gray"
-                  }`}>
-                    {i + 1}
+            {/* Step Navigator — visual progress bar */}
+            <div className="py-6 mb-6 border-b border-stone">
+              <div className="flex items-center justify-between max-w-md mx-auto">
+                {[
+                  { num: 1, label: "Product" },
+                  { num: 2, label: "Color" },
+                  { num: 3, label: "Method" },
+                  { num: 4, label: "Upload" },
+                  { num: 5, label: "Quote" },
+                ].map((step, i) => (
+                  <div key={step.label} className="flex flex-col items-center gap-1.5 relative flex-1">
+                    {/* Connector line */}
+                    {i < 4 && (
+                      <div className={"absolute top-3 left-[60%] w-full h-0.5 " + (i <= 2 ? "bg-dark" : "bg-stone")} />
+                    )}
+                    <div className={
+                      "relative w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-medium z-10 " +
+                      (i <= 2 ? "bg-dark text-cream" : "bg-light-gray text-warm-gray")
+                    }>
+                      {i < 2 ? "\u2713" : step.num}
+                    </div>
+                    <span className={
+                      "text-[10px] whitespace-nowrap " +
+                      (i <= 2 ? "text-dark font-medium" : "text-warm-gray")
+                    }>{step.label}</span>
                   </div>
-                  <span className="text-[11px] text-warm-gray whitespace-nowrap">{label}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
@@ -249,23 +265,27 @@ export default function CustomPageInner() {
                   ref={fileInputRef}
                 />
                 <div
-                  className="relative w-3/4 aspect-[3/4] transition-colors duration-500"
-                  style={{ backgroundColor: selectedColorHex }}
+                  className="relative w-3/4 aspect-[3/4] overflow-hidden"
                 >
-                  <svg
-                    viewBox="0 0 300 400"
-                    className="absolute inset-0 w-full h-full"
-                    style={{ filter: "drop-shadow(0 4px 20px rgba(0,0,0,0.1))" }}
-                  >
-                    <path
-                      d="M75 60 L110 40 L150 70 L190 40 L225 60 L240 120 L210 130 L210 380 L90 380 L90 130 L60 120 Z"
-                      fill={selectedColorHex}
-                      stroke="#00000010"
-                      strokeWidth="1"
-                    />
-                  </svg>
+                  {/* Product image for the selected color */}
+                  <div className="absolute inset-0 bg-light-gray">
+                    {currentColors[selectedColorIdx]?.image ? (
+                      <Image
+                        src={currentColors[selectedColorIdx].image}
+                        alt={currentColors[selectedColorIdx].name}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 75vw, 40vw"
+                      />
+                    ) : (
+                      <div
+                        className="w-full h-full"
+                        style={{ backgroundColor: selectedColorHex }}
+                      />
+                    )}
+                  </div>
 
-                  {/* This is the long SVG path for the t-shirt shape */}
+                  {/* Overlaid uploaded design */}
                   {uploadedImage && (
                     <div
                       className="absolute inset-0"
@@ -277,7 +297,7 @@ export default function CustomPageInner() {
                       <img
                         src={uploadedImage}
                         alt="Your design"
-                        className="opacity-90 pointer-events-none select-none"
+                        className="opacity-85 pointer-events-none select-none"
                         style={{
                           width: `${60 * imgScale}%`,
                           height: `${40 * imgScale}%`,
@@ -293,7 +313,7 @@ export default function CustomPageInner() {
                   )}
 
                   {!uploadedImage && (
-                    <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/5 transition-colors">
+                    <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/5 transition-colors pointer-events-none">
                       <div className="text-center">
                         <svg className="w-10 h-10 mx-auto mb-2 text-warm-gray/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
