@@ -99,6 +99,20 @@ const products: ProductOption[] = [
     ],
   },
   {
+    id: "wx-320g-tee", name: "320gsm Double-Yarn T-Shirt", priceBase: 4.50, moq: 50, category: "T-Shirts",
+    // ⚠️ 颜色名+hex待确认
+    colors: [
+      { name: "Color 1", hex: "#333333", image: `${imgBase}/wx-320g-tee/sku/sku-color-1.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-1-back.webp` },
+      { name: "Color 2", hex: "#666666", image: `${imgBase}/wx-320g-tee/sku/sku-color-2.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-2-back.webp` },
+      { name: "Color 3", hex: "#999999", image: `${imgBase}/wx-320g-tee/sku/sku-color-3.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-3-back.webp` },
+      { name: "Color 4", hex: "#BBBBBB", image: `${imgBase}/wx-320g-tee/sku/sku-color-4.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-4-back.webp` },
+      { name: "Color 5", hex: "#DDDDDD", image: `${imgBase}/wx-320g-tee/sku/sku-color-5.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-5-back.webp` },
+      { name: "Color 6", hex: "#FFD700", image: `${imgBase}/wx-320g-tee/sku/sku-color-6.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-6-back.webp` },
+      { name: "Color 7", hex: "#FF6347", image: `${imgBase}/wx-320g-tee/sku/sku-color-7.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-7-back.webp` },
+      { name: "Color 8", hex: "#8B0000", image: `${imgBase}/wx-320g-tee/sku/sku-color-8.webp`, imageBack: `${imgBase}/wx-320g-tee/sku/sku-color-8-back.webp` },
+    ],
+  },
+  {
     id: "cl-230g-tanktop", name: "230gsm Vintage Tank Top", priceBase: 3.50, moq: 50, category: "Tank Tops",
     colors: [
       { name: "Army Green", hex: "#4B5320", image: `${imgBase}/cl-230g-tanktop/sku/sku-army-green.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-army-green-back.webp` },
