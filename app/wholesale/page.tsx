@@ -120,9 +120,9 @@ function ProductCard({ product, index, isInView }: { product: Product; index: nu
           </div>
         </div>
         <div className="space-y-1">
-          <h3 className="text-body-sm font-medium text-charcoal group-hover:text-ink transition-colors">{product.name}</h3>
-          <p className="text-caption text-muted uppercase tracking-wide">{product.weight} · {product.fabric}</p>
-          <p className="text-body-sm text-charcoal font-medium mt-1">{product.priceFOB}</p>
+          <h3 className="text-body-sm font-semibold text-charcoal group-hover:text-ink transition-colors leading-tight">{product.name}</h3>
+          <p className="text-caption text-warmink uppercase tracking-wide">{product.weight} · {product.fabric}</p>
+          <p className="text-body-sm text-charcoal font-semibold mt-1">{product.priceFOB}</p>
           <p className="text-[11px] text-gold">{product.colors.length} colors · {product.sizes.length} sizes</p>
         </div>
       </Link>

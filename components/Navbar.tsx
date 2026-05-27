@@ -91,13 +91,13 @@ export default function Navbar() {
           menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
+        <div className="flex flex-col items-center justify-center h-full gap-3">
           {navLinks.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className={`font-heading text-3xl text-dark hover:text-gold transition-all duration-500 ${
+              className={`font-heading text-xl md:text-3xl text-dark hover:text-gold transition-all duration-500 ${
                 menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
               style={{ transitionDelay: `${i * 50}ms` }}

@@ -25,9 +25,9 @@ const config: Config = {
         display: ["Playfair Display", "Georgia", "serif"],
       },
       fontSize: {
-        "display-xl": ["clamp(3rem, 8vw, 7rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
-        "display-lg": ["clamp(2.5rem, 6vw, 5rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
-        "display-md": ["clamp(1.5rem, 3vw, 2.5rem)", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
+        "display-xl": ["clamp(2.5rem, 10vw, 7rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
+        "display-lg": ["clamp(2rem, 6vw, 5rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+        "display-md": ["clamp(1.25rem, 3vw, 2.5rem)", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
         "body-lg": ["1.125rem", { lineHeight: "1.7" }],
         "body-md": ["1rem", { lineHeight: "1.6" }],
         "body-sm": ["0.875rem", { lineHeight: "1.5" }],
