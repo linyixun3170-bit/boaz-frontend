@@ -8,6 +8,8 @@
  *   3. 页面自动更新 ✅
  */
 
+import type { SizeChartEntry } from "./size-chart";
+
 export interface Product {
   id: string;
   name: string;
@@ -23,7 +25,7 @@ export interface Product {
   images: { main: string; gallery: string[] };
   tags: string[];
   sizes: string[];
-  sizeChart?: { label: string; values: Record<string, string> }[];
+  sizeChart?: SizeChartEntry[];
   isFeatured?: boolean;
   isNew?: boolean;
   isBestSeller?: boolean;
@@ -97,9 +99,10 @@ export const products: Product[] = [
     tags: ["New", "Cropped", "Vintage Wash", "Women's", "9 Colors"],
     sizes: ["S", "M", "L", "XL"],
     sizeChart: [
-      { label: "Bust (in)", values: { "S": "21.7", "M": "22.4", "L": "23.2", "XL": "24" } },
-      { label: "Length (in)", values: { "S": "19.7", "M": "20.5", "L": "21.3", "XL": "22" } },
-      { label: "Shoulder (in)", values: { "S": "16.5", "M": "17", "L": "17.5", "XL": "18" } },
+      // ⚠️ cm 值为约数，你提供精确 cm 数据后我来替换
+      { label: "Bust", valuesCm: { "S": "55.1", "M": "56.9", "L": "58.9", "XL": "61.0" } },
+      { label: "Length", valuesCm: { "S": "50.0", "M": "52.1", "L": "54.1", "XL": "55.9" } },
+      { label: "Shoulder", valuesCm: { "S": "41.9", "M": "43.2", "L": "44.5", "XL": "45.7" } },
     ],
     isNew: true,
   },

@@ -51,6 +51,35 @@
 
 ---
 
+### V2 — 2026-05-27 今日六项修复
+
+**改了什么：**
+1. **颜色选择器** → 纯色圆圈（去掉缩略图图片，避免无法显示的问题）
+2. **图片转 WebP** → 230g 产品全部 .jpg→.webp，体积从 3.2MB→1.4MB
+3. **flat 图恢复** → 240g 产品 flat 图从 raw/old-flat/ 恢复到正确位置
+4. **图片懒加载** → 所有产品卡片/gallery缩略图加 loading="lazy"
+5. **定制页尺码动态** → 根据选中的产品显示对应的尺码表（不再硬编码全部通用尺码）
+6. **部署** → 从 GitHub main → Cloudflare Pages 手动部署
+7. **SOP 更新 v1.2** → 新增产品交付流程说明
+
+**涉及文件：**
+- `app/wholesale/[slug]/ProductDetailClient.tsx`
+- `app/wholesale/page.tsx`
+- `app/custom/CustomPageInner.tsx`
+- `components/Products.tsx`
+- `lib/products-catalog.ts`
+- `boaz-knowledge/IMAGE-SOP.md`
+- 新增 19 个 .webp 文件
+
+**效果评估：** ✅ 已部署上线 boazclothes.com
+- 颜色选择纯色圆圈正常显示 ✔️
+- 240g 尺码表只显示 S/M/L/XL ✔️
+- 定制页尺码按产品动态展示 ✔️
+- 图片加载速度优化（WebP + lazy loading）✔️
+**状态：** 已上线
+
+---
+
 ### V0 — 此前已有效果（5.19-5.20）
 
 **已有的好效果（备注：这些不要改丢）：**

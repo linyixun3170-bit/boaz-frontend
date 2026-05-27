@@ -10,6 +10,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products as catalogProducts } from "@/lib/products-catalog";
+import { buildSizeTable } from "@/lib/size-chart";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -195,8 +196,33 @@ export default function CustomPageInner() {
                     </div>
                   );
                   if (sizeInfo.chart && sizeInfo.chart.length > 0) {
+                    const tableData = sizeInfo.chart.map(e => buildSizeTable(e, sizeInfo.sizes));
                     return (
-                      <SizeChartTable sizes={sizeInfo.sizes} chart={sizeInfo.chart} />
+                      <div className="min-w-[500px]">
+                        <table className="w-full text-left border-collapse text-[11px]">
+                          <thead>
+                            <tr className="border-b border-stone">
+                              <th className="py-2 pr-4 text-muted font-medium">Measurement</th>
+                              {sizeInfo.sizes.map(s => (
+                                <th key={s} className="py-2 px-3 text-dark font-medium text-center" colSpan={2}>{s}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {tableData.map(row => (
+                              <tr key={row.label} className="border-b border-stone/50">
+                                <td className="py-2 pr-4 text-dark font-medium whitespace-nowrap">{row.label}</td>
+                                {sizeInfo.sizes.map((_, i) => (
+                                  <td key={i} className="py-2 px-3 text-center">
+                                    <span className="text-warm-gray">{row.cm[i]} cm</span>
+                                    <span className="text-[9px] text-stone/70 block">{row.inch[i]}"</span>
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     );
                   }
                   return (
