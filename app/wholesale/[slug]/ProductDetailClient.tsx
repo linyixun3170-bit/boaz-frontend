@@ -52,6 +52,53 @@ function SizeTable({ product }: { product: Product }) {
   );
 }
 
+function ColorSection({
+  product,
+  selectedColor,
+  setSelectedColor,
+  setShowingColor,
+  isColorView,
+}: {
+  product: Product;
+  selectedColor: number;
+  setSelectedColor: (i: number) => void;
+  setShowingColor: (v: boolean) => void;
+  isColorView: boolean;
+}) {
+  return (
+    <div>
+      <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted mb-2 md:mb-3">
+        Colors ({product.colors.length} available)
+      </p>
+      <div className="flex flex-wrap gap-2 md:gap-3">
+        {product.colors.map((color, i) => (
+          <button
+            key={color.name}
+            onClick={() => { setSelectedColor(i); setShowingColor(true); }}
+            className={"w-8 h-8 md:w-9 md:h-9 rounded-full border-2 transition-all " + (
+              selectedColor === i && isColorView
+                ? "border-charcoal ring-2 ring-charcoal/20"
+                : "border-stone/60 hover:border-charcoal/50"
+            )}
+            style={{ backgroundColor: color.hex }}
+            title={color.name}
+            data-color-name={color.name}
+          >
+            {selectedColor === i && isColorView && (
+              <span className="flex items-center justify-center w-full h-full">
+                <Check size={10} className={color.hex === "#ffffff" || color.hex === "#f5f0e8" || color.hex === "#d3d3d3" ? "text-charcoal" : "text-white"} />
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+      <p className="text-[10px] md:text-[11px] text-muted mt-1 md:mt-2">
+        Selected: {product.colors[selectedColor]?.name} — <button onClick={() => setShowingColor(false)} className="underline text-charcoal">Show all photos</button>
+      </p>
+    </div>
+  );
+}
+
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
@@ -65,6 +112,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const isGalleryView = !showingColor;
 
   const otherProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
+
+  const colorProps = { product, selectedColor, setSelectedColor, setShowingColor, isColorView };
 
   return (
     <div>
@@ -82,9 +131,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       {/* Product Hero */}
       <section className="pb-12 md:pb-16 section-padding bg-cream">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-6 lg:gap-12">
-          {/* Image Gallery */}
+          {/* Image Gallery — 7 cols desktop */}
           <div className="lg:col-span-7 space-y-3 md:space-y-4">
-            {/* Main image — responsive ratio */}
+            {/* Main image */}
             <div className="relative p-2 md:p-3 bg-cream border border-stone shadow-sm">
               <div className="absolute inset-2 md:inset-3 border border-charcoal/5 pointer-events-none z-10" />
               <div className="relative w-full bg-warmgray" style={{aspectRatio:"4/5", maxHeight:"80vh"}}>
@@ -107,7 +156,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 </div>
               </div>
             </div>
-            {/* Gallery thumbnails — smaller on mobile */}
+            {/* Gallery thumbnails */}
             {product.images.gallery.length > 1 && (
               <div className="flex gap-2 md:gap-3 overflow-x-auto pb-1 md:pb-2">
                 {product.images.gallery.map((img, i) => (
@@ -123,7 +172,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 ))}
               </div>
             )}
-            {/* Color preview indicator — smaller text on mobile */}
+            {/* Color preview indicator */}
             {isColorView && (
               <p className="text-[10px] md:text-[11px] text-muted text-center">
                 Showing color: <strong>{product.colors[selectedColor]?.name}</strong>
@@ -132,7 +181,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             )}
           </div>
 
-          {/* Product Info */}
+          {/* Colors — MOBILE ONLY: below image, before product info */}
+          <div className="lg:col-span-12 lg:hidden">
+            <ColorSection {...colorProps} />
+          </div>
+
+          {/* Product Info — 5 cols desktop */}
           <div className="lg:col-span-5 space-y-4 md:space-y-6">
             <div>
               <p className="text-[10px] md:text-caption uppercase tracking-[0.3em] text-muted mb-1 md:mb-2">{product.category}</p>
@@ -145,7 +199,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <p className="text-[10px] md:text-[11px] text-muted mt-1">FOB Ningbo · Minimum {product.moq} pcs per color/size</p>
             </div>
 
-            {/* B2B Key Info — 2 cols on mobile, 3 on desktop */}
+            {/* B2B Key Info */}
             <div className="grid grid-cols-3 gap-2 md:gap-3 text-center">
               <div className="p-2 md:p-2.5 bg-offwhite">
                 <Shirt size={14} className="mx-auto mb-1 text-charcoal" />
@@ -164,7 +218,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
 
-            {/* Specs — 3 cols on mobile too, but smaller */}
+            {/* Specs */}
             <div className="grid grid-cols-3 gap-2 md:gap-3">
               <div className="p-2 md:p-2.5 bg-offwhite">
                 <p className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted mb-0.5">Weight</p>
@@ -180,39 +234,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
 
-            {/* Colors — compact circles on mobile */}
-            <div>
-              <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted mb-2 md:mb-3">
-                Colors ({product.colors.length} available)
-              </p>
-              <div className="flex flex-wrap gap-2 md:gap-3">
-                {product.colors.map((color, i) => (
-                  <button
-                    key={color.name}
-                    onClick={() => { setSelectedColor(i); setShowingColor(true); }}
-                    className={"w-8 h-8 md:w-9 md:h-9 rounded-full border-2 transition-all " + (
-                      selectedColor === i && isColorView
-                        ? "border-charcoal ring-2 ring-charcoal/20"
-                        : "border-stone/60 hover:border-charcoal/50"
-                    )}
-                    style={{ backgroundColor: color.hex }}
-                    title={color.name}
-                    data-color-name={color.name}
-                  >
-                    {selectedColor === i && isColorView && (
-                      <span className="flex items-center justify-center w-full h-full">
-                        <Check size={10} className={color.hex === "#ffffff" || color.hex === "#f5f0e8" || color.hex === "#d3d3d3" ? "text-charcoal" : "text-white"} />
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-              <p className="text-[10px] md:text-[11px] text-muted mt-1 md:mt-2">
-                Selected: {product.colors[selectedColor]?.name} — <button onClick={() => setShowingColor(false)} className="underline text-charcoal">Show all photos</button>
-              </p>
+            {/* Colors — DESKTOP ONLY */}
+            <div className="hidden lg:block">
+              <ColorSection {...colorProps} />
             </div>
 
-            {/* Tags — scrollable on mobile if overflow */}
+            {/* Tags */}
             <div className="flex flex-wrap gap-1.5 md:gap-2">
               {product.tags.map((tag) => (
                 <span key={tag} className="px-2 md:px-3 py-0.5 md:py-1 bg-offwhite text-[9px] md:text-[10px] uppercase tracking-wider text-muted">
@@ -238,8 +265,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       {/* Size Chart — Dual Unit (cm + inch) */}
       <SizeTable product={product} />
 
-      {/* Size Chart image */}
-      {/* Trust signals — stack on mobile */}
+      {/* Trust signals */}
       <section className="py-12 md:py-16 section-padding bg-cream">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
           <div>
@@ -260,7 +286,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* More Products — 2 col mobile, 4 col desktop */}
+      {/* More Products */}
       {otherProducts.length > 0 && (
         <section className="py-16 md:py-20 section-padding bg-cream">
           <div className="max-w-7xl mx-auto">
