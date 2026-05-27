@@ -193,6 +193,53 @@ export const products: Product[] = [
     ],
     isNew: true,
   },
+  {
+    id: "cl-180g-basic",
+    // ⚠️ 名称待你确认
+    name: "180gsm Cotton Basic T-Shirt",
+    slug: "cl-180g-basic",
+    tagline: "Lightweight everyday essential — 10 colors available",
+    category: "T-Shirts",
+    weight: "180gsm",
+    fabric: "100% Cotton",
+    fit: "Regular Fit",
+    moq: 50,
+    priceFOB: "TBD",
+    // ⚠️ 颜色名+hex待确认，正背面图待补
+    colors: [
+      { name: "White", hex: "#FFFFFF", image: `${imgBase}/cl-180g-basic/sku/sku-white.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/cl-180g-basic/sku/sku-black.webp` },
+      { name: "Dark Gray", hex: "#555555", image: `${imgBase}/cl-180g-basic/sku/sku-dark-gray.webp` },
+      { name: "Heather Gray", hex: "#B0B0B0", image: `${imgBase}/cl-180g-basic/sku/sku-heather-gray.webp` },
+      { name: "Army Green", hex: "#4B5320", image: `${imgBase}/cl-180g-basic/sku/sku-army-green.webp` },
+      { name: "Red", hex: "#CC0000", image: `${imgBase}/cl-180g-basic/sku/sku-red.webp` },
+      { name: "Royal Blue", hex: "#2B5B84", image: `${imgBase}/cl-180g-basic/sku/sku-royal-blue.webp` },
+      { name: "Navy", hex: "#1B2A4A", image: `${imgBase}/cl-180g-basic/sku/sku-navy.webp` },
+      { name: "Sand", hex: "#D4C5A9", image: `${imgBase}/cl-180g-basic/sku/sku-sand.webp` },
+      { name: "Light Pink", hex: "#FFD1DC", image: `${imgBase}/cl-180g-basic/sku/sku-light-pink.webp` },
+    ],
+    images: {
+      main: `${imgBase}/cl-180g-basic/model/white-front.webp`,
+      gallery: [
+        `${imgBase}/cl-180g-basic/model/white-front.webp`,
+        `${imgBase}/cl-180g-basic/model/heather-gray.webp`,
+        `${imgBase}/cl-180g-basic/model/royal-blue.webp`,
+        `${imgBase}/cl-180g-basic/model/light-pink.webp`,
+        `${imgBase}/cl-180g-basic/model/dark-gray.webp`,
+        `${imgBase}/cl-180g-basic/model/detail.webp`,
+        `${imgBase}/cl-180g-basic/size-chart/size-chart.webp`,
+      ],
+    },
+    tags: ["New", "Basic", "Lightweight", "180gsm", "10 Colors"],
+    sizes: ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    sizeChart: [
+      { label: "Length", valuesCm: { "S": "68", "M": "71", "L": "74", "XL": "77", "2XL": "80", "3XL": "83", "4XL": "86", "5XL": "89" } },
+      { label: "Shoulder", valuesCm: { "S": "53", "M": "56", "L": "59", "XL": "62", "2XL": "65", "3XL": "68", "4XL": "71", "5XL": "74" } },
+      { label: "Chest", valuesCm: { "S": "52", "M": "55", "L": "58", "XL": "61", "2XL": "64", "3XL": "67", "4XL": "70", "5XL": "73" } },
+      { label: "Sleeve", valuesCm: { "S": "20", "M": "21.5", "L": "23", "XL": "24.5", "2XL": "26", "3XL": "27.5", "4XL": "29", "5XL": "30.5" } },
+    ],
+    isNew: true,
+  },
 ];
 
 export function getFeaturedProducts(): Product[] {

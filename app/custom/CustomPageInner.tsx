@@ -81,6 +81,22 @@ const products: ProductOption[] = [
       { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/cl-180g-euro/sku/sku-apricot.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-apricot-back.webp` },
     ],
   },
+  {
+    id: "cl-180g-basic", name: "180gsm Basic T-Shirt", priceBase: 3.00, moq: 50, category: "T-Shirts",
+    // ⚠️ 正背面图待补充
+    colors: [
+      { name: "White", hex: "#FFFFFF", image: `${imgBase}/cl-180g-basic/sku/sku-white.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/cl-180g-basic/sku/sku-black.webp` },
+      { name: "Dark Gray", hex: "#555555", image: `${imgBase}/cl-180g-basic/sku/sku-dark-gray.webp` },
+      { name: "Heather Gray", hex: "#B0B0B0", image: `${imgBase}/cl-180g-basic/sku/sku-heather-gray.webp` },
+      { name: "Army Green", hex: "#4B5320", image: `${imgBase}/cl-180g-basic/sku/sku-army-green.webp` },
+      { name: "Red", hex: "#CC0000", image: `${imgBase}/cl-180g-basic/sku/sku-red.webp` },
+      { name: "Royal Blue", hex: "#2B5B84", image: `${imgBase}/cl-180g-basic/sku/sku-royal-blue.webp` },
+      { name: "Navy", hex: "#1B2A4A", image: `${imgBase}/cl-180g-basic/sku/sku-navy.webp` },
+      { name: "Sand", hex: "#D4C5A9", image: `${imgBase}/cl-180g-basic/sku/sku-sand.webp` },
+      { name: "Light Pink", hex: "#FFD1DC", image: `${imgBase}/cl-180g-basic/sku/sku-light-pink.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [
