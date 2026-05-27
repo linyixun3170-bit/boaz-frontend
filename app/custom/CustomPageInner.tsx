@@ -36,11 +36,12 @@ const products: ProductOption[] = [
   {
     id: "230g-washed-tee", name: "230gsm Washed Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts",
     colors: [
-      { name: "Black", hex: "#111111", image: `${imgBase}/230g-washed-tee/1-黑色.jpg` },
-      { name: "Light Gray", hex: "#d3d3d3", image: `${imgBase}/230g-washed-tee/2-浅灰色.jpg` },
-      { name: "Brown", hex: "#8b4513", image: `${imgBase}/230g-washed-tee/3-棕色.jpg` },
-      { name: "Rose Pink", hex: "#ffc0cb", image: `${imgBase}/230g-washed-tee/4-玫红色.jpg` },
-      { name: "Green", hex: "#228b22", image: `${imgBase}/230g-washed-tee/5-绿色.jpg` },
+      { name: "Coffee", hex: "#8B6914", image: `${imgBase}/230g-washed-tee/sku/sku-coffee.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-coffee-back.webp` },
+      { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/230g-washed-tee/sku/sku-apricot.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-apricot-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/230g-washed-tee/sku/sku-gray.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-gray-back.webp` },
+      { name: "Rose Red", hex: "#C0392B", image: `${imgBase}/230g-washed-tee/sku/sku-rose-red.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-rose-red-back.webp` },
+      { name: "Purple", hex: "#6C3483", image: `${imgBase}/230g-washed-tee/sku/sku-purple.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-purple-back.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/230g-washed-tee/sku/sku-black.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-black-back.webp` },
     ],
   },
   {
