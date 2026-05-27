@@ -20,7 +20,8 @@ function SizeTable({ product }: { product: Product }) {
           Size Chart
         </h2>
         <div className="overflow-x-auto -mx-4 md:mx-0">
-          <div className="min-w-[600px] px-4 md:px-0">
+          {/* DESKTOP: side-by-side cm/in */}
+          <div className="hidden md:block min-w-[600px] px-4 md:px-0">
             <table className="w-full text-left border-collapse text-[12px] md:text-sm">
               <thead>
                 <tr className="border-b border-stone">
@@ -47,6 +48,37 @@ function SizeTable({ product }: { product: Product }) {
                         <td className="py-2 md:py-3 px-1 md:px-2 text-center text-muted">{row.cm[i]}</td>
                         <td className="py-2 md:py-3 px-1 md:px-2 text-center text-stone/70">{row.inch[i]}"</td>
                       </Fragment>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* MOBILE: stacked cm/in */}
+          <div className="md:hidden px-4 md:px-0">
+            <table className="w-full text-left border-collapse text-[12px]">
+              <thead>
+                <tr className="border-b border-stone">
+                  <th className="py-2 pr-4 text-[10px] uppercase tracking-wider text-muted font-medium"></th>
+                  {product.sizes.map(s => (
+                    <th key={s} className="py-2 px-2 font-medium text-charcoal text-center">{s}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.map((row) => (
+                  <tr key={`${row.label}-cm`} className="border-b border-stone/20">
+                    <td className="py-1.5 pr-4 text-charcoal font-medium whitespace-nowrap">{row.label} (cm)</td>
+                    {product.sizes.map((_, i) => (
+                      <td key={i} className="py-1.5 px-2 text-center text-muted">{row.cm[i]}</td>
+                    ))}
+                  </tr>
+                ))}
+                {tableData.map((row) => (
+                  <tr key={`${row.label}-in`} className="border-b border-stone/20">
+                    <td className="py-1.5 pr-4 text-charcoal/60 whitespace-nowrap">{row.label} (in)</td>
+                    {product.sizes.map((_, i) => (
+                      <td key={i} className="py-1.5 px-2 text-center text-stone/70">{row.inch[i]}"</td>
                     ))}
                   </tr>
                 ))}

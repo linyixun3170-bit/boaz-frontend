@@ -213,38 +213,72 @@ export default function CustomPageInner() {
                   if (sizeInfo.chart && sizeInfo.chart.length > 0) {
                     const tableData = sizeInfo.chart.map(e => buildSizeTable(e, sizeInfo.sizes));
                     return (
-                      <div className="min-w-[500px]">
-                        <table className="w-full text-left border-collapse text-[11px]">
-                          <thead>
-                            <tr className="border-b border-stone">
-                              <th className="py-2 pr-4 text-muted font-medium" rowSpan={2}>Measurement</th>
-                              {sizeInfo.sizes.map(s => (
-                                <th key={s} className="py-2 px-3 text-dark font-medium text-center" colSpan={2}>{s}</th>
-                              ))}
-                            </tr>
-                            <tr className="border-b border-stone/30">
-                              {sizeInfo.sizes.map(s => (
-                                <>
-                                  <th key={`${s}-cm`} className="py-1 px-2 text-[9px] text-warm-gray text-center">cm</th>
-                                  <th key={`${s}-in`} className="py-1 px-2 text-[9px] text-warm-gray text-center">in</th>
-                                </>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {tableData.map(row => (
-                              <tr key={row.label} className="border-b border-stone/50">
-                                <td className="py-2 pr-4 text-dark font-medium whitespace-nowrap">{row.label}</td>
-                                {sizeInfo.sizes.map((_, i) => (
+                      <div className="min-w-[300px]">
+                        {/* DESKTOP: side-by-side cm/in */}
+                        <div className="hidden md:block">
+                          <table className="w-full text-left border-collapse text-[11px]">
+                            <thead>
+                              <tr className="border-b border-stone">
+                                <th className="py-2 pr-4 text-muted font-medium" rowSpan={2}>Measurement</th>
+                                {sizeInfo.sizes.map(s => (
+                                  <th key={s} className="py-2 px-3 text-dark font-medium text-center" colSpan={2}>{s}</th>
+                                ))}
+                              </tr>
+                              <tr className="border-b border-stone/30">
+                                {sizeInfo.sizes.map(s => (
                                   <>
-                                    <td key={`${i}-cm`} className="py-2 px-3 text-center text-warm-gray">{row.cm[i]}</td>
-                                    <td key={`${i}-in`} className="py-2 px-3 text-center text-stone/70">{row.inch[i]}"</td>
+                                    <th key={`${s}-cm`} className="py-1 px-2 text-[9px] text-warm-gray text-center">cm</th>
+                                    <th key={`${s}-in`} className="py-1 px-2 text-[9px] text-warm-gray text-center">in</th>
                                   </>
                                 ))}
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {tableData.map(row => (
+                                <tr key={row.label} className="border-b border-stone/50">
+                                  <td className="py-2 pr-4 text-dark font-medium whitespace-nowrap">{row.label}</td>
+                                  {sizeInfo.sizes.map((_, i) => (
+                                    <>
+                                      <td key={`${i}-cm`} className="py-2 px-3 text-center text-warm-gray">{row.cm[i]}</td>
+                                      <td key={`${i}-in`} className="py-2 px-3 text-center text-stone/70">{row.inch[i]}"</td>
+                                    </>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        {/* MOBILE: stacked cm/in */}
+                        <div className="md:hidden">
+                          <table className="w-full text-left border-collapse text-[11px]">
+                            <thead>
+                              <tr className="border-b border-stone">
+                                <th className="py-2 pr-4 text-muted font-medium"></th>
+                                {sizeInfo.sizes.map(s => (
+                                  <th key={s} className="py-2 px-2 text-dark font-medium text-center">{s}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {tableData.map(row => (
+                                <tr key={`${row.label}-cm`} className="border-b border-stone/20">
+                                  <td className="py-1.5 pr-4 text-dark font-medium whitespace-nowrap">{row.label} (cm)</td>
+                                  {sizeInfo.sizes.map((_, i) => (
+                                    <td key={i} className="py-1.5 px-2 text-center text-warm-gray">{row.cm[i]}</td>
+                                  ))}
+                                </tr>
+                              ))}
+                              {tableData.map(row => (
+                                <tr key={`${row.label}-in`} className="border-b border-stone/20">
+                                  <td className="py-1.5 pr-4 text-dark/60 whitespace-nowrap">{row.label} (in)</td>
+                                  {sizeInfo.sizes.map((_, i) => (
+                                    <td key={i} className="py-1.5 px-2 text-center text-stone/70">{row.inch[i]}"</td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     );
                   }
@@ -289,6 +323,39 @@ export default function CustomPageInner() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Search + Selector — MOBILE: above grid, full width */}
+            <div className="lg:hidden mb-6">
+              <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
+                Select Product
+              </label>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by name or style..."
+                className="w-full px-4 py-3 bg-cream border border-stone text-sm text-dark focus:outline-none focus:border-dark mb-3"
+              />
+              <select
+                value={selectedProduct.id}
+                onChange={(e) => {
+                  const p = products.find(pr => pr.id === e.target.value);
+                  if (p) {
+                    setSelectedProduct(p);
+                    setSelectedColorIdx(0);
+                    setShowingBack(false);
+                    setQuantity(Math.max(quantity, p.moq));
+                  }
+                }}
+                className="w-full px-4 py-3 bg-cream border border-stone text-sm text-dark focus:outline-none focus:border-dark"
+              >
+                {products
+                  .filter(p => !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map(p => (
+                  <option key={p.id} value={p.id}>{p.name} -- From ${p.priceBase.toFixed(2)}/pc</option>
+                ))}
+              </select>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
@@ -402,10 +469,45 @@ export default function CustomPageInner() {
                 )}
               </div>
 
+              {/* Colors — MOBILE: below preview */}
+              <div className="lg:hidden">
+                <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
+                  Color
+                </label>
+                <div className="flex flex-wrap gap-3">
+                  {currentColors.map((c, idx) => (
+                    <button
+                      key={c.name}
+                      onClick={() => { setSelectedColorIdx(idx); setShowingBack(false); }}
+                      className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
+                        selectedColorIdx === idx
+                          ? "border-dark scale-110"
+                          : "border-transparent hover:border-dark/40"
+                      }`}
+                      style={{ backgroundColor: c.hex }}
+                      title={c.name}
+                    >
+                      {c.image && (
+                        <Image
+                          src={c.image}
+                          alt={c.name}
+                          fill
+                          className="object-cover"
+                          sizes="40px"
+                        />
+                      )}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[11px] text-warm-gray mt-2">
+                  Selected: {currentColors[selectedColorIdx]?.name}
+                </p>
+              </div>
+
               {/* Controls */}
               <div className="space-y-8">
-                {/* Search + Product Selector */}
-                <div>
+                {/* Search + Product Selector — DESKTOP only */}
+                <div className="hidden lg:block">
                   <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
                     Search Product
                   </label>
@@ -437,8 +539,8 @@ export default function CustomPageInner() {
                   </select>
                 </div>
 
-                {/* Color — dynamically shows selected product's SKU colors */}
-                <div>
+                {/* Color — DESKTOP only */}
+                <div className="hidden lg:block">
                   <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
                     {selectedProduct.name} — Color ({currentColors.length})
                   </label>
