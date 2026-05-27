@@ -57,6 +57,19 @@ const products: ProductOption[] = [
       { name: "Pink", hex: "#ffb6c1", image: `${imgBase}/240g-vintage-crop/flat/flat-cropped-3.webp` },
     ],
   },
+  {
+    id: "cl-230g-drop-shoulder", name: "230gsm Drop Shoulder T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "Pink", hex: "#FFC0CB", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-pink.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-pink-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-gray.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-gray-back.webp` },
+      { name: "Olive Green", hex: "#556B2F", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-olive-green.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-olive-green-back.webp` },
+      { name: "Blue", hex: "#0000FF", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-blue.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-blue-back.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-black.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-black-back.webp` },
+      { name: "Light Green", hex: "#90EE90", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-light-green.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-light-green-back.webp` },
+      { name: "Purple", hex: "#800080", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-purple.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-purple-back.webp` },
+      { name: "Beige", hex: "#F5F5DC", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-beige.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-beige-back.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [

@@ -106,6 +106,51 @@ export const products: Product[] = [
     ],
     isNew: true,
   },
+  {
+    id: "cl-230g-drop-shoulder",
+    name: "230gsm Cotton Vintage Washed Drop Shoulder T-Shirt",
+    slug: "cl-230g-drop-shoulder",
+    tagline: "Pre-washed drop shoulder — relaxed vintage fit from day one",
+    category: "T-Shirts",
+    weight: "230gsm",
+    fabric: "100% Cotton (vintage washed)",
+    fit: "Drop Shoulder / Relaxed",
+    moq: 50,
+    priceFOB: "TBD",
+    // ⚠️ 颜色名+hex值待你确认
+    colors: [
+      { name: "Pink", hex: "#FFC0CB", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-pink.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-pink-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-gray.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-gray-back.webp` },
+      { name: "Olive Green", hex: "#556B2F", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-olive-green.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-olive-green-back.webp` },
+      { name: "Blue", hex: "#0000FF", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-blue.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-blue-back.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-black.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-black-back.webp` },
+      { name: "Light Green", hex: "#90EE90", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-light-green.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-light-green-back.webp` },
+      { name: "Purple", hex: "#800080", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-purple.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-purple-back.webp` },
+      { name: "Beige", hex: "#F5F5DC", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-beige.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-beige-back.webp` },
+      // 橙色Orange等待你补充正背面图
+    ],
+    images: {
+      main: `${imgBase}/cl-230g-drop-shoulder/model/275329452_0.webp`,
+      gallery: [
+        `${imgBase}/cl-230g-drop-shoulder/model/275329452_0.webp`,
+        `${imgBase}/cl-230g-drop-shoulder/model/68287271084.webp`,
+        `${imgBase}/cl-230g-drop-shoulder/model/5019055_0.webp`,
+        `${imgBase}/cl-230g-drop-shoulder/model/0G3A2169.webp`,
+        `${imgBase}/cl-230g-drop-shoulder/model/0G3A2173.webp`,
+        `${imgBase}/cl-230g-drop-shoulder/model/0G3A2175.webp`,
+        `${imgBase}/cl-230g-drop-shoulder/size-chart/size-chart.webp`,
+      ],
+    },
+    tags: ["New", "Drop Shoulder", "Vintage Wash", "230gsm", "Unisex"],
+    sizes: ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+    sizeChart: [
+      { label: "Length", valuesCm: { "S": "68", "M": "71", "L": "74", "XL": "77", "2XL": "80", "3XL": "83", "4XL": "86", "5XL": "89" } },
+      { label: "Shoulder", valuesCm: { "S": "53", "M": "56", "L": "59", "XL": "62", "2XL": "65", "3XL": "68", "4XL": "71", "5XL": "74" } },
+      { label: "Chest", valuesCm: { "S": "52", "M": "55", "L": "58", "XL": "61", "2XL": "64", "3XL": "67", "4XL": "70", "5XL": "73" } },
+      { label: "Sleeve", valuesCm: { "S": "20", "M": "21.5", "L": "23", "XL": "24.5", "2XL": "26", "3XL": "27.5", "4XL": "29", "5XL": "30.5" } },
+    ],
+    isNew: true,
+  },
 ];
 
 export function getFeaturedProducts(): Product[] {
