@@ -71,6 +71,16 @@ const products: ProductOption[] = [
       { name: "Orange", hex: "#E67E22", image: `${imgBase}/cl-230g-drop-shoulder/sku/sku-orange.webp`, imageBack: `${imgBase}/cl-230g-drop-shoulder/sku/sku-orange-back.webp` },
     ],
   },
+  {
+    id: "cl-180g-euro", name: "180gsm Euro Fit T-Shirt", priceBase: 3.00, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "White", hex: "#FFFFFF", image: `${imgBase}/cl-180g-euro/sku/sku-white.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-white-back.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/cl-180g-euro/sku/sku-black.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-black-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-180g-euro/sku/sku-gray.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-gray-back.webp` },
+      { name: "Red", hex: "#CC0000", image: `${imgBase}/cl-180g-euro/sku/sku-red.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-red-back.webp` },
+      { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/cl-180g-euro/sku/sku-apricot.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-apricot-back.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [

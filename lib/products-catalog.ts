@@ -152,6 +152,47 @@ export const products: Product[] = [
     ],
     isNew: true,
   },
+  {
+    id: "cl-180g-euro",
+    // ⚠️ 名称待你确认
+    name: "180gsm Cotton Euro Fit T-Shirt",
+    slug: "cl-180g-euro",
+    tagline: "Lightweight European fit — clean lines for everyday wear",
+    category: "T-Shirts",
+    weight: "180gsm",
+    fabric: "100% Cotton",
+    fit: "Euro Fit / Regular",
+    moq: 50,
+    priceFOB: "TBD",
+    // ⚠️ 颜色名+hex待你确认
+    colors: [
+      { name: "White", hex: "#FFFFFF", image: `${imgBase}/cl-180g-euro/sku/sku-white.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-white-back.webp` },
+      { name: "Black", hex: "#000000", image: `${imgBase}/cl-180g-euro/sku/sku-black.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-black-back.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-180g-euro/sku/sku-gray.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-gray-back.webp` },
+      { name: "Red", hex: "#CC0000", image: `${imgBase}/cl-180g-euro/sku/sku-red.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-red-back.webp` },
+      { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/cl-180g-euro/sku/sku-apricot.webp`, imageBack: `${imgBase}/cl-180g-euro/sku/sku-apricot-back.webp` },
+    ],
+    images: {
+      main: `${imgBase}/cl-180g-euro/model/image_1770171830502.webp`,
+      gallery: [
+        `${imgBase}/cl-180g-euro/model/image_1770171830502.webp`,
+        `${imgBase}/cl-180g-euro/model/image_1770171844271.webp`,
+        `${imgBase}/cl-180g-euro/model/image_1770171867062.webp`,
+        `${imgBase}/cl-180g-euro/model/image_1770177577465.webp`,
+        `${imgBase}/cl-180g-euro/model/usa-tee-4.webp`,
+        `${imgBase}/cl-180g-euro/size-chart/size-chart.webp`,
+      ],
+    },
+    tags: ["New", "Euro Fit", "Lightweight", "180gsm"],
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    sizeChart: [
+      { label: "Chest", valuesCm: { "S": "46", "M": "51", "L": "53", "XL": "61", "2XL": "66" } },
+      { label: "Length", valuesCm: { "S": "71", "M": "74", "L": "76", "XL": "79", "2XL": "82" } },
+      { label: "Shoulder", valuesCm: { "S": "43", "M": "45", "L": "48", "XL": "52", "2XL": "54" } },
+      { label: "Sleeve", valuesCm: { "S": "22", "M": "22", "L": "23", "XL": "23", "2XL": "25" } },
+    ],
+    isNew: true,
+  },
 ];
 
 export function getFeaturedProducts(): Product[] {
