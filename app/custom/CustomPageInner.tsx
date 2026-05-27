@@ -108,6 +108,7 @@ export default function CustomPageInner() {
   const [searchQuery, setSearchQuery] = useState("");
   const currentColors = productColors[selectedProduct.id] || [];
   const [selectedColorIdx, setSelectedColorIdx] = useState(0);
+  const [showingBack, setShowingBack] = useState(false);
   const selectedColorHex = currentColors[selectedColorIdx]?.hex || "#ffffff";
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [placement, setPlacement] = useState("center");
@@ -306,22 +307,26 @@ export default function CustomPageInner() {
                 <div
                   className="relative w-3/4 aspect-[3/4] overflow-hidden"
                 >
-                  {/* Product image for the selected color */}
+                  {/* Product image for the selected color — front or back */}
                   <div className="absolute inset-0 bg-light-gray">
-                    {currentColors[selectedColorIdx]?.image ? (
-                      <Image
-                        src={currentColors[selectedColorIdx].image}
-                        alt={currentColors[selectedColorIdx].name}
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 768px) 75vw, 40vw"
-                      />
-                    ) : (
-                      <div
-                        className="w-full h-full"
-                        style={{ backgroundColor: selectedColorHex }}
-                      />
-                    )}
+                    {(() => {
+                      const color = currentColors[selectedColorIdx];
+                      const src = showingBack && color?.imageBack ? color.imageBack : color?.image;
+                      return src ? (
+                        <Image
+                          src={src}
+                          alt={color?.name + (showingBack ? " back" : " front")}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 768px) 75vw, 40vw"
+                        />
+                      ) : (
+                        <div
+                          className="w-full h-full"
+                          style={{ backgroundColor: selectedColorHex }}
+                        />
+                      );
+                    })()}
                   </div>
 
                   {/* Overlaid uploaded design */}
@@ -368,6 +373,27 @@ export default function CustomPageInner() {
                   {selectedProduct.name}
                 </div>
 
+                {/* Front / Back toggle */}
+                <div className="absolute top-4 right-4 flex gap-1 bg-white/90 backdrop-blur-sm rounded p-0.5 border border-stone/30">
+                  <button
+                    onClick={() => setShowingBack(false)}
+                    className={"px-3 py-1 text-[10px] uppercase tracking-wider transition-all " + (
+                      !showingBack ? "bg-dark text-white" : "text-warm-gray hover:text-dark"
+                    )}
+                  >
+                    Front
+                  </button>
+                  <button
+                    onClick={() => setShowingBack(true)}
+                    className={"px-3 py-1 text-[10px] uppercase tracking-wider transition-all " + (
+                      showingBack ? "bg-dark text-white" : "text-warm-gray hover:text-dark"
+                    )}
+                    disabled={!currentColors[selectedColorIdx]?.imageBack}
+                  >
+                    Back
+                  </button>
+                </div>
+
                 {uploadedImage && (
                   <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] text-warm-gray uppercase tracking-wider">
                     <span>Click to re-upload</span>
@@ -396,6 +422,7 @@ export default function CustomPageInner() {
                       if (p) {
                         setSelectedProduct(p);
                         setSelectedColorIdx(0);
+                        setShowingBack(false);
                         setQuantity(Math.max(quantity, p.moq));
                       }
                     }}
@@ -418,7 +445,7 @@ export default function CustomPageInner() {
                     {currentColors.map((c, idx) => (
                       <button
                         key={c.name}
-                        onClick={() => setSelectedColorIdx(idx)}
+                        onClick={() => { setSelectedColorIdx(idx); setShowingBack(false); }}
                         className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
                           selectedColorIdx === idx
                             ? "border-dark scale-110"
