@@ -45,7 +45,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-[11px] uppercase tracking-[0.2em] text-dark/80 hover:text-dark transition-colors link-underline"
+                className="text-[13px] uppercase tracking-[0.2em] text-dark/80 hover:text-dark transition-colors link-underline"
               >
                 {link.label}
               </Link>
@@ -56,7 +56,7 @@ export default function Navbar() {
           <div className="flex items-center gap-6">
             <Link
               href="/contact/"
-              className="hidden md:inline-flex text-[11px] uppercase tracking-[0.2em] btn-capsule"
+              className="text-[11px] md:text-[13px] uppercase tracking-[0.2em] btn-capsule"
             >
               Request Quote
             </Link>
@@ -97,7 +97,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className={`font-heading text-xl md:text-3xl text-dark hover:text-gold transition-all duration-500 ${
+              className={`font-heading text-xl md:text-2xl text-dark hover:text-gold transition-all duration-500 ${
                 menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
               style={{ transitionDelay: `${i * 50}ms` }}
