@@ -259,14 +259,17 @@ export const products: Product[] = [
       { name: "Rose Red", hex: "#C0392B", image: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red-back.webp` },
     ],
     images: {
-      main: `${imgBase}/cl-230g-tanktop/model/DPP_397.webp`,
+      // 排序: 人物图>挂拍图>整体图>局部图>尺码图
+      main: `${imgBase}/cl-230g-tanktop/model/image_1769389966452.webp`,
       gallery: [
+        `${imgBase}/cl-230g-tanktop/model/image_1769389966452.webp`,
+        `${imgBase}/cl-230g-tanktop/model/image_1769389989108.webp`,
+        `${imgBase}/cl-230g-tanktop/model/image_1769389995251.webp`,
+        `${imgBase}/cl-230g-tanktop/model/image_1769390003067.webp`,
+        `${imgBase}/cl-230g-tanktop/model/unnamed.webp`,
         `${imgBase}/cl-230g-tanktop/model/DPP_397.webp`,
         `${imgBase}/cl-230g-tanktop/model/DPP_398.webp`,
         `${imgBase}/cl-230g-tanktop/model/DPP_399.webp`,
-        `${imgBase}/cl-230g-tanktop/model/image_1769389966452.webp`,
-        `${imgBase}/cl-230g-tanktop/model/image_1769389989108.webp`,
-        `${imgBase}/cl-230g-tanktop/model/unnamed.webp`,
         `${imgBase}/cl-230g-tanktop/size-chart/size-chart.webp`,
       ],
     },
