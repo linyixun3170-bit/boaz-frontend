@@ -15,11 +15,22 @@ interface CustomerCasesProps {
 }
 
 const defaultImages: CaseImage[] = [
-  { src: "/images/customer_cases/case-01.jpg", alt: "客户定制T恤实物" },
-  { src: "/images/customer_cases/case-02.jpg", alt: "客户定制卫衣实物" },
-  { src: "/images/customer_cases/case-03.jpg", alt: "客户定制卫衣实物" },
-  { src: "/images/customer_cases/case-04.jpg", alt: "客户定制卫衣实物" },
-  { src: "/images/customer_cases/case-05.jpg", alt: "客户定制卫衣实物" },
+  // 丝印 / Screen Print
+  { src: "/images/customer_cases/screen-01.webp", alt: "丝印定制T恤 — Screen printed custom t-shirt" },
+  { src: "/images/customer_cases/screen-02.webp", alt: "丝印定制卫衣 — Screen printed hoodie" },
+  { src: "/images/customer_cases/screen-03.webp", alt: "丝印定制T恤 — Screen print detail" },
+  { src: "/images/customer_cases/screen-04.webp", alt: "丝印定制卫衣 — Screen print hoodie front" },
+  // 刺绣 / Embroidery
+  { src: "/images/customer_cases/embroidery-05.webp", alt: "刺绣定制Polo衫 — Embroidered polo shirt" },
+  { src: "/images/customer_cases/embroidery-06.webp", alt: "刺绣定制Polo衫 — Embroidered polo back" },
+  { src: "/images/customer_cases/embroidery-07.webp", alt: "刺绣定制帽子 — Embroidered cap" },
+  { src: "/images/customer_cases/embroidery-08.webp", alt: "刺绣定制T恤 — Embroidered t-shirt" },
+  // 数码直喷 / DTG
+  { src: "/images/customer_cases/dtg-09.webp", alt: "数码直喷定制T恤 — DTG custom t-shirt" },
+  { src: "/images/customer_cases/dtg-10.webp", alt: "数码直喷定制卫衣 — DTG hoodie" },
+  { src: "/images/customer_cases/dtg-11.webp", alt: "数码直喷定制T恤 — DTG print detail" },
+  { src: "/images/customer_cases/dtg-12.webp", alt: "数码直喷定制卫衣 — DTG hoodie detail" },
+  { src: "/images/customer_cases/dtg-13.webp", alt: "数码直喷定制T恤 — DTG full color print" },
 ];
 
 // 物理动量参数
@@ -28,8 +39,8 @@ const MIN_VELOCITY = 0.5; // 低于此速度停止
 
 export default function CustomerCases({
   images = defaultImages,
-  title = "Real Products,",
-  subtitle = "Real Customers",
+  title = "Customer Cases —",
+  subtitle = "See Our Work",
 }: CustomerCasesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
