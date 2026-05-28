@@ -233,7 +233,7 @@ export default function CustomPageInner() {
       <CustomCursor />
       <SmoothScroll>
         <Navbar />
-        <div className="pt-28 pb-20">
+        <div className="pt-28 pb-[90px] lg:pb-20">
           {/* Hero */}
           <div className="max-w-[1400px] mx-auto section-padding mb-16">
             <span className="text-caption text-warm-gray mb-4 block">Custom Manufacturing</span>
@@ -253,7 +253,7 @@ export default function CustomPageInner() {
                 <span>Size Chart — {selectedProduct.name}</span>
                 <span className="transform group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="p-4 pt-0 overflow-x-auto">
+              <div className="p-4 pt-0 overflow-x-auto scrollbar-gallery">
                 {(() => {
                   const sizeInfo = productSizeData[selectedProduct.id];
                   if (!sizeInfo) return (

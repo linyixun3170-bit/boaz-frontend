@@ -78,6 +78,6 @@ _待补充_
 - [ ] lsz.lk666.ai 平台接入（需 JS 渲染）
 - [ ] 视频嵌入网站
 - [ ] 客户案例收集
-- [ ] 等 Cloudflare zone 激活后配 apex 域名绑定 Pages
+- [x] Cloudflare zone 已激活，apex 域名已可绑定 Pages
 - [ ] 试用 opencli 做浏览器自动化/数据扒取
 - [ ] 修复 OpenRouter API Key（已 401）或换方案

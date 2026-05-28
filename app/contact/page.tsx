@@ -48,12 +48,25 @@ export default function ContactPage() {
     return () => ctx.revert();
   }, []);
 
+  // Field name → state key mapping (cf_ prefix avoids Chrome autofill)
+  const fieldToState: Record<string, string> = {
+    cf_name: "name",
+    cf_email: "email",
+    company: "company",
+    phone: "phone",
+    wechat: "wechat",
+    inquiryType: "inquiryType",
+    quantity: "quantity",
+    message: "message",
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
+    const key = fieldToState[e.target.name] || e.target.name;
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [key]: e.target.value,
     }));
   };
 
@@ -71,22 +84,25 @@ export default function ContactPage() {
     setError(null);
 
     try {
-      // TODO: Replace with actual API endpoint
-      // Option 1: Resend API (recommended)
-      // const res = await fetch('/api/send-email', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData),
-      // });
-      // if (!res.ok) throw new Error('Failed to send');
+      const payload = {
+        name: formData.get('cf_name') as string || '',
+        email: formData.get('cf_email') as string || '',
+        company: formData.get('company') as string || '',
+        phone: formData.get('phone') as string || '',
+        wechat: formData.get('wechat') as string || '',
+        inquiryType: formData.get('inquiryType') as string || 'wholesale',
+        quantity: formData.get('quantity') as string || '',
+        message: formData.get('message') as string || '',
+      };
 
-      // Option 2: Formspree (no server needed)
-      // const res = await fetch('https://formspree.io/f/your-form-id', {
-      //   method: 'POST',
-      //   body: new FormData(e.target as HTMLFormElement),
-      // });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!res.ok) throw new Error('Failed to submit');
+
       setSubmitted(true);
     } catch (err) {
       setError("Something went wrong. Please email us directly at info@boazclothes.com");
@@ -121,7 +137,7 @@ export default function ContactPage() {
             We&apos;ve received your inquiry and will respond within 24
             hours. For urgent requests, reach out via{" "}
             <a
-              href="https://wa.me/your-number"
+              href="https://wa.me/8618868798631"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gold underline"

@@ -41,7 +41,7 @@ export default function WholesalePage() {
 
       {/* Filters */}
       <section className="pb-8 section-padding bg-cream sticky top-20 z-30">
-        <div className="max-w-7xl mx-auto flex items-center gap-4 overflow-x-auto pb-2">
+        <div className="max-w-7xl mx-auto flex items-center gap-4 overflow-x-auto pb-2 scrollbar-gallery">
           <Filter size={16} className="text-muted flex-shrink-0" />
           {categories.map((cat) => (
             <button key={cat} className="pill-btn text-xs py-2 px-5 flex-shrink-0">

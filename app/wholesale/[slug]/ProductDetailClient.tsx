@@ -19,7 +19,7 @@ function SizeTable({ product }: { product: Product }) {
           <Ruler size={20} />
           Size Chart
         </h2>
-        <div className="overflow-x-auto -mx-4 md:mx-0">
+        <div className="overflow-x-auto -mx-4 md:mx-0 scrollbar-gallery">
           {/* DESKTOP: side-by-side cm/in */}
           <div className="hidden md:block min-w-[600px] px-4 md:px-0">
             <table className="w-full text-left border-collapse text-[12px] md:text-sm">
@@ -198,7 +198,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
             {/* Gallery thumbnails */}
             {product.images.gallery.length > 1 && (
-              <div className="flex gap-2 md:gap-3 overflow-x-auto pb-1 md:pb-2">
+              <div className="flex gap-2 md:gap-3 overflow-x-auto pb-1 md:pb-2 scrollbar-gallery">
                 {product.images.gallery.map((img, i) => (
                   <button
                     key={i}

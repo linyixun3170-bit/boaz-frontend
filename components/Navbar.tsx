@@ -27,7 +27,7 @@ export default function Navbar() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
           scrolled
             ? "bg-cream/95 backdrop-blur-lg shadow-sm py-3 md:py-4"
-            : "bg-cream/40 backdrop-blur-sm py-4 md:py-6"
+            : "bg-cream/80 md:bg-cream/40 backdrop-blur-sm py-4 md:py-6"
         }`}
       >
         <nav className="max-w-[1400px] mx-auto section-padding flex items-center justify-between">
@@ -62,21 +62,21 @@ export default function Navbar() {
             </Link>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden flex flex-col gap-1.5 p-2"
+              className="md:hidden flex flex-col gap-1 p-1.5"
               aria-label="Toggle menu"
             >
               <span
-                className={`block w-6 h-px bg-dark transition-transform duration-300 ${
+                className={`block w-6 h-0.5 bg-dark rounded transition-transform duration-300 ${
                   menuOpen ? "rotate-45 translate-y-[3.5px]" : ""
                 }`}
               />
               <span
-                className={`block w-6 h-px bg-dark transition-opacity duration-300 ${
+                className={`block w-6 h-0.5 bg-dark rounded transition-opacity duration-300 ${
                   menuOpen ? "opacity-0" : ""
                 }`}
               />
               <span
-                className={`block w-6 h-px bg-dark transition-transform duration-300 ${
+                className={`block w-6 h-0.5 bg-dark rounded transition-transform duration-300 ${
                   menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
                 }`}
               />
