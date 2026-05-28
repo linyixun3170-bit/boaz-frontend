@@ -2,6 +2,12 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
+@layer base {
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
 @utility section-padding {
   padding-inline: clamp(1rem, 4vw, 2.5rem);
 }

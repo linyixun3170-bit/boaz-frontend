@@ -172,7 +172,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       <section className="pb-12 md:pb-16 section-padding bg-cream">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-6 lg:gap-12">
           {/* Image Gallery — 7 cols desktop */}
-          <div className="lg:col-span-7 space-y-3 md:space-y-4">
+          <div className="lg:col-span-7 space-y-3 md:space-y-4 max-w-full">
             {/* Main image */}
             <div className="relative p-2 md:p-3 bg-cream border border-stone shadow-sm">
               <div className="absolute inset-2 md:inset-3 border border-charcoal/5 pointer-events-none z-10" />
