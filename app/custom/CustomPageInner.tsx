@@ -122,6 +122,18 @@ const products: ProductOption[] = [
       { name: "Rose Red", hex: "#C0392B", image: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red.webp`, imageBack: `${imgBase}/cl-230g-tanktop/sku/sku-rose-red-back.webp` },
     ],
   },
+  {
+    id: "xc-280g-gradient-set", name: "280gsm Gradient Distressed Set (T-Shirt + Shorts)", priceBase: 8.50, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "Lavender", hex: "#C8A2C8", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Lavender.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Lavender-back.webp` },
+      { name: "Charcoal Gray", hex: "#4A4A4A", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Charcoal-Gray.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Charcoal-Gray-back.webp` },
+      { name: "Beige", hex: "#E8D5B7", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Beige.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Beige-back.webp` },
+      { name: "Brown", hex: "#8B6F47", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Brown.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Brown-back.webp` },
+      { name: "Coffee", hex: "#6F4E37", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee-back.webp` },
+      { name: "Light Brown", hex: "#C4A882", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Light-Brown.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Light-Brown-back.webp` },
+      { name: "Black", hex: "#1A1A1A", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Black.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Black-back.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [
