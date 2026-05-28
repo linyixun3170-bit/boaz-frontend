@@ -170,13 +170,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
       {/* Product Hero */}
       <section className="pb-12 md:pb-16 section-padding bg-cream">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-6 lg:gap-12">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-4 lg:gap-12">
           {/* Image Gallery — 7 cols desktop */}
-          <div className="lg:col-span-7 space-y-3 md:space-y-4 max-w-full">
+          <div className="lg:col-span-7 space-y-3 md:space-y-4 max-w-full overflow-hidden">
             {/* Main image */}
-            <div className="relative p-2 md:p-3 bg-cream border border-stone shadow-sm">
-              <div className="absolute inset-2 md:inset-3 border border-charcoal/5 pointer-events-none z-10" />
-              <div className="relative w-full bg-warmgray" style={{aspectRatio:"3/4", maxHeight:"70vh"}}>
+            <div className="relative bg-cream border border-stone shadow-sm">
+              <div className="relative w-full bg-warmgray" style={{aspectRatio:"3/4", maxHeight:"60vh"}}>
                 <Image
                   src={mainPic}
                   alt={product.name}
@@ -198,16 +197,16 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
             {/* Gallery thumbnails */}
             {product.images.gallery.length > 1 && (
-              <div className="flex gap-2 md:gap-3 overflow-x-auto pb-1 md:pb-2 scrollbar-gallery">
+              <div className="flex gap-1.5 md:gap-3 overflow-x-auto pb-1 md:pb-2 scrollbar-gallery">
                 {product.images.gallery.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => { setSelectedImage(i); setShowingColor(false); }}
-                    className={"relative w-20 h-24 md:w-28 md:h-32 shrink-0 overflow-hidden border-2 transition-all " + (
+                    className={"relative w-16 h-20 md:w-28 md:h-32 shrink-0 overflow-hidden border-2 transition-all rounded-sm " + (
                       selectedImage === i && isGalleryView ? "border-charcoal" : "border-transparent hover:border-stone"
                     )}
                   >
-                    <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 768px) 80px, 112px" loading="lazy" />
+                    <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 768px) 64px, 112px" loading="lazy" />
                   </button>
                 ))}
               </div>
