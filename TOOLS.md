@@ -14,7 +14,7 @@
 
 ## API 凭证
 - 都存于 CREDENTIALS.md（已 gitignore，权限600）
-- OpenRouter: sk-c50…e40b — 可调用视觉模型看图（⚠️ 2026-05-25 检查时 401，可能已失效）
+- OpenRouter: sk-or-v1-3a72… — 可调用视觉模型看图（✅ 2026-05-26更新，已验证可用）
 - Cloudflare: cfut_e9Vul…（Pages+DNS+SSL+Zone 全权限）
 
 ## 常用路径

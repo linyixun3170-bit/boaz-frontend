@@ -85,4 +85,4 @@ _待补充_
 - [ ] 客户案例收集
 - [x] Cloudflare zone 已激活，apex 域名已可绑定 Pages
 - [ ] 试用 opencli 做浏览器自动化/数据扒取
-- [ ] 修复 OpenRouter API Key（已 401）或换方案
+- [x] 修复 OpenRouter API Key（2026-05-26 更新，已验证可用）
