@@ -4,37 +4,39 @@
 const BITABLE_APP_TOKEN = "GySHbb1LJa4XTaso87BcGKKWncb";
 const BITABLE_TABLE_ID = "tblAFoXji5JLlEvM";
 
-// Field ID mapping
+// Bitable API uses field NAMES (not field IDs)
 const FIELDS = {
-  name: "fldZOSWZq2",
-  company: "fldPj993Ab",
-  email: "fldApy1CY4",
-  phone: "fld4NAFPBt",
-  wechat: "fldl6wmE9e",
-  inquiryType: "fldLr0dNAB",
-  quantity: "fldmdlU0uk",
-  message: "fld9JTABOT",
-  status: "fldXC6F5M4",
-  notes: "fldF6U0ODU",
+  name: "姓名",
+  company: "公司",
+  email: "邮箱",
+  phone: "电话",
+  wechat: "微信",
+  inquiryType: "需求类型",
+  quantity: "数量",
+  message: "留言",
+  status: "报价状态",
+  notes: "备注",
+  ip: "IP地址",
+  country: "国家/地区",
 };
 
-// Status option IDs (from bitable)
+// Status option names
 const STATUS_OPTIONS = {
-  pending: "opt4HLiOhG",    // 待报价
-  quoted: "optXFWIbst",     // 已报价
-  following: "optqPrKhXL",  // 跟进中
-  closed: "optZgRM2jw",     // 已关闭
-  won: "opt0O3pkML",        // 已成交
+  pending: "待报价",
+  quoted: "已报价",
+  following: "跟进中",
+  closed: "已关闭",
+  won: "已成交",
 };
 
-// Inquiry type option IDs (from bitable)
+// Inquiry type option names
 const INQUIRY_OPTIONS = {
-  wholesale: "optzDxNefc",      // 批发报价
-  custom: "opth6siWIJ",         // 定制生产
-  sample: "opttXwyv7K",         // 样品申请
-  "private-label": "optMi9RHrI", // 贴牌
-  partnership: "opt4l8qPz6",    // 其他
-  other: "opt4l8qPz6",          // 其他
+  wholesale: "批发报价",
+  custom: "定制生产",
+  sample: "样品申请",
+  "private-label": "贴牌",
+  partnership: "其他",
+  other: "其他",
 };
 
 async function getTenantToken(env) {
@@ -51,7 +53,30 @@ async function getTenantToken(env) {
   return data.tenant_access_token;
 }
 
-async function addRecordToBitable(token, body) {
+async function addRecordToBitable(token, body, headers) {
+  // IP country code → full name mapping
+  const COUNTRY_MAP = {
+    "US": "United States", "GB": "United Kingdom", "CA": "Canada",
+    "AU": "Australia", "DE": "Germany", "FR": "France",
+    "IT": "Italy", "ES": "Spain", "NL": "Netherlands",
+    "JP": "Japan", "KR": "South Korea", "SG": "Singapore",
+    "HK": "Hong Kong", "TW": "Taiwan", "CN": "China",
+    "IN": "India", "BR": "Brazil", "MX": "Mexico",
+    "AE": "UAE", "SA": "Saudi Arabia", "ZA": "South Africa",
+    "SE": "Sweden", "CH": "Switzerland", "NO": "Norway",
+    "DK": "Denmark", "FI": "Finland", "IE": "Ireland",
+    "AT": "Austria", "BE": "Belgium", "PT": "Portugal",
+    "GR": "Greece", "PL": "Poland", "RU": "Russia",
+    "TR": "Turkey", "IL": "Israel", "NZ": "New Zealand",
+    "MY": "Malaysia", "TH": "Thailand", "VN": "Vietnam",
+    "PH": "Philippines", "ID": "Indonesia", "EG": "Egypt",
+    "NG": "Nigeria", "KE": "Kenya",
+  };
+
+  const ip = headers.get("CF-Connecting-IP") || body.ip || "";
+  const countryCode = headers.get("CF-IPCountry") || "";
+  const countryName = COUNTRY_MAP[countryCode] || countryCode || "";
+
   const fields = {
     [FIELDS.name]: body.name || "",
     [FIELDS.company]: body.company || "",
@@ -63,6 +88,8 @@ async function addRecordToBitable(token, body) {
     [FIELDS.message]: body.message || "",
     [FIELDS.status]: STATUS_OPTIONS.pending,
     [FIELDS.notes]: `Submitted from boazclothes.com`,
+    [FIELDS.ip]: ip,
+    [FIELDS.country]: countryName,
   };
 
   const res = await fetch(
@@ -181,10 +208,10 @@ export async function onRequest(context) {
 
     const token = await getTenantToken(env);
 
-    // 1. Write to Bitable
+    // 1. Write to Bitable (includes IP + country from Cloudflare headers)
     let recordId = null;
     try {
-      recordId = await addRecordToBitable(token, body);
+      recordId = await addRecordToBitable(token, body, request.headers);
       console.log("[Contact] Bitable record created:", recordId);
     } catch (e) {
       console.error("[Contact] Failed to write bitable:", e);

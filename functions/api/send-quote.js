@@ -6,9 +6,9 @@ const BITABLE_APP_TOKEN = "GySHbb1LJa4XTaso87BcGKKWncb";
 const BITABLE_TABLE_ID = "tblAFoXji5JLlEvM";
 
 const FIELDS = {
-  name: "fldZOSWZq2", company: "fldPj993Ab", email: "fldApy1CY4",
-  phone: "fld4NAFPBt", inquiryType: "fldLr0dNAB", quantity: "fldmdlU0uk",
-  message: "fld9JTABOT", status: "fldXC6F5M4", notes: "fldF6U0ODU",
+  name: "姓名", company: "公司", email: "邮箱",
+  phone: "电话", inquiryType: "需求类型", quantity: "数量",
+  message: "留言", status: "报价状态", notes: "备注",
 };
 
 function buildPrompt(body) {
@@ -81,7 +81,7 @@ export async function onRequest(context) {
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({
             fields: {
-              [FIELDS.status]: "optXFWIbst", // 已报价
+              [FIELDS.status]: "已报价",
               [FIELDS.notes]: `✉️ Quote drafted on ${new Date().toLocaleDateString("zh-CN")}`,
             },
           }),

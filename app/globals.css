@@ -2,6 +2,13 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
+@theme {
+  --color-dark: #1A1A1A;
+  --color-warm-gray: #6B6B6B;
+  --color-light-gray: #D4D0C8;
+  --font-heading: "Playfair Display", Georgia, serif;
+}
+
 @layer base {
   html, body {
     overflow-x: hidden;
@@ -10,6 +17,56 @@
 
 @utility section-padding {
   padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* Button styles */
+@utility pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border: 1px solid var(--color-stone, #D4D0C8);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-charcoal, #1A1A1A);
+  transition: all 0.3s;
+  &:hover {
+    border-color: var(--color-gold, #FFD700);
+    color: var(--color-gold, #FFD700);
+  }
+}
+
+@utility pill-btn-filled {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--color-charcoal, #1A1A1A);
+  color: var(--color-cream, #FAF9F6);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+  &:hover {
+    background: var(--color-ink, #2D2D2D);
+  }
+}
+
+@utility btn-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: var(--color-charcoal, #1A1A1A);
+  color: var(--color-cream, #FAF9F6);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
 }
 
 @layer utilities {
@@ -21,5 +78,32 @@
   }
   .scrollbar-gallery > * {
     scroll-snap-align: start;
+  }
+
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  .image-hover {
+    overflow: hidden;
+  }
+  .image-hover img {
+    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .image-hover:hover img {
+    transform: scale(1.05);
   }
 }
