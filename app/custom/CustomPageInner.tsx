@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
@@ -787,6 +788,9 @@ export default function CustomPageInner() {
                   <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
                     Request Quote
                   </a>
+                  <Link href="/custom-design" className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2">
+                    🎨 Open Design Studio
+                  </Link>
                 </div>
               </div>
             </div>
