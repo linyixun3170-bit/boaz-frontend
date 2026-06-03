@@ -21,6 +21,8 @@ export default function ContactPage() {
     company: "",
     phone: "",
     wechat: "",
+    country: "",
+    address: "",
     inquiryType: "wholesale",
     quantity: "",
     message: "",
@@ -55,6 +57,8 @@ export default function ContactPage() {
     company: "company",
     phone: "phone",
     wechat: "wechat",
+    country: "country",
+    address: "address",
     inquiryType: "inquiryType",
     quantity: "quantity",
     message: "message",
@@ -90,6 +94,8 @@ export default function ContactPage() {
         company: formData.get('company') as string || '',
         phone: formData.get('phone') as string || '',
         wechat: formData.get('wechat') as string || '',
+        country: formData.get('country') as string || '',
+        address: formData.get('address') as string || '',
         inquiryType: formData.get('inquiryType') as string || 'wholesale',
         quantity: formData.get('quantity') as string || '',
         message: formData.get('message') as string || '',
@@ -163,6 +169,8 @@ export default function ContactPage() {
                   company: "",
                   phone: "",
                   wechat: "",
+                  country: "",
+                  address: "",
                   inquiryType: "wholesale",
                   quantity: "",
                   message: "",
@@ -308,6 +316,94 @@ export default function ContactPage() {
                   className="w-full px-4 py-3 bg-white border border-light-gray rounded-xl text-sm text-dark placeholder:text-warm-gray/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/20 transition-all"
                   placeholder="Your WeChat ID"
                 />
+              </div>
+
+              {/* Country + Address — for shipping cost calculation */}
+              <div className="bg-warmgray/30 rounded-xl p-4 mb-2">
+                <p className="text-[10px] uppercase tracking-wider text-muted mb-3">
+                  📦 Shipping Information — helps us calculate accurate freight costs
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="country"
+                      className="block text-xs uppercase tracking-wider text-dark mb-2"
+                    >
+                      Country / Region
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      autoComplete="off"
+                      value={formData.country}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-white border border-light-gray rounded-xl text-sm text-dark focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/20 transition-all"
+                    >
+                      <option value="">Select country...</option>
+                      <option value="US">United States</option>
+                      <option value="GB">United Kingdom</option>
+                      <option value="CA">Canada</option>
+                      <option value="AU">Australia</option>
+                      <option value="NZ">New Zealand</option>
+                      <option value="DE">Germany</option>
+                      <option value="FR">France</option>
+                      <option value="IT">Italy</option>
+                      <option value="ES">Spain</option>
+                      <option value="NL">Netherlands</option>
+                      <option value="BE">Belgium</option>
+                      <option value="CH">Switzerland</option>
+                      <option value="SE">Sweden</option>
+                      <option value="NO">Norway</option>
+                      <option value="DK">Denmark</option>
+                      <option value="FI">Finland</option>
+                      <option value="IE">Ireland</option>
+                      <option value="AT">Austria</option>
+                      <option value="PT">Portugal</option>
+                      <option value="GR">Greece</option>
+                      <option value="PL">Poland</option>
+                      <option value="TR">Turkey</option>
+                      <option value="AE">UAE</option>
+                      <option value="SA">Saudi Arabia</option>
+                      <option value="IL">Israel</option>
+                      <option value="ZA">South Africa</option>
+                      <option value="NG">Nigeria</option>
+                      <option value="KE">Kenya</option>
+                      <option value="BR">Brazil</option>
+                      <option value="MX">Mexico</option>
+                      <option value="JP">Japan</option>
+                      <option value="KR">South Korea</option>
+                      <option value="SG">Singapore</option>
+                      <option value="MY">Malaysia</option>
+                      <option value="TH">Thailand</option>
+                      <option value="VN">Vietnam</option>
+                      <option value="PH">Philippines</option>
+                      <option value="ID">Indonesia</option>
+                      <option value="IN">India</option>
+                      <option value="HK">Hong Kong</option>
+                      <option value="TW">Taiwan</option>
+                      <option value="CN">China</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="address"
+                      className="block text-xs uppercase tracking-wider text-dark mb-2"
+                    >
+                      Shipping Address
+                    </label>
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      autoComplete="off"
+                      value={formData.address}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-white border border-light-gray rounded-xl text-sm text-dark placeholder:text-warm-gray/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/20 transition-all"
+                      placeholder="City, State, Postal code"
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Inquiry type */}

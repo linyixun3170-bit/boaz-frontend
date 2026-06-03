@@ -11,13 +11,14 @@ const FIELDS = {
   email: "邮箱",
   phone: "电话",
   wechat: "微信",
+  country: "国家/地区",
+  address: "收货地址",
   inquiryType: "需求类型",
   quantity: "数量",
   message: "留言",
   status: "报价状态",
   notes: "备注",
   ip: "IP地址",
-  country: "国家/地区",
 };
 
 // Status option names
@@ -83,13 +84,14 @@ async function addRecordToBitable(token, body, headers) {
     [FIELDS.email]: body.email || "",
     [FIELDS.phone]: body.phone || "",
     [FIELDS.wechat]: body.wechat || "",
+    [FIELDS.country]: body.country || countryName || "",
+    [FIELDS.address]: body.address || "",
     [FIELDS.inquiryType]: body.inquiryType ? INQUIRY_OPTIONS[body.inquiryType] || INQUIRY_OPTIONS.other : INQUIRY_OPTIONS.other,
     [FIELDS.quantity]: body.quantity || "",
     [FIELDS.message]: body.message || "",
     [FIELDS.status]: STATUS_OPTIONS.pending,
     [FIELDS.notes]: `Submitted from boazclothes.com`,
     [FIELDS.ip]: ip,
-    [FIELDS.country]: countryName,
   };
 
   const res = await fetch(
