@@ -11,7 +11,7 @@ export default function TwoWaysSection() {
             Two Ways to Work With Us
           </h2>
           <p className="mt-3 text-warmink text-sm max-w-xl mx-auto leading-relaxed">
-            Whether you need stock blanks ready to ship or full custom development — we have you covered.
+            Whether you need ready-to-ship stock blanks or custom branded designs — we've got you covered.
           </p>
         </div>
 
@@ -33,12 +33,12 @@ export default function TwoWaysSection() {
             <div className="p-6 md:p-8">
               <h3 className="font-serif text-xl text-charcoal mb-2">Stock Blanks</h3>
               <p className="text-sm text-warmink leading-relaxed mb-4 font-sans">
-                Ready-to-ship blanks from $0.85. MOQ starts at 50 pcs. Same-day dispatch for in-stock colors, 3-5 day turnaround for production runs. FOB Ningbo.
+                Ready-to-ship blanks from $1.99. MOQ starts at 50 pcs. Same-day dispatch for in-stock colors, 3-5 day turnaround for production runs. FOB Ningbo/Shanghai.
               </p>
               <div className="flex flex-wrap gap-2 text-[10px] text-ink uppercase tracking-wider font-sans">
                 <span className="px-2 py-0.5 bg-cream border border-stone/50 rounded-full">50+ MOQ</span>
                 <span className="px-2 py-0.5 bg-cream border border-stone/50 rounded-full">3-5 Days</span>
-                <span className="px-2 py-0.5 bg-cream border border-stone/50 rounded-full">$0.85 Starting</span>
+                <span className="px-2 py-0.5 bg-cream border border-stone/50 rounded-full">$1.99 Starting</span>
               </div>
             </div>
           </Link>
