@@ -1,8 +1,41 @@
-// 📩 Contact Form → Feishu (Cloudflare Pages Function)
-// 网站表单提交 → 飞书 Bot 通知
+// 📩 Contact Form → Feishu Bitable + Notification
+// 网站表单提交 → 飞书多维表格记录 + Bot 卡片通知
 
-const FEISHU_APP_ID = () => typeof FEISHU_APP_ID_VAR !== "undefined" ? FEISHU_APP_ID_VAR : "";
-// We'll use context.env provided by CF Pages runtime
+const BITABLE_APP_TOKEN = "GySHbb1LJa4XTaso87BcGKKWncb";
+const BITABLE_TABLE_ID = "tblAFoXji5JLlEvM";
+
+// Field ID mapping
+const FIELDS = {
+  name: "fldZOSWZq2",
+  company: "fldPj993Ab",
+  email: "fldApy1CY4",
+  phone: "fld4NAFPBt",
+  wechat: "fldl6wmE9e",
+  inquiryType: "fldLr0dNAB",
+  quantity: "fldmdlU0uk",
+  message: "fld9JTABOT",
+  status: "fldXC6F5M4",
+  notes: "fldF6U0ODU",
+};
+
+// Status option IDs (from bitable)
+const STATUS_OPTIONS = {
+  pending: "opt4HLiOhG",    // 待报价
+  quoted: "optXFWIbst",     // 已报价
+  following: "optqPrKhXL",  // 跟进中
+  closed: "optZgRM2jw",     // 已关闭
+  won: "opt0O3pkML",        // 已成交
+};
+
+// Inquiry type option IDs (from bitable)
+const INQUIRY_OPTIONS = {
+  wholesale: "optzDxNefc",      // 批发报价
+  custom: "opth6siWIJ",         // 定制生产
+  sample: "opttXwyv7K",         // 样品申请
+  "private-label": "optMi9RHrI", // 贴牌
+  partnership: "opt4l8qPz6",    // 其他
+  other: "opt4l8qPz6",          // 其他
+};
 
 async function getTenantToken(env) {
   const res = await fetch("https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal", {
@@ -16,6 +49,44 @@ async function getTenantToken(env) {
   if (!res.ok) throw new Error(`Feishu auth: ${res.status}`);
   const data = await res.json();
   return data.tenant_access_token;
+}
+
+async function addRecordToBitable(token, body) {
+  const fields = {
+    [FIELDS.name]: body.name || "",
+    [FIELDS.company]: body.company || "",
+    [FIELDS.email]: body.email || "",
+    [FIELDS.phone]: body.phone || "",
+    [FIELDS.wechat]: body.wechat || "",
+    [FIELDS.inquiryType]: body.inquiryType ? INQUIRY_OPTIONS[body.inquiryType] || INQUIRY_OPTIONS.other : INQUIRY_OPTIONS.other,
+    [FIELDS.quantity]: body.quantity || "",
+    [FIELDS.message]: body.message || "",
+    [FIELDS.status]: STATUS_OPTIONS.pending,
+    [FIELDS.notes]: `Submitted from boazclothes.com`,
+  };
+
+  const res = await fetch(
+    `https://open.feishu.cn/open-apis/bitable/v1/apps/${BITABLE_APP_TOKEN}/tables/${BITABLE_TABLE_ID}/records`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        fields,
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error("[Contact] Bitable write failed:", errText);
+    throw new Error(`Bitable write: ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.data?.record?.record_id;
 }
 
 function buildCard(body) {
@@ -91,8 +162,9 @@ export async function onRequest(context) {
   }
 
   if (!env.FEISHU_APP_ID || !env.FEISHU_APP_SECRET) {
-    console.warn("[Contact] Missing Feishu credentials — skipping notification");
-    return new Response(JSON.stringify({ success: true, note: "submitted (no notification)" }), {
+    console.warn("[Contact] Missing Feishu credentials");
+    return new Response(JSON.stringify({ error: "Server configuration error" }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
@@ -100,40 +172,49 @@ export async function onRequest(context) {
   try {
     const body = await request.json();
 
-    if (!body.name || !body.email || !body.message) {
-      return new Response(JSON.stringify({ error: "Name, email, and message are required" }), {
+    if (!body.name || !body.email) {
+      return new Response(JSON.stringify({ error: "Name and email are required" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
     const token = await getTenantToken(env);
-    const openId = env.FEISHU_USER_OPEN_ID || "ou_beec7c4f13589d61fbf39ca28d61cf39";
 
-    const card = buildCard(body);
-
-    const res = await fetch(
-      `https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=open_id`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          receive_id: openId,
-          msg_type: "interactive",
-          content: JSON.stringify(card),
-        }),
-      }
-    );
-
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error("[Contact] Feishu send failed:", errText);
+    // 1. Write to Bitable
+    let recordId = null;
+    try {
+      recordId = await addRecordToBitable(token, body);
+      console.log("[Contact] Bitable record created:", recordId);
+    } catch (e) {
+      console.error("[Contact] Failed to write bitable:", e);
     }
 
-    return new Response(JSON.stringify({ success: true }), {
+    // 2. Send Feishu notification card
+    try {
+      const card = buildCard(body);
+      const openId = env.FEISHU_USER_OPEN_ID || "ou_beec7c4f13589d61fbf39ca28d61cf39";
+
+      await fetch(
+        `https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=open_id`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            receive_id: openId,
+            msg_type: "interactive",
+            content: JSON.stringify(card),
+          }),
+        }
+      );
+    } catch (e) {
+      console.error("[Contact] Failed to send notification:", e);
+    }
+
+    return new Response(JSON.stringify({ success: true, recordId }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {

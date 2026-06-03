@@ -27,14 +27,16 @@ export default function Navbar() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
           scrolled
             ? "bg-cream/95 backdrop-blur-lg shadow-sm py-3 md:py-4"
-            : "bg-cream/80 md:bg-cream/40 backdrop-blur-sm py-4 md:py-6"
+            : "bg-transparent py-5 md:py-8"
         }`}
       >
         <nav className="max-w-[1400px] mx-auto section-padding flex items-center justify-between">
           {/* Logo */}
           <Link
             href="/"
-            className="font-heading text-2xl tracking-[0.15em] text-dark hover:opacity-60 transition-opacity"
+            className={`font-heading text-2xl tracking-[0.15em] transition-opacity ${
+              scrolled ? "text-dark hover:opacity-60" : "text-cream hover:text-cream/70"
+            }`}
           >
             BOAZ
           </Link>
@@ -45,7 +47,9 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-[13px] uppercase tracking-[0.2em] text-dark/80 hover:text-dark transition-colors link-underline"
+                className={`text-[13px] uppercase tracking-[0.2em] transition-colors link-underline ${
+                  scrolled ? "text-dark/80 hover:text-dark" : "text-cream/80 hover:text-cream"
+                }`}
               >
                 {link.label}
               </Link>
@@ -56,7 +60,11 @@ export default function Navbar() {
           <div className="flex items-center gap-6">
             <Link
               href="/contact/"
-              className="text-[11px] md:text-[13px] uppercase tracking-[0.2em] btn-capsule"
+              className={`text-[11px] md:text-[13px] uppercase tracking-[0.2em] btn-capsule transition-all ${
+                scrolled
+                  ? "bg-charcoal text-cream hover:bg-ink"
+                  : "bg-cream text-charcoal hover:bg-white"
+              }`}
             >
               Request Quote
             </Link>
@@ -66,19 +74,19 @@ export default function Navbar() {
               aria-label="Toggle menu"
             >
               <span
-                className={`block w-6 h-0.5 bg-dark rounded transition-transform duration-300 ${
-                  menuOpen ? "rotate-45 translate-y-[3.5px]" : ""
-                }`}
+                className={`block w-6 h-0.5 rounded transition-transform duration-300 ${
+                  scrolled ? "bg-dark" : "bg-cream"
+                } ${menuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`}
               />
               <span
-                className={`block w-6 h-0.5 bg-dark rounded transition-opacity duration-300 ${
-                  menuOpen ? "opacity-0" : ""
-                }`}
+                className={`block w-6 h-0.5 rounded transition-opacity duration-300 ${
+                  scrolled ? "bg-dark" : "bg-cream"
+                } ${menuOpen ? "opacity-0" : ""}`}
               />
               <span
-                className={`block w-6 h-0.5 bg-dark rounded transition-transform duration-300 ${
-                  menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
-                }`}
+                className={`block w-6 h-0.5 rounded transition-transform duration-300 ${
+                  scrolled ? "bg-dark" : "bg-cream"
+                } ${menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""}`}
               />
             </button>
           </div>

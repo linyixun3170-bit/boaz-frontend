@@ -23,8 +23,8 @@ const BASE = "/images";
 // -----------------------------------------------------------
 export const heroImages = {
   background: {
-    src: `${BASE}/factory/process/Dyeingfabric01.jpg`,
-    alt: "布匹染色车间 — Dyeing fabric production line",
+    src: `${BASE}/hero-bg.webp`,
+    alt: "BOAZ 专业T恤卫衣工厂 — Professional t-shirt and hoodie factory showcase",
   } satisfies ImageAsset,
 };
 
