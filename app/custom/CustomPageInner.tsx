@@ -125,6 +125,21 @@ const products: ProductOption[] = [
     ],
   },
   {
+    id: "xsl-260g-sorona", name: "260gsm Sorona Open Shoulder T-Shirt", priceBase: 4.50, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "Pure White", hex: "#FFFFFF" },
+      { name: "Midnight Black", hex: "#1A1A1A" },
+      { name: "Elegant Gray", hex: "#C0C0C0" },
+      { name: "Mystic Gray", hex: "#808080" },
+      { name: "Sprout Green", hex: "#8BC34A" },
+      { name: "Youth Green", hex: "#4CAF50" },
+      { name: "Cool Cyan", hex: "#00BCD4" },
+      { name: "Vitality Red", hex: "#E53935" },
+      { name: "Romantic Pink", hex: "#F48FB1" },
+      { name: "Dynamic Purple", hex: "#9C27B0" },
+    ],
+  },
+  {
     id: "xc-280g-gradient-set", name: "280gsm Gradient Distressed Set (T-Shirt + Shorts)", priceBase: 8.50, moq: 50, category: "T-Shirts",
     colors: [
       { name: "Coffee", hex: "#6F4E37", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee-back.webp` },
