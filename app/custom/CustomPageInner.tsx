@@ -140,6 +140,16 @@ const products: ProductOption[] = [
     ],
   },
   {
+    id: "cl-longsleeve-vintage", name: "230gsm Cotton Vintage Washed Long Sleeve T-Shirt", priceBase: 4.50, moq: 50, category: "Long Sleeves",
+    colors: [
+      { name: "Black", hex: "#1A1A1A" },
+      { name: "Gray", hex: "#808080" },
+      { name: "Pink", hex: "#F48FB1" },
+      { name: "Coffee", hex: "#8B6914" },
+      { name: "Army Green", hex: "#4B5320" },
+    ],
+  },
+  {
     id: "xc-280g-gradient-set", name: "280gsm Gradient Distressed Set (T-Shirt + Shorts)", priceBase: 8.50, moq: 50, category: "T-Shirts",
     colors: [
       { name: "Coffee", hex: "#6F4E37", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee-back.webp` },
