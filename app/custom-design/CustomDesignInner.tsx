@@ -80,14 +80,20 @@ export default function CustomDesignPage() {
     });
   }, [activeDesignId]);
 
-  // ─── 给 Canvas 添加 touch-action: none 阻止页面缩放 ──
+  // ─── 阻止浏览器默认手势 + 滚轮被动模式 ──
   useEffect(() => {
     const el = canvasRef.current;
     if (!el) return;
     const prevent = (e: TouchEvent) => { if (e.target === el || el.contains(e.target as Node)) e.preventDefault(); };
     el.addEventListener("touchmove", prevent, { passive: false });
-    return () => el.removeEventListener("touchmove", prevent);
-  }, []);
+    // wheel 也要 passive:false 才能 preventDefault
+    const preventWheel = (e: WheelEvent) => { if (activeDesign) e.preventDefault(); };
+    el.addEventListener("wheel", preventWheel, { passive: false });
+    return () => {
+      el.removeEventListener("touchmove", prevent);
+      el.removeEventListener("wheel", preventWheel);
+    };
+  }, [activeDesign]);
 
   // ─── Pointer Down ──────────────────────────
   const onPointerDown = useCallback((e: React.PointerEvent) => {
@@ -108,7 +114,7 @@ export default function CustomDesignPage() {
 
     if (pointers.current.size === 1) {
       // 单指/鼠标 → 开始拖拽
-      (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+      (canvasRef.current as HTMLElement).setPointerCapture?.(e.pointerId);
       dragRef.current = {
         startX: e.clientX, startY: e.clientY,
         origX: des.x, origY: des.y,
@@ -265,7 +271,6 @@ export default function CustomDesignPage() {
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
                 onPointerCancel={onPointerUp}
-                onWheel={onWheel}
               >
                 {/* 产品图片 */}
                 <div className="absolute inset-0 flex items-center justify-center bg-white select-none">
@@ -297,6 +302,7 @@ export default function CustomDesignPage() {
                       width: `${Math.max(8, 40 * des.scale)}%`,
                       height: `${Math.max(6, 30 * des.scale)}%`,
                       transform: "translate(-50%, -50%)",
+                      touchAction: "none",
                     }}
                   >
                     <img
