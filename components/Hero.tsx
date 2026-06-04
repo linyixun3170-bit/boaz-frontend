@@ -23,7 +23,7 @@ export default function Hero() {
       {/* Background Image with Parallax */}
       <motion.div style={{ scale }} className="absolute inset-0">
         <Image
-          src={heroImages.background.src}
+          src={`${heroImages.background.src}?v=2`}
           alt={heroImages.background.alt}
           fill
           priority
