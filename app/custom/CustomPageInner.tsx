@@ -12,6 +12,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products as catalogProducts } from "@/lib/products-catalog";
 import { buildSizeTable } from "@/lib/size-chart";
+import PricingTiers from "@/components/PricingTiers";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -720,15 +721,25 @@ export default function CustomPageInner() {
                   </div>
                 )}
 
-                {/* Quantity */}
+                {/* Quantity + Pricing Tiers */}
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
-                    Quantity
-                  </label>
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-1">
+                      <PricingTiers
+                        basePrice={selectedProduct.priceBase + (currentMethod?.pricePerPc || 0)}
+                        currentQty={quantity}
+                        onSelectQty={setQuantity}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <label className="text-[11px] uppercase tracking-wider text-dark shrink-0">
+                      Exact Qty:
+                    </label>
                     <button
                       onClick={() => handleQuantityStep(-10)}
-                      className="w-10 h-10 border border-stone flex items-center justify-center text-lg hover:bg-light-gray transition-colors"
+                      className="w-9 h-9 border border-stone rounded-lg flex items-center justify-center text-lg hover:bg-light-gray transition-colors"
                     >
                       -
                     </button>
@@ -736,34 +747,16 @@ export default function CustomPageInner() {
                       type="number"
                       value={quantity}
                       onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="w-20 h-10 text-center border border-stone bg-cream text-sm text-dark"
+                      className="w-20 h-9 text-center border border-stone rounded-lg bg-cream text-sm text-dark"
                       min="1"
                     />
                     <button
                       onClick={() => handleQuantityStep(10)}
-                      className="w-10 h-10 border border-stone flex items-center justify-center text-lg hover:bg-light-gray transition-colors"
+                      className="w-9 h-9 border border-stone rounded-lg flex items-center justify-center text-lg hover:bg-light-gray transition-colors"
                     >
                       +
                     </button>
                   </div>
-                  <div className="flex gap-2 flex-wrap">
-                    {quickQtys.map((q) => (
-                      <button
-                        key={q}
-                        onClick={() => setQuantity(q)}
-                        className={`px-3 py-1.5 text-[11px] uppercase tracking-wider border transition-all whitespace-nowrap ${
-                          quantity === q
-                            ? "border-dark bg-dark text-cream"
-                            : "border-stone text-dark/60 hover:border-dark/40"
-                        }`}
-                      >
-                        {q}+
-                      </button>
-                    ))}
-                  </div>
-                  <p className="text-[10px] text-warm-gray mt-2 leading-relaxed">
-                    50 pcs: Base price {"|"} 200+: -10% {"|"} 500+: -15% {"|"} 1000+: Custom quote
-                  </p>
                 </div>
 
                 {/* Price Summary (Desktop) */}
