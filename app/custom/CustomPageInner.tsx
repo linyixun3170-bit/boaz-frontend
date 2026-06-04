@@ -140,6 +140,18 @@ const products: ProductOption[] = [
     ],
   },
   {
+    id: "cl-sunscreen-vintage", name: "230gsm Cotton Sun Protection Vintage T-Shirt", priceBase: 3.50, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "Black", hex: "#1A1A1A", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-black.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-black.webp` },
+      { name: "Gray", hex: "#808080", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-gray.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-gray.webp` },
+      { name: "Pink", hex: "#F48FB1", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-pink.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-pink.webp` },
+      { name: "Coffee", hex: "#8B6914", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-coffee.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-coffee.webp` },
+      { name: "Apricot", hex: "#FDD9B5", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-apricot.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-apricot.webp` },
+      { name: "Purple", hex: "#9C27B0", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-purple.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-purple.webp` },
+      { name: "Haze Blue", hex: "#6699CC", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-haze-blue.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-haze-blue.webp` },
+    ],
+  },
+  {
     id: "cl-longsleeve-vintage", name: "230gsm Cotton Vintage Washed Long Sleeve T-Shirt", priceBase: 4.50, moq: 50, category: "Long Sleeves",
     colors: [
       { name: "Black", hex: "#1A1A1A", image: `${imgBase}/cl-longsleeve-vintage/flat/flat-black.webp`, imageBack: `${imgBase}/cl-longsleeve-vintage/flat-back/flat-back-black.webp` },
