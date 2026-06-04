@@ -7,7 +7,7 @@ import Analytics from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: "Boaz — Premium T-Shirt & Hoodie Manufacturing",
-  description: "Three generations of garment manufacturing. From $0.85 blanks to $9.90 heavyweight hoodies. 50 MOQ. 5-day turnaround. FOB Ningbo. Serving independent brands, Amazon sellers, and stores worldwide.",
+  description: "Three generations of garment manufacturing. From $0.85 blanks to $9.90 heavyweight hoodies. 50 MOQ. 5-day turnaround. FOB. Serving independent brands, Amazon sellers, and stores worldwide.",
   keywords: ["t-shirt manufacturer", "hoodie factory", "custom apparel", "wholesale blanks", "China garment factory", "Amazon FBA supplier", "DTG ready blanks", "vintage washed tees"],
   authors: [{ name: "Boaz Apparel" }],
   creator: "Boaz Apparel",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     url: "https://boazclothes.com",
     siteName: "Boaz Apparel",
     title: "Boaz — Premium T-Shirt & Hoodie Manufacturing",
-    description: "Three generations of garment manufacturing. From $0.85 blanks to $9.90 heavyweight hoodies. 50 MOQ. 5-day turnaround. FOB Ningbo.",
+    description: "Three generations of garment manufacturing. From $0.85 blanks to $9.90 heavyweight hoodies. 50 MOQ. 5-day turnaround. FOB.",
     images: [
       {
         url: "https://boazclothes.com/og-image.jpg",

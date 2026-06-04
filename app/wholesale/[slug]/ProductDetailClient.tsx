@@ -235,7 +235,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
             <div className="py-3 md:py-4 border-y border-stone">
               <p className="text-xl md:text-2xl font-medium text-charcoal">{product.priceFOB}</p>
-              <p className="text-[10px] md:text-[11px] text-muted mt-1">FOB Ningbo · Minimum {product.moq} pcs per color/size</p>
+              <p className="text-[10px] md:text-[11px] text-muted mt-1">FOB · Minimum {product.moq} pcs per color/size</p>
             </div>
 
             {/* B2B Key Info */}
@@ -252,7 +252,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
               <div className="p-2 md:p-2.5 bg-offwhite">
                 <Truck size={14} className="mx-auto mb-1 text-charcoal" />
-                <p className="text-[9px] md:text-[10px] leading-tight text-charcoal font-medium">FOB Ningbo</p>
+                <p className="text-[9px] md:text-[10px] leading-tight text-charcoal font-medium">FOB</p>
                 <p className="text-[8px] md:text-[9px] text-muted mt-0.5">Sea / Air / Courier</p>
               </div>
             </div>

@@ -783,7 +783,7 @@ export default function CustomPageInner() {
                       <span className="text-dark">Estimated Total</span>
                       <span className="text-dark text-lg">${calculateTotal().toFixed(2)}</span>
                     </div>
-                    <p className="text-[10px] text-warm-gray">FOB Ningbo. Price includes garment + decoration. Shipping calculated separately.</p>
+                    <p className="text-[10px] text-warm-gray">FOB. Price includes garment + decoration. Shipping calculated separately.</p>
                   </div>
                   <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
                     Request Quote

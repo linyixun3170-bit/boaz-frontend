@@ -20,7 +20,7 @@ export interface Product {
   fabric: string;
   fit: string;
   moq: number;
-  priceFOB: string; // USD FOB Ningbo
+  priceFOB: string; // USD FOB
   colors: { name: string; hex: string; image?: string; imageBack?: string }[];
   images: { main: string; gallery: string[] };
   tags: string[];
@@ -80,7 +80,7 @@ export const products: Product[] = [
     fabric: "100% Cotton (Vintage Washed)",
     fit: "Cropped / Relaxed",
     moq: 50,
-    priceFOB: "From $3.80/unit (FOB Ningbo)",
+    priceFOB: "From $3.80/unit (FOB)",
     colors: [
       { name: "White", hex: "#ffffff", image: `${imgBase}/240g-vintage-crop/flat/flat-white.webp` },
       { name: "Black", hex: "#1a1a1a", image: `${imgBase}/240g-vintage-crop/flat/flat-black.webp` },
@@ -346,7 +346,7 @@ export const products: Product[] = [
     fabric: "100% Cotton (Double Yarn, Gradient Washed)",
     fit: "Oversized / Relaxed Drop Shoulder",
     moq: 50,
-    priceFOB: "From $8.50/set (FOB Ningbo)",
+    priceFOB: "From $8.50/set (FOB)",
     colors: [
       { name: "Coffee", hex: "#6F4E37", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee-back.webp` },
       { name: "Gray", hex: "#808080", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Gray.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Gray-back.webp` },

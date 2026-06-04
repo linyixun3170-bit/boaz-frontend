@@ -32,7 +32,7 @@ const defaultFaqs: FAQItem[] = [
   {
     question: "What are your shipping options and costs?",
     answer:
-      "We ship worldwide via sea, air, and express courier (DHL/FedEx/UPS). Sea freight is most economical for bulk orders (20-40 days). Air freight balances speed and cost (7-15 days). Express courier is best for samples and small orders (3-7 days). All prices are FOB Ningbo — we provide freight quotes upon receiving your shipping details.",
+      "We ship worldwide via sea, air, and express courier (DHL/FedEx/UPS). Sea freight is most economical for bulk orders (20-40 days). Air freight balances speed and cost (7-15 days). Express courier is best for samples and small orders (3-7 days). All prices are FOB — we provide freight quotes upon receiving your shipping details.",
   },
   {
     question: "How do samples work? What is the cost?",
@@ -62,7 +62,7 @@ const defaultFaqs: FAQItem[] = [
   {
     question: "Where are you located?",
     answer:
-      "Our online sales team is based in Hangzhou. Our production base is in Hebei — strategically located to minimize overhead and maximize speed. All FOB prices are quoted Ningbo port. We do not charge you for expensive downtown real estate.",
+      "Our online sales team is based in Hangzhou. Our production base is in Hebei — strategically located to minimize overhead and maximize speed. All prices are FOB. We do not charge you for expensive downtown real estate.",
   },
   {
     question: "What makes BOAZ different from other factories?",

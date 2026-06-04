@@ -71,7 +71,7 @@ export default function Hero() {
           </p>
           <p className="text-sm text-cream/40">
             From $1.99 blanks to $9.90 heavyweight hoodies. 
-            5-day turnaround. FOB Ningbo/Shanghai.
+            5-day turnaround. FOB.
           </p>
         </motion.div>
 
