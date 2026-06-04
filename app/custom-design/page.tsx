@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Check, Upload, Move, ZoomIn, ZoomOut, ArrowRight, X } from "lucide-react";
+import { Check, Upload, Move, ZoomIn, ZoomOut, ArrowRight, X, RotateCcw } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -18,10 +18,10 @@ const POSITIONS = [
 // ─── 每个位置的设计数据 ────────────────────────────
 interface DesignSlot {
   positionId: string;
-  image: string | null;       // base64 data URL
-  x: number;                  // offset % (0-100)
+  image: string | null;
+  x: number;
   y: number;
-  scale: number;              // 0.3 - 3.0
+  scale: number;
   confirmed: boolean;
 }
 
@@ -30,13 +30,17 @@ function createEmptySlot(posId: string): DesignSlot {
 }
 
 export default function CustomDesignPage() {
-  const [step, setStep] = useState<1 | 2 | 3>(1); // 1=design 2=preview 3=submit
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [activePos, setActivePos] = useState(0);
   const [designs, setDesigns] = useState<DesignSlot[]>(
     POSITIONS.map(p => createEmptySlot(p.id))
   );
-  const [dragging, setDragging] = useState(false);
+
+  // ─── 手势状态 ──────────────────────────────
+  const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(null);
+  const pinchRef = useRef<{ dist: number; scale: number } | null>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // ─── Customer Info ──────────────────────────
@@ -49,56 +53,111 @@ export default function CustomDesignPage() {
 
   const current = designs[activePos];
 
-  // ─── Upload image for current position ──────
+  // ─── 更新指定位置的 design ──────────────────
+  const updateDesign = useCallback((slot: Partial<DesignSlot>) => {
+    setDesigns(prev => prev.map((d, i) =>
+      i === activePos ? { ...d, ...slot } : d
+    ));
+  }, [activePos]);
+
+  // ─── Upload image ──────────────────────────
   const handleUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      setDesigns(prev => prev.map((d, i) =>
-        i === activePos ? { ...d, image: ev.target?.result as string, confirmed: false } : d
-      ));
+      updateDesign({ image: ev.target?.result as string, confirmed: false });
     };
     reader.readAsDataURL(file);
-  }, [activePos]);
+    // Reset input so same file can be re-selected
+    e.target.value = "";
+  }, [updateDesign]);
 
-  // ─── Drag handlers ──────────────────────────
+  // ─── 手势：Pointer Down ────────────────────
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     if (!current?.image) return;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    setDragging(true);
-    dragRef.current = { startX: e.clientX, startY: e.clientY, origX: current.x, origY: current.y };
-  }, [current?.image, current?.x, current?.y]);
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
+    if (pointers.current.size === 1) {
+      // 单指/鼠标 → 开始拖拽
+      (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+      dragRef.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        origX: current.x,
+        origY: current.y,
+      };
+    } else if (pointers.current.size === 2) {
+      // 双指 → 开始缩放
+      const pts = Array.from(pointers.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      pinchRef.current = { dist, scale: current.scale };
+      dragRef.current = null;
+    }
+  }, [current?.image, current?.x, current?.y, current?.scale]);
+
+  // ─── 手势：Pointer Move ────────────────────
   const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!dragging || !dragRef.current) return;
-    const dx = ((e.clientX - dragRef.current.startX) / 300) * 100;
-    const dy = ((e.clientY - dragRef.current.startY) / 400) * 100;
-    setDesigns(prev => prev.map((d, i) =>
-      i === activePos ? { ...d, x: Math.max(5, Math.min(95, dragRef.current!.origX + dx)), y: Math.max(5, Math.min(95, dragRef.current!.origY + dy)) } : d
-    ));
-  }, [dragging, activePos]);
+    if (!current?.image) return;
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-  const onPointerUp = useCallback(() => {
-    setDragging(false);
-    dragRef.current = null;
-  }, []);
+    const count = pointers.current.size;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
 
-  // ─── Resize ──────────────────────────────────
+    if (count === 1 && dragRef.current) {
+      // 拖拽移动
+      const dxPct = ((e.clientX - dragRef.current.startX) / rect.width) * 100;
+      const dyPct = ((e.clientY - dragRef.current.startY) / rect.height) * 100;
+      updateDesign({
+        x: Math.max(5, Math.min(95, dragRef.current.origX + dxPct)),
+        y: Math.max(5, Math.min(95, dragRef.current.origY + dyPct)),
+      });
+    } else if (count >= 2 && pinchRef.current) {
+      // 双指缩放
+      const pts = Array.from(pointers.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const ratio = dist / pinchRef.current.dist;
+      updateDesign({
+        scale: Math.max(0.3, Math.min(3, pinchRef.current.scale * ratio)),
+      });
+    }
+  }, [current?.image, updateDesign]);
+
+  // ─── 手势：Pointer Up / Cancel ─────────────
+  const onPointerUp = useCallback((e: React.PointerEvent) => {
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 1) {
+      dragRef.current = null;
+      pinchRef.current = null;
+    } else if (pointers.current.size === 1) {
+      // 从双指变回单指 → 重新设定拖拽起点
+      const ptr = Array.from(pointers.current.values())[0];
+      dragRef.current = { startX: ptr.x, startY: ptr.y, origX: current.x, origY: current.y };
+      pinchRef.current = null;
+    }
+  }, [current?.x, current?.y]);
+
+  // ─── 鼠标滚轮缩放（桌面）───────────────────
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    if (!current?.image) return;
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.08 : 0.08;
+    updateDesign({ scale: Math.max(0.3, Math.min(3, current.scale + delta)) });
+  }, [current?.image, current?.scale, updateDesign]);
+
+  // ─── 滑块缩放 ──────────────────────────────
   const setScale = useCallback((s: number) => {
-    setDesigns(prev => prev.map((d, i) =>
-      i === activePos ? { ...d, scale: Math.max(0.3, Math.min(3, s)) } : d
-    ));
-  }, [activePos]);
+    updateDesign({ scale: Math.max(0.3, Math.min(3, s)) });
+  }, [updateDesign]);
 
-  // ─── Confirm current position design ────────
+  // ─── Confirm ────────────────────────────────
   const confirmDesign = useCallback(() => {
-    setDesigns(prev => prev.map((d, i) =>
-      i === activePos ? { ...d, confirmed: true } : d
-    ));
-  }, [activePos]);
+    updateDesign({ confirmed: true });
+  }, [updateDesign]);
 
-  // ─── Remove current position image ──────────
+  // ─── Remove ─────────────────────────────────
   const removeImage = useCallback(() => {
     setDesigns(prev => prev.map((d, i) =>
       i === activePos ? createEmptySlot(d.positionId) : d
@@ -124,7 +183,7 @@ export default function CustomDesignPage() {
     setSubmitting(false);
   };
 
-  // Render submitted state or main app
+  // ─── Render submitted ──────────────────────
   if (submitted) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center px-6">
@@ -147,69 +206,55 @@ export default function CustomDesignPage() {
   }
 
   return (
-    <main className="min-h-screen bg-cream">
+    <main className="min-h-screen bg-cream flex flex-col">
       <Navbar />
-      <div className="pt-24 md:pt-28">
-      {/* Header */}
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 mb-8">
-        <div className="flex items-center justify-between">
+
+      {/* ── 顶部标题栏 ────────────────────────── */}
+      <div className="pt-20 md:pt-24 shrink-0 px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div className="flex items-center justify-between mb-3">
           <div>
-            <span className="text-[10px] uppercase tracking-[0.3em] text-muted">Design Your Custom Order</span>
-            <h1 className="text-2xl md:text-3xl font-serif text-charcoal mt-2">T-Shirt Design Studio</h1>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-muted">Design Studio</span>
+            <h1 className="text-xl md:text-2xl font-serif text-charcoal mt-0.5">T-Shirt Design Studio</h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {[1, 2, 3].map(s => (
-              <div key={s} className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all ${step >= s ? 'bg-charcoal text-cream' : 'bg-stone/30 text-muted'}`}>{s}</div>
+              <div key={s}
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-medium transition-all ${step >= s ? 'bg-charcoal text-cream' : 'bg-stone/30 text-muted'}`}
+              >
+                {s}
+              </div>
             ))}
           </div>
         </div>
-        {/* Step indicator text */}
-        <p className="text-sm text-muted mt-2">
-          {step === 1 ? "① Upload & position your designs  |  ② Review all positions  |  ③ Fill in your details" : ""}
-          {step === 2 ? "① ✅ Design done  |  ② Review & confirm  |  ③ Fill in your details" : ""}
-          {step === 3 ? "① ✅ Design done  |  ② ✅ Review done  |  ③ Fill in your details" : ""}
-        </p>
       </div>
 
+      {/* ── Step 1: 设计 ──────────────────────── */}
       {step === 1 && (
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 pb-20">
-          <div className="grid lg:grid-cols-12 gap-8">
-            {/* LEFT: Position tabs + preview */}
-            <div className="lg:col-span-7">
-              {/* Position tabs */}
-              <div className="flex gap-1 mb-4 overflow-x-auto">
-                {POSITIONS.map((pos, i) => {
-                  const d = designs[i];
-                  const isActive = i === activePos;
-                  return (
-                    <button key={pos.id} onClick={() => setActivePos(i)}
-                      className={`flex items-center gap-1.5 px-4 py-2 text-xs uppercase tracking-wider whitespace-nowrap rounded-full transition-all ${isActive ? 'bg-charcoal text-cream' : 'bg-white border border-stone/50 text-muted hover:border-charcoal/30'}`}
-                    >
-                      {pos.icon} {pos.label}
-                      {d.confirmed && <Check size={10} className="text-green-500 ml-1" />}
-                      {d.image && !d.confirmed && <span className="w-1.5 h-1.5 rounded-full bg-gold ml-1" />}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Preview canvas */}
-              <div className="relative aspect-[3/4] bg-white rounded-xl border border-stone/40 overflow-hidden shadow-sm"
+        <div className="flex-1 flex flex-col px-6 lg:px-8 max-w-7xl mx-auto w-full pb-4 lg:pb-6">
+          <div className="flex-1 flex lg:flex-row flex-col gap-4 min-h-0">
+            {/* ====== 左侧：画布区域 ====== */}
+            <div className="flex-1 relative flex items-center justify-center min-h-[55vh] lg:min-h-0">
+              <div
+                ref={canvasRef}
+                className="absolute inset-0 bg-white rounded-xl border border-stone/40 overflow-hidden shadow-sm"
                 style={{ touchAction: "none" }}
+                onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+                onWheel={onWheel}
               >
-                {/* T-shirt silhouette */}
-                <div className="absolute inset-0 flex items-center justify-center">
+                {/* T恤轮廓 */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <svg viewBox="0 0 200 240" className="w-3/5 h-4/5 opacity-[0.06]" fill="currentColor">
                     <path d="M100 20 L80 5 L20 5 L5 30 L25 45 L25 70 L10 80 L10 100 L30 95 L35 230 L165 230 L170 95 L190 100 L190 80 L175 70 L175 45 L195 30 L180 5 L120 5 L100 20Z" />
                   </svg>
                 </div>
 
-                {/* Uploaded design overlay */}
+                {/* 已上传的图案 */}
                 {current?.image ? (
                   <div
-                    className="absolute cursor-grab active:cursor-grabbing"
+                    className="absolute cursor-grab active:cursor-grabbing select-none"
                     style={{
                       left: `${current.x}%`,
                       top: `${current.y}%`,
@@ -217,121 +262,175 @@ export default function CustomDesignPage() {
                       height: `${30 * current.scale}%`,
                       transform: "translate(-50%, -50%)",
                     }}
-                    onPointerDown={onPointerDown}
                   >
-                    <img src={current.image} alt="Design"
+                    <img
+                      src={current.image}
+                      alt="Design"
                       className="w-full h-full object-contain pointer-events-none select-none opacity-85"
                       draggable={false}
                     />
-                    {dragging && (
-                      <div className="absolute inset-0 border-2 border-dashed border-gold rounded pointer-events-none" />
-                    )}
                   </div>
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <button onClick={() => fileInputRef.current?.click()}
-                      className="flex flex-col items-center gap-2 text-muted/40 hover:text-muted/70 transition-colors"
-                    >
-                      <Upload size={32} />
-                      <span className="text-xs">Click to upload design</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted/40 hover:text-muted/70 transition-colors"
+                  >
+                    <Upload size={36} />
+                    <span className="text-xs">Tap to upload design</span>
+                  </button>
                 )}
 
-                {/* Product label */}
-                <div className="absolute top-3 left-3 px-2 py-1 bg-white/80 text-[10px] uppercase tracking-wider text-charcoal rounded">
-                  Custom T-Shirt
-                </div>
-              </div>
-
-              {/* Controls: upload, drag hint, remove */}
-              <div className="flex items-center gap-3 mt-4">
-                <input ref={fileInputRef} type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="hidden" />
-                <button onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-charcoal text-cream text-xs uppercase tracking-wider rounded-full hover:bg-ink transition-all"
-                >
-                  <Upload size={12} /> Upload
-                </button>
-                {current?.image && (
-                  <>
-                    <span className="text-[10px] text-muted flex items-center gap-1"><Move size={10} /> Drag to move</span>
-                    <button onClick={removeImage} className="ml-auto p-2 text-muted/50 hover:text-red-500 transition-colors">
-                      <X size={14} />
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* Resize slider */}
-              {current?.image && (
-                <div className="flex items-center gap-3 mt-3">
-                  <ZoomOut size={14} className="text-muted/50" />
-                  <input type="range" min="0.3" max="3" step="0.05" value={current.scale}
-                    onChange={e => setScale(parseFloat(e.target.value))}
-                    className="flex-1 h-1 bg-stone/50 rounded-full appearance-none cursor-pointer accent-charcoal"
-                  />
-                  <ZoomIn size={14} className="text-muted/50" />
-                  <span className="text-[10px] text-muted w-8 text-right">{current.scale.toFixed(1)}x</span>
-                </div>
-              )}
-            </div>
-
-            {/* RIGHT: Position status + confirm */}
-            <div className="lg:col-span-5">
-              <div className="bg-white rounded-xl border border-stone/40 p-6 shadow-sm">
-                <h3 className="text-sm font-medium text-charcoal mb-4">Design Positions</h3>
-                <div className="space-y-3">
+                {/* ====== 浮动：位置标签条 ====== */}
+                <div className="absolute top-2 left-2 right-2 flex gap-1 z-10 overflow-x-auto scrollbar-none pointer-events-auto">
                   {POSITIONS.map((pos, i) => {
                     const d = designs[i];
+                    const isActive = i === activePos;
                     return (
-                      <div key={pos.id}
-                        className={`flex items-center justify-between p-3 rounded-lg border transition-all ${i === activePos ? 'border-charcoal/30 bg-charcoal/5' : 'border-transparent'}`}
+                      <button
+                        key={pos.id}
+                        onClick={(e) => { e.stopPropagation(); setActivePos(i); }}
+                        className={`flex items-center gap-1 px-2.5 py-1.5 text-[10px] uppercase tracking-wider whitespace-nowrap rounded-full transition-all pointer-events-auto shadow-sm ${
+                          isActive
+                            ? 'bg-charcoal text-cream'
+                            : 'bg-white/90 text-muted border border-stone/30 hover:border-charcoal/30'
+                        }`}
                       >
-                        <div className="flex items-center gap-2">
-                          <span>{pos.icon}</span>
-                          <span className="text-sm text-charcoal">{pos.label}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {d.confirmed ? (
-                            <span className="flex items-center gap-1 text-[10px] text-green-600 uppercase tracking-wider">
-                              <Check size={10} /> Confirmed
-                            </span>
-                          ) : d.image ? (
-                            <span className="text-[10px] text-gold uppercase tracking-wider">Unsaved</span>
-                          ) : (
-                            <span className="text-[10px] text-muted/40 uppercase tracking-wider">Empty</span>
-                          )}
-                        </div>
-                      </div>
+                        {pos.icon} {pos.label}
+                        {d.confirmed && <Check size={8} className="text-green-500" />}
+                        {d.image && !d.confirmed && <span className="w-1.5 h-1.5 rounded-full bg-gold" />}
+                      </button>
                     );
                   })}
                 </div>
 
-                {/* Confirm button */}
-                {current?.image && !current.confirmed && (
-                  <button onClick={confirmDesign}
-                    className="w-full mt-6 py-3 bg-gold text-charcoal text-sm uppercase tracking-widest font-medium rounded-full hover:bg-amber-400 transition-all"
-                  >
-                    ✅ Confirm {POSITIONS[activePos].label} Design
-                  </button>
-                )}
+                {/* ====== 浮动：底部控制条 ====== */}
+                <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/40 to-transparent pt-8 pb-2 px-3">
+                  {/* 缩放条 */}
+                  {current?.image && (
+                    <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm mb-1.5">
+                      <ZoomOut size={12} className="text-muted/60 shrink-0" />
+                      <input
+                        type="range" min="0.3" max="3" step="0.05"
+                        value={current.scale}
+                        onChange={e => setScale(parseFloat(e.target.value))}
+                        className="flex-1 h-1 bg-stone/30 rounded-full appearance-none cursor-pointer accent-charcoal"
+                      />
+                      <ZoomIn size={12} className="text-muted/60 shrink-0" />
+                      <span className="text-[10px] text-muted/70 w-6 text-right tabular-nums">{current.scale.toFixed(1)}x</span>
+                    </div>
+                  )}
 
-                {/* Next step button */}
-                <button onClick={() => setStep(2)}
+                  {/* 操作按钮 */}
+                  <div className="flex gap-1.5 pointer-events-auto">
+                    <input ref={fileInputRef} type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="hidden" />
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="flex items-center gap-1 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-charcoal text-[10px] uppercase tracking-wider rounded-full shadow-sm hover:bg-white transition-all"
+                    >
+                      <Upload size={10} /> Upload
+                    </button>
+                    {current?.image && (
+                      <button
+                        onClick={removeImage}
+                        className="flex items-center gap-1 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-muted text-[10px] uppercase tracking-wider rounded-full shadow-sm hover:text-red-500 transition-all"
+                      >
+                        <X size={10} /> Clear
+                      </button>
+                    )}
+                    <div className="flex-1" />
+                    {current?.image && !current.confirmed && (
+                      <button
+                        onClick={confirmDesign}
+                        className="px-3 py-1.5 bg-gold text-charcoal text-[10px] uppercase tracking-wider rounded-full shadow-sm hover:bg-amber-400 transition-all font-medium"
+                      >
+                        ✔ Confirm
+                      </button>
+                    )}
+                    {current?.confirmed && (
+                      <span className="flex items-center gap-1 px-2.5 py-1.5 bg-green-100 text-green-700 text-[10px] uppercase tracking-wider rounded-full">
+                        <Check size={10} /> Done
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* 操作提示（桌面短暂显示） */}
+                {!current?.image && (
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-[10px] text-muted/30 whitespace-nowrap">
+                    Supports PNG / JPG
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ====== 右侧：状态面板（仅桌面） ====== */}
+            <div className="hidden lg:flex lg:w-64 shrink-0 flex-col gap-3">
+              <div className="bg-white rounded-xl border border-stone/40 p-4 shadow-sm">
+                <h3 className="text-[11px] uppercase tracking-wider text-muted mb-3">Design Positions</h3>
+                <div className="space-y-2">
+                  {POSITIONS.map((pos, i) => {
+                    const d = designs[i];
+                    return (
+                      <button
+                        key={pos.id}
+                        onClick={() => setActivePos(i)}
+                        className={`w-full flex items-center justify-between p-2.5 rounded-lg border transition-all text-left ${
+                          i === activePos
+                            ? 'border-charcoal/30 bg-charcoal/5'
+                            : 'border-transparent hover:bg-stone/30'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm">{pos.icon}</span>
+                          <span className="text-sm text-charcoal">{pos.label}</span>
+                        </div>
+                        {d.confirmed ? (
+                          <span className="text-[10px] text-green-600"><Check size={12} /></span>
+                        ) : d.image ? (
+                          <span className="w-2 h-2 rounded-full bg-gold" />
+                        ) : (
+                          <span className="w-2 h-2 rounded-full bg-stone/30" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  onClick={() => setStep(2)}
                   disabled={!allConfirmed}
-                  className={`w-full mt-4 py-3 text-sm uppercase tracking-widest rounded-full transition-all flex items-center justify-center gap-2 ${allConfirmed ? 'bg-charcoal text-cream hover:bg-ink' : 'bg-stone/30 text-muted/50 cursor-not-allowed'}`}
+                  className={`w-full mt-5 py-2.5 text-xs uppercase tracking-widest rounded-full transition-all flex items-center justify-center gap-1.5 ${
+                    allConfirmed
+                      ? 'bg-charcoal text-cream hover:bg-ink'
+                      : 'bg-stone/30 text-muted/50 cursor-not-allowed'
+                  }`}
                 >
-                  Review All Designs <ArrowRight size={14} />
+                  Review All <ArrowRight size={12} />
                 </button>
               </div>
+            </div>
+
+            {/* ====== 底部按钮（仅手机） ====== */}
+            <div className="lg:hidden flex gap-2 pt-1">
+              <button
+                onClick={() => setStep(2)}
+                disabled={!allConfirmed}
+                className={`flex-1 py-3 text-xs uppercase tracking-widest rounded-full transition-all ${
+                  allConfirmed
+                    ? 'bg-charcoal text-cream'
+                    : 'bg-stone/30 text-muted/50 cursor-not-allowed'
+                }`}
+              >
+                {allConfirmed ? "Review All Designs →" : "Confirm all positions first"}
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ── Step 2: Review all positions ── */}
+      {/* ── Step 2: Review ── */}
       {step === 2 && (
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 pb-20">
+        <div className="flex-1 px-6 lg:px-8 max-w-6xl mx-auto w-full pb-8">
           <h2 className="text-xl font-serif text-charcoal mb-6">Review Your Designs</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {POSITIONS.map((pos, i) => {
@@ -360,7 +459,7 @@ export default function CustomDesignPage() {
 
       {/* ── Step 3: Customer info + Submit ── */}
       {step === 3 && (
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 pb-20">
+        <div className="flex-1 px-6 lg:px-8 max-w-4xl mx-auto w-full pb-8">
           <h2 className="text-xl font-serif text-charcoal mb-6">Your Contact Information</h2>
           <div className="bg-white rounded-xl border border-stone/40 p-6 md:p-8 shadow-sm">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -396,10 +495,9 @@ export default function CustomDesignPage() {
               />
             </div>
 
-            {/* Design summary */}
             <div className="bg-warmgray/30 rounded-xl p-4 mb-6">
               <p className="text-[10px] uppercase tracking-wider text-muted mb-2">Designs attached ({designs.filter(d => d.image).length}/4 positions)</p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 {designs.filter(d => d.image).map(d => (
                   <div key={d.positionId} className="w-12 h-12 bg-white rounded-lg overflow-hidden border border-stone/30">
                     <img src={d.image!} alt={d.positionId} className="w-full h-full object-cover" />
@@ -419,7 +517,7 @@ export default function CustomDesignPage() {
           </div>
         </div>
       )}
-      </div>
+
       <Footer />
     </main>
   );
