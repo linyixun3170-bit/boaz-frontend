@@ -788,7 +788,10 @@ export default function CustomPageInner() {
                   <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
                     Request Quote
                   </a>
-                  <Link href="/custom-design" className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2">
+                  <Link 
+                    href={`/custom-design?product=${selectedProduct.id}&name=${encodeURIComponent(selectedProduct.name)}&color=${encodeURIComponent(currentColors[selectedColorIdx]?.name || "")}&image=${encodeURIComponent(showingBack && currentColors[selectedColorIdx]?.imageBack ? currentColors[selectedColorIdx]!.imageBack! : currentColors[selectedColorIdx]?.image || "")}`}
+                    className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2"
+                  >
                     🎨 Open Design Studio
                   </Link>
                 </div>
