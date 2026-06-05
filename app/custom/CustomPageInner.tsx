@@ -572,242 +572,139 @@ export default function CustomPageInner() {
               </select>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              {/* ─── Design Canvas ─── */}
-              <div
-                ref={canvasRef}
-                className="relative aspect-[3/4] bg-light-gray overflow-hidden rounded-xl border border-stone/30 select-none"
-                style={{ touchAction: "none" }}
-                onPointerDown={onPointerDown}
-                onPointerMove={onPointerMove}
-                onPointerUp={onPointerUp}
-                onPointerCancel={onPointerUp}
-                onWheel={onWheel}
-              >
-                {/* Product image (front or back) */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {currentImage ? (
-                    <img
-                      src={currentImage}
-                      alt={(currentItem?.name || currentColor?.name || "") + (showingBack ? " back" : " front")}
-                      className="w-full h-full object-contain pointer-events-none select-none"
-                      draggable={false}
-                    />
-                  ) : (
-                    <div className="w-full h-full" style={{ backgroundColor: selectedColorHex }} />
+            <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+              {/* ─── Design Canvas (3 cols) ─── */}
+              <div className="lg:col-span-3">
+                <div
+                  ref={canvasRef}
+                  className="relative aspect-[3/4] bg-white overflow-hidden rounded-xl border border-stone/30 select-none shadow-sm"
+                  style={{ touchAction: "none" }}
+                  onPointerDown={onPointerDown}
+                  onPointerMove={onPointerMove}
+                  onPointerUp={onPointerUp}
+                  onPointerCancel={onPointerUp}
+                  onWheel={onWheel}
+                >
+                  {/* Garment image */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {currentImage ? (
+                      <img src={currentImage} alt={(currentItem?.name || currentColor?.name || "") + (showingBack ? " back" : " front")}
+                        className="w-full h-full object-contain pointer-events-none select-none" draggable={false} />
+                    ) : (
+                      <div className="w-full h-full" style={{ backgroundColor: selectedColorHex }} />
+                    )}
+                  </div>
+
+                  {/* Placed designs */}
+                  {designs.map(des => (
+                    <div key={des.id} data-did={des.id}
+                      className={`absolute cursor-grab active:cursor-grabbing z-20 rounded-lg transition-shadow ${activeDesignId === des.id ? 'ring-2 ring-gold/50 shadow-lg z-30' : ''}`}
+                      style={{ left: `${des.x}%`, top: `${des.y}%`, width: `${Math.max(8, 40*des.scale)}%`, height: `${Math.max(6, 30*des.scale)}%`, transform: "translate(-50%,-50%)", touchAction: "none" }}
+                    >
+                      <img src={des.image} alt="Design" className="w-full h-full object-contain pointer-events-none select-none opacity-85 drop-shadow-md" draggable={false} />
+                    </div>
+                  ))}
+
+                  {/* Empty state */}
+                  {designs.length === 0 && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-warm-gray/30 pointer-events-none">
+                      <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-xs">Click Upload to add your design</span>
+                    </div>
+                  )}
+
+                  {/* Design count */}
+                  {designs.length > 0 && (
+                    <div className="absolute bottom-2 right-2 px-2 py-1 bg-white/80 backdrop-blur-sm text-[10px] text-muted rounded z-40 shadow-sm pointer-events-none select-none">
+                      {designs.length} design{designs.length > 1 ? 's' : ''}
+                    </div>
                   )}
                 </div>
-
-                {/* Placed designs on garment */}
-                {designs.map(des => (
-                  <div
-                    key={des.id}
-                    data-did={des.id}
-                    className={`absolute cursor-grab active:cursor-grabbing z-20 rounded-lg transition-shadow ${
-                      activeDesignId === des.id ? 'ring-2 ring-gold/50 shadow-lg z-30' : ''
-                    }`}
-                    style={{
-                      left: `${des.x}%`, top: `${des.y}%`,
-                      width: `${Math.max(8, 40 * des.scale)}%`,
-                      height: `${Math.max(6, 30 * des.scale)}%`,
-                      transform: "translate(-50%, -50%)",
-                      touchAction: "none",
-                    }}
-                  >
-                    <img src={des.image} alt="Design" className="w-full h-full object-contain pointer-events-none select-none opacity-85 drop-shadow-md" draggable={false} />
-                  </div>
-                ))}
-
-                {/* Empty state */}
-                {designs.length === 0 && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-warm-gray/30 pointer-events-none">
-                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="text-xs">Upload your design below</span>
-                    <span className="text-[10px]">Drag to move · Scroll to scale</span>
-                  </div>
-                )}
-
-                {/* Top bar: item selector + front/back toggle */}
-                <div className="absolute top-2 left-2 right-2 flex justify-between z-40">
-                  {/* Item selector */}
-                  <div className="flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/30 shadow-sm">
-                    {hasItems && currentColor.items.map((item, idx) => (
-                      <button key={item.slug} onClick={() => setSelectedItem(idx)}
-                        className={"px-2 py-1 text-[9px] uppercase tracking-wider font-medium transition-all " + (selectedItem === idx ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10")}
-                      >{item.name}</button>
-                    ))}
-                  </div>
-                  {/* Front / Back toggle */}
-                  <div className="flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/30 shadow-sm">
-                    <button onClick={() => setShowingBack(false)}
-                      className={"px-2.5 py-1 text-[10px] uppercase tracking-wider font-medium transition-all " + (!showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10")}
-                    >Front</button>
-                    <button onClick={() => setShowingBack(true)}
-                      className={"px-2.5 py-1 text-[10px] uppercase tracking-wider font-medium transition-all " + (showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10")}
-                      disabled={!currentColors[selectedColorIdx]?.imageBack}
-                    >Back</button>
-                  </div>
-                </div>
-
-                {/* Design count */}
-                {designs.length > 0 && (
-                  <div className="absolute bottom-2 right-2 px-2 py-1 bg-white/80 backdrop-blur-sm text-[10px] text-muted rounded z-40 shadow-sm pointer-events-none select-none">
-                    {designs.length} design{designs.length > 1 ? 's' : ''}
-                  </div>
-                )}
               </div>
 
-              {/* ─── Upload button + Scale controls (below canvas) ─── */}
-              <div className="flex flex-col gap-3">
-                <input ref={fileInputRef} type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="hidden" />
-                <div className="flex gap-2">
-                  <button onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 py-2.5 bg-dark text-cream text-[11px] uppercase tracking-widest rounded-full hover:bg-ink transition-all flex items-center justify-center gap-1.5"
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
-                    Upload Design
-                  </button>
-                  {activeDesign && (
-                    <button onClick={() => deleteDesign(activeDesign.id)}
-                      className="px-4 py-2.5 border border-red-200 text-red-400 text-[11px] uppercase tracking-widest rounded-full hover:bg-red-50 transition-all"
-                    >Remove</button>
-                  )}
+              {/* ─── Right Panel — ALL controls (2 cols) ─── */}
+              <div className="lg:col-span-2 space-y-5 lg:max-h-[75vh] lg:overflow-y-auto lg:pr-2">
+                {/* Product info */}
+                <div>
+                  <p className="text-[11px] uppercase tracking-wider text-muted mb-1">{selectedProduct.category}</p>
+                  <h2 className="text-base font-serif text-charcoal leading-snug">{selectedProduct.name}</h2>
+                  <p className="text-[16px] font-medium text-charcoal mt-1">{selectedProduct.priceBase.toFixed(2)}/pc</p>
                 </div>
 
-                {/* Scale slider (shown when design is selected) */}
-                {activeDesign && (
-                  <div className="flex items-center gap-2 bg-white rounded-xl border border-stone/30 px-3 py-2 shadow-sm">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted/60 shrink-0"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-                    <input type="range" min="0.3" max="3" step="0.05" value={activeDesign.scale}
-                      onChange={e => updateDesign(activeDesign.id, { scale: Math.max(0.3, Math.min(3, parseFloat(e.target.value))) })}
-                      className="flex-1 h-1 bg-stone/20 rounded-full appearance-none cursor-pointer accent-charcoal"
-                    />
-                    <span className="text-[10px] text-muted tabular-nums w-8 text-right">{activeDesign.scale.toFixed(1)}x</span>
-                  </div>
-                )}
+                {/* Item selector + Front/Back toggle */}
+                <div className="flex gap-2 flex-wrap">
+                  {hasItems && currentColor.items.map((item, idx) => (
+                    <button key={item.slug} onClick={() => setSelectedItem(idx)}
+                      className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium border rounded-full transition-all " + (selectedItem === idx ? "bg-dark text-cream border-dark" : "bg-white text-dark border-stone/40 hover:border-dark/30")}
+                    >{item.name}</button>
+                  ))}
+                  <span className="text-stone/30 mx-1">|</span>
+                  <button onClick={() => setShowingBack(false)}
+                    className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium border rounded-full transition-all " + (!showingBack ? "bg-dark text-cream border-dark" : "bg-white text-dark border-stone/40 hover:border-dark/30")}
+                  >Front</button>
+                  <button onClick={() => setShowingBack(true)}
+                    className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium border rounded-full transition-all " + (showingBack ? "bg-dark text-cream border-dark" : "bg-white text-dark border-stone/40 hover:border-dark/30")}
+                    disabled={!currentColors[selectedColorIdx]?.imageBack}
+                  >Back</button>
+                </div>
 
-                {/* Designs list */}
-                {designs.length > 0 && (
-                  <div className="bg-white rounded-xl border border-stone/30 p-3 shadow-sm">
-                    <h4 className="text-[10px] uppercase tracking-wider text-muted mb-2">Your Designs ({designs.length})</h4>
-                    <div className="flex gap-2 flex-wrap">
+                {/* Upload + Scale controls */}
+                <div className="bg-white rounded-xl border border-stone/30 p-4 shadow-sm space-y-3">
+                  <div className="flex gap-2">
+                    <input ref={fileInputRef} type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="hidden" />
+                    <button onClick={() => fileInputRef.current?.click()}
+                      className="flex-1 py-2.5 bg-dark text-cream text-[11px] uppercase tracking-widest rounded-full hover:bg-ink transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                      Upload Design
+                    </button>
+                    {activeDesign && (
+                      <button onClick={() => deleteDesign(activeDesign.id)}
+                        className="px-4 py-2.5 border border-red-200 text-red-400 text-[11px] uppercase tracking-widest rounded-full hover:bg-red-50 transition-all"
+                      >Remove</button>
+                    )}
+                  </div>
+                  {activeDesign && (
+                    <div className="flex items-center gap-2">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted/60 shrink-0"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                      <input type="range" min="0.3" max="3" step="0.05" value={activeDesign.scale}
+                        onChange={e => updateDesign(activeDesign.id, { scale: Math.max(0.3, Math.min(3, parseFloat(e.target.value))) })}
+                        className="flex-1 h-1 bg-stone/20 rounded-full appearance-none cursor-pointer accent-charcoal"
+                      />
+                      <span className="text-[10px] text-muted tabular-nums w-8 text-right">{activeDesign.scale.toFixed(1)}x</span>
+                    </div>
+                  )}
+                  {designs.length > 0 && (
+                    <div className="flex gap-2 flex-wrap pt-1">
                       {designs.map((des, i) => (
                         <button key={des.id} onClick={() => setActiveDesignId(des.id)}
-                          className={`w-10 h-10 rounded-lg overflow-hidden border-2 transition-all ${activeDesignId === des.id ? 'border-gold/70 ring-1 ring-gold/30' : 'border-stone/20 hover:border-stone/40'}`}
+                          className={`w-9 h-9 rounded-lg overflow-hidden border-2 transition-all ${activeDesignId === des.id ? 'border-gold/70 ring-1 ring-gold/30' : 'border-stone/20 hover:border-stone/40'}`}
                         >
                           <img src={des.image} alt={`Design ${i+1}`} className="w-full h-full object-cover" />
                         </button>
                       ))}
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Colors — MOBILE: below preview */}
-              <div className="lg:hidden">
-                <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
-                  Color
-                </label>
-                <div className="flex flex-wrap gap-3">
-                  {currentColors.map((c, idx) => (
-                    <button
-                      key={c.name}
-                      onClick={() => { setSelectedColorIdx(idx); setShowingBack(false); }}
-                      className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
-                        selectedColorIdx === idx
-                          ? "border-dark scale-110"
-                          : "border-transparent hover:border-dark/40"
-                      }`}
-                      style={{ backgroundColor: c.hex }}
-                      title={c.name}
-                    >
-                      {c.image && (
-                        <Image
-                          src={c.image}
-                          alt={c.name}
-                          fill
-                          className="object-cover"
-                          sizes="40px"
-                        />
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-[11px] text-warm-gray mt-2">
-                  Selected: {currentColors[selectedColorIdx]?.name}
-                </p>
-              </div>
-
-              {/* Controls */}
-              <div className="space-y-8">
-                {/* Search + Product Selector — DESKTOP only */}
-                <div className="hidden lg:block">
-                  <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
-                    Search Product
-                  </label>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search by name or style..."
-                    className="w-full px-4 py-3 bg-cream border border-stone text-sm text-dark focus:outline-none focus:border-dark mb-3"
-                  />
-                  <select
-                    value={selectedProduct.id}
-                    onChange={(e) => {
-                      const p = products.find(pr => pr.id === e.target.value);
-                      if (p) {
-                        setSelectedProduct(p);
-                        setSelectedColorIdx(0);
-                        setShowingBack(false);
-                        setQuantity(Math.max(quantity, p.moq));
-                      }
-                    }}
-                    className="w-full px-4 py-3 bg-cream border border-stone text-sm text-dark focus:outline-none focus:border-dark"
-                  >
-                    {products
-                      .filter(p => !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                      .map(p => (
-                      <option key={p.id} value={p.id}>{p.name} -- From ${p.priceBase.toFixed(2)}/pc</option>
-                    ))}
-                  </select>
+                  )}
                 </div>
 
-                {/* Color — DESKTOP only */}
-                <div className="hidden lg:block">
-                  <label className="block text-[11px] uppercase tracking-wider text-dark mb-3">
-                    {selectedProduct.name} — Color ({currentColors.length})
+                {/* Color swatches */}
+                <div>
+                  <label className="block text-[10px] uppercase tracking-wider text-muted mb-2">
+                    Color ({currentColors.length})
                   </label>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2.5">
                     {currentColors.map((c, idx) => (
-                      <button
-                        key={c.name}
-                        onClick={() => { setSelectedColorIdx(idx); setShowingBack(false); }}
-                        className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
-                          selectedColorIdx === idx
-                            ? "border-dark scale-110"
-                            : "border-transparent hover:border-dark/40"
-                        }`}
-                        style={{ backgroundColor: c.hex }}
-                        title={c.name}
+                      <button key={c.name} onClick={() => { setSelectedColorIdx(idx); setShowingBack(false); }}
+                        className={`relative w-9 h-9 rounded-full overflow-hidden border-2 transition-all ${selectedColorIdx === idx ? 'border-dark scale-110 ring-1 ring-dark/20' : 'border-transparent hover:border-dark/40'}`}
+                        style={{ backgroundColor: c.hex }} title={c.name}
                       >
-                        {c.image && (
-                          <Image
-                            src={c.image}
-                            alt={c.name}
-                            fill
-                            className="object-cover"
-                            sizes="40px"
-                          />
-                        )}
+                        {c.image && <Image src={c.image} alt={c.name} fill className="object-cover" sizes="36px" />}
                       </button>
                     ))}
                   </div>
-                  <p className="text-[11px] text-warm-gray mt-2">
-                    Selected: {currentColors[selectedColorIdx]?.name}
-                  </p>
+                  <p className="text-[10px] text-muted mt-1">Selected: {currentColors[selectedColorIdx]?.name}</p>
                 </div>
 
                 {/* Decoration Method */}
