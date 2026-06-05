@@ -517,8 +517,26 @@ export const products: Product[] = [
       { name: "Black", hex: "#323232", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp` },
     ],
     images: {
-      main: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`,
+      main: `${imgBase}/cl-washed-vintage-set/model/image_1769745162576.webp`,
       gallery: [
+        // Model lifestyle shots
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745162576.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745175329.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745181152.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745192680.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745198208.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745490848.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745501920.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745509416.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745516961.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1769745523057.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/image_1770257359842.webp`,
+        // 3.jpg 4.jpg 5.jpg 12.jpg
+        `${imgBase}/cl-washed-vintage-set/model/3.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/4.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/5.webp`,
+        `${imgBase}/cl-washed-vintage-set/model/12.webp`,
+        // SKU flat lays
         `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`,
         `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp`,
         `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tank.webp`,
