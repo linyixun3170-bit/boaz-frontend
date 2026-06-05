@@ -10,6 +10,28 @@
 
 import type { SizeChartEntry } from "./size-chart";
 
+export interface ColorVariant {
+  name: string;
+  hex: string;
+  image?: string;
+  imageBack?: string;
+}
+
+export interface ProductItem {
+  name: string;
+  slug: string;
+  image?: string;
+  imageBack?: string;
+}
+
+export interface ProductColor {
+  name: string;
+  hex: string;
+  items?: ProductItem[]; // sub-variants within color (e.g. tee, tank, shorts)
+  image?: string;
+  imageBack?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -21,7 +43,7 @@ export interface Product {
   fit: string;
   moq: number;
   priceFOB: string; // USD FOB
-  colors: { name: string; hex: string; image?: string; imageBack?: string }[];
+  colors: ProductColor[];
   images: { main: string; gallery: string[] };
   tags: string[];
   sizes: string[];
@@ -512,9 +534,36 @@ export const products: Product[] = [
     moq: 50,
     priceFOB: "From $12.50/set (FOB), inquire for individual pricing",
     colors: [
-      { name: "Gray", hex: "#969696", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp` },
-      { name: "Green", hex: "#666633", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp` },
-      { name: "Black", hex: "#323232", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp` },
+      {
+        name: "Gray", hex: "#969696",
+        items: [
+          { name: "T-Shirt", slug: "tee", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp` },
+          { name: "Tank Top", slug: "tank", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tank.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tank-back.webp` },
+          { name: "Shorts", slug: "shorts", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-shorts.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-shorts-back.webp` },
+        ],
+        image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`,
+        imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp`,
+      },
+      {
+        name: "Green", hex: "#666633",
+        items: [
+          { name: "T-Shirt", slug: "tee", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp` },
+          { name: "Tank Top", slug: "tank", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tank.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tank-back.webp` },
+          { name: "Shorts", slug: "shorts", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-shorts.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-shorts-back.webp` },
+        ],
+        image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`,
+        imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp`,
+      },
+      {
+        name: "Black", hex: "#323232",
+        items: [
+          { name: "T-Shirt", slug: "tee", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp` },
+          { name: "Tank Top", slug: "tank", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tank.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tank-back.webp` },
+          { name: "Shorts", slug: "shorts", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-shorts.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-shorts-back.webp` },
+        ],
+        image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`,
+        imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp`,
+      },
     ],
     images: {
       main: `${imgBase}/cl-washed-vintage-set/model/image_1769745162576.webp`,

@@ -142,10 +142,28 @@ function ColorSection({
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(0);
   const [showingColor, setShowingColor] = useState(false);
 
+  // Get current color with its items
+  const currentColor = product.colors[selectedColor];
+  const hasItems = currentColor?.items && currentColor.items.length > 0;
+  const currentItem = hasItems ? currentColor.items[selectedItem] : null;
+
+  // Determine which image to show for color view
+  const getColorImage = () => {
+    if (!currentColor) return product.images.main;
+    if (currentItem) return currentItem.image ?? currentColor.image ?? product.images.main;
+    return currentColor.image ?? product.images.main;
+  };
+  const getColorBackImage = () => {
+    if (!currentColor) return undefined;
+    if (currentItem) return currentItem.imageBack ?? currentColor.imageBack;
+    return currentColor.imageBack;
+  };
+
   const mainPic = showingColor
-    ? (product.colors[selectedColor]?.image ?? product.images.main)
+    ? getColorImage()
     : (product.images.gallery[selectedImage] ?? product.images.main);
 
   const isColorView = showingColor;
@@ -222,6 +240,26 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {/* Colors — MOBILE ONLY: below image, before product info */}
           <div className="lg:col-span-12 lg:hidden">
+            {hasItems && (
+              <div className="mb-4">
+                <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted mb-2">Style</p>
+                <div className="flex flex-wrap gap-2">
+                  {currentColor.items.map((item, i) => (
+                    <button
+                      key={item.slug}
+                      onClick={() => { setSelectedItem(i); setShowingColor(true); }}
+                      className={"px-3 py-1.5 text-[11px] uppercase tracking-wider border transition-all " + (
+                        selectedItem === i && isColorView
+                          ? "bg-charcoal text-cream border-charcoal"
+                          : "bg-cream text-dark border-stone/60"
+                      )}
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             <ColorSection {...colorProps} />
           </div>
 
@@ -272,6 +310,30 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 <p className="text-xs md:text-sm font-medium text-charcoal">{product.moq} pcs</p>
               </div>
             </div>
+
+            {/* Items selector (when color has sub-items) */}
+            {hasItems && (
+              <div>
+                <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted mb-2 md:mb-3">
+                  Style
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {currentColor.items.map((item, i) => (
+                    <button
+                      key={item.slug}
+                      onClick={() => { setSelectedItem(i); setShowingColor(true); }}
+                      className={"px-3 md:px-4 py-1.5 md:py-2 text-[11px] md:text-[12px] uppercase tracking-wider border transition-all " + (
+                        selectedItem === i && isColorView
+                          ? "bg-charcoal text-cream border-charcoal"
+                          : "bg-cream text-dark border-stone/60 hover:border-charcoal/50"
+                      )}
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Colors — DESKTOP ONLY */}
             <div className="hidden lg:block">
