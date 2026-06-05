@@ -22,7 +22,6 @@ export interface BlogPost {
   tags: string[];
 }
 
-const blogBase = "/images/blog";
 
 export const blogPosts: BlogPost[] = [
   {

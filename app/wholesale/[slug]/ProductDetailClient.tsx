@@ -148,7 +148,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   // Get current color with its items
   const currentColor = product.colors[selectedColor];
   const hasItems = currentColor?.items && currentColor.items.length > 0;
-  const currentItem = hasItems ? currentColor.items[selectedItem] : null;
+  const currentItem = hasItems ? currentColor.items?.[selectedItem] ?? null : null;
 
   // Determine which image to show for color view
   const getColorImage = () => {

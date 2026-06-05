@@ -256,7 +256,7 @@ export default function CustomPageInner() {
   // Multi-item sub-variant support
   const currentColor = currentColors[selectedColorIdx];
   const hasItems = currentColor?.items && currentColor.items.length > 0;
-  const currentItem = hasItems ? currentColor.items[selectedItem] : null;
+  const currentItem = hasItems ? currentColor.items?.[selectedItem] ?? null : null;
   const currentImage = (() => {
     if (showingBack) {
       if (currentItem?.imageBack) return currentItem.imageBack;
@@ -389,7 +389,6 @@ export default function CustomPageInner() {
     setQuantity(newQty);
   };
 
-  const quickQtys = [50, 100, 200, 500, 1000];
 
   return (
     <>
@@ -635,7 +634,7 @@ export default function CustomPageInner() {
 
                 {/* Item selector + Front/Back toggle */}
                 <div className="flex gap-2 flex-wrap">
-                  {hasItems && currentColor.items.map((item, idx) => (
+                  {hasItems {hasItems && currentColor.items.map{hasItems && currentColor.items.map currentColor?.items?.map((item, idx) => (
                     <button key={item.slug} onClick={() => setSelectedItem(idx)}
                       className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium border rounded-full transition-all " + (selectedItem === idx ? "bg-dark text-cream border-dark" : "bg-white text-dark border-stone/40 hover:border-dark/30")}
                     >{item.name}</button>
