@@ -170,6 +170,14 @@ const products: ProductOption[] = [
       { name: "Black", hex: "#1A1A1A", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Black.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Black-back.webp` },
     ],
   },
+  {
+    id: "cl-washed-vintage-set", name: "Washed Vintage Sleeveless Set (T-Shirt + Tank + Shorts)", priceBase: 12.50, moq: 50, category: "T-Shirts",
+    colors: [
+      { name: "Gray", hex: "#969696", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp` },
+      { name: "Green", hex: "#666633", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp` },
+      { name: "Black", hex: "#323232", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp` },
+    ],
+  },
 ];
 
 const decorationMethods = [
