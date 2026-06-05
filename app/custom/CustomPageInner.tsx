@@ -20,13 +20,20 @@ if (typeof window !== "undefined") {
 
 const imgBase = "/images/products";
 
+interface ProductItem {
+  name: string;
+  slug: string;
+  image?: string;
+  imageBack?: string;
+}
+
 interface ProductOption {
   id: string;
   name: string;
   priceBase: number;
   moq: number;
   category: string;
-  colors: { name: string; hex: string; image?: string; imageBack?: string }[];
+  colors: { name: string; hex: string; items?: ProductItem[]; image?: string; imageBack?: string }[];
 }
 
 const productSizeData = catalogProducts.reduce((acc: Record<string, { sizes: string[]; chart?: any[] }>, p) => {
@@ -173,9 +180,36 @@ const products: ProductOption[] = [
   {
     id: "cl-washed-vintage-set", name: "Washed Vintage Sleeveless Set (T-Shirt + Tank + Shorts)", priceBase: 12.50, moq: 50, category: "T-Shirts",
     colors: [
-      { name: "Gray", hex: "#969696", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp` },
-      { name: "Green", hex: "#666633", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp` },
-      { name: "Black", hex: "#323232", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp` },
+      {
+        name: "Gray", hex: "#969696",
+        items: [
+          { name: "T-Shirt", slug: "tee", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp` },
+          { name: "Tank Top", slug: "tank", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tank.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tank-back.webp` },
+          { name: "Shorts", slug: "shorts", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-shorts.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-shorts-back.webp` },
+        ],
+        image: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee.webp`,
+        imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Gray-tee-back.webp`,
+      },
+      {
+        name: "Green", hex: "#666633",
+        items: [
+          { name: "T-Shirt", slug: "tee", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp` },
+          { name: "Tank Top", slug: "tank", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tank.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tank-back.webp` },
+          { name: "Shorts", slug: "shorts", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-shorts.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-shorts-back.webp` },
+        ],
+        image: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee.webp`,
+        imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Green-tee-back.webp`,
+      },
+      {
+        name: "Black", hex: "#323232",
+        items: [
+          { name: "T-Shirt", slug: "tee", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp` },
+          { name: "Tank Top", slug: "tank", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tank.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tank-back.webp` },
+          { name: "Shorts", slug: "shorts", image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-shorts.webp`, imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-shorts-back.webp` },
+        ],
+        image: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee.webp`,
+        imageBack: `${imgBase}/cl-washed-vintage-set/sku/sku-Black-tee-back.webp`,
+      },
     ],
   },
 ];
@@ -484,12 +518,10 @@ export default function CustomPageInner() {
                   {/* Product image for the selected color — front or back */}
                   <div className="absolute inset-0 bg-light-gray">
                     {(() => {
-                      const color = currentColors[selectedColorIdx];
-                      const src = showingBack && color?.imageBack ? color.imageBack : color?.image;
-                      return src ? (
+                      return currentImage ? (
                         <Image
-                          src={src}
-                          alt={color?.name + (showingBack ? " back" : " front")}
+                          src={currentImage}
+                          alt={(currentItem?.name || currentColor?.name || "") + (showingBack ? " back" : " front")}
                           fill
                           className="object-contain"
                           sizes="(max-width: 768px) 75vw, 40vw"
@@ -546,6 +578,23 @@ export default function CustomPageInner() {
                 <div className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-[11px] uppercase tracking-wider text-dark">
                   {selectedProduct.name}
                 </div>
+
+                {/* Item selector (for multi-item SKUs) */}
+                {hasItems && (
+                  <div className="absolute top-4 left-4 flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/40 shadow-sm">
+                    {currentColor.items.map((item, idx) => (
+                      <button
+                        key={item.slug}
+                        onClick={() => setSelectedItem(idx)}
+                        className={"px-2 py-1.5 text-[9px] uppercase tracking-wider font-medium transition-all " + (
+                          selectedItem === idx ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10"
+                        )}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {/* Front / Back toggle */}
                 {/* Front / Back toggle — always visible */}
@@ -827,7 +876,7 @@ export default function CustomPageInner() {
                     Request Quote
                   </a>
                   <Link 
-                    href={`/custom-design?product=${selectedProduct.id}&name=${encodeURIComponent(selectedProduct.name)}&color=${encodeURIComponent(currentColors[selectedColorIdx]?.name || "")}&image=${encodeURIComponent(showingBack && currentColors[selectedColorIdx]?.imageBack ? currentColors[selectedColorIdx]!.imageBack! : currentColors[selectedColorIdx]?.image || "")}`}
+                    href={`/custom-design?product=${selectedProduct.id}&name=${encodeURIComponent(selectedProduct.name)}&color=${encodeURIComponent((currentItem?.name ? currentItem.name + " - " : "") + (currentColors[selectedColorIdx]?.name || ""))}&image=${encodeURIComponent(currentImage || "")}`}
                     className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2"
                   >
                     🎨 Open Design Studio
