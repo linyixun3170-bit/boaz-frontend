@@ -269,8 +269,6 @@ export default function CustomPageInner() {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [placement, setPlacement] = useState("center");
   const [quantity, setQuantity] = useState(50);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [imgScale, setImgScale] = useState(1);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -315,16 +313,7 @@ export default function CustomPageInner() {
     return () => ctx.revert();
   }, []);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setUploadedImage(event.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // handleImageUpload removed — replaced by handleUpload above
 
   const handleQuantityStep = (delta: number) => {
     const newQty = Math.max(1, quantity + delta);
@@ -515,127 +504,134 @@ export default function CustomPageInner() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              {/* Preview Area — click center area to upload */}
+              {/* ─── Design Canvas ─── */}
               <div
-                className="relative aspect-[3/4] bg-light-gray flex items-center justify-center overflow-hidden group"
+                ref={canvasRef}
+                className="relative aspect-[3/4] bg-light-gray overflow-hidden rounded-xl border border-stone/30 select-none"
+                style={{ touchAction: "none" }}
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+                onWheel={onWheel}
               >
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,image/ai,image/psd,image/pdf"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                  ref={fileInputRef}
-                />
-                <div
-                  className="relative w-3/4 aspect-[3/4] overflow-hidden cursor-pointer"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  {/* Product image for the selected color — front or back */}
-                  <div className="absolute inset-0 bg-light-gray">
-                    {(() => {
-                      return currentImage ? (
-                        <Image
-                          src={currentImage}
-                          alt={(currentItem?.name || currentColor?.name || "") + (showingBack ? " back" : " front")}
-                          fill
-                          className="object-contain"
-                          sizes="(max-width: 768px) 75vw, 40vw"
-                        />
-                      ) : (
-                        <div
-                          className="w-full h-full"
-                          style={{ backgroundColor: selectedColorHex }}
-                        />
-                      );
-                    })()}
+                {/* Product image (front or back) */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {currentImage ? (
+                    <img
+                      src={currentImage}
+                      alt={(currentItem?.name || currentColor?.name || "") + (showingBack ? " back" : " front")}
+                      className="w-full h-full object-contain pointer-events-none select-none"
+                      draggable={false}
+                    />
+                  ) : (
+                    <div className="w-full h-full" style={{ backgroundColor: selectedColorHex }} />
+                  )}
+                </div>
+
+                {/* Placed designs on garment */}
+                {designs.map(des => (
+                  <div
+                    key={des.id}
+                    data-did={des.id}
+                    className={`absolute cursor-grab active:cursor-grabbing z-20 rounded-lg transition-shadow ${
+                      activeDesignId === des.id ? 'ring-2 ring-gold/50 shadow-lg z-30' : ''
+                    }`}
+                    style={{
+                      left: `${des.x}%`, top: `${des.y}%`,
+                      width: `${Math.max(8, 40 * des.scale)}%`,
+                      height: `${Math.max(6, 30 * des.scale)}%`,
+                      transform: "translate(-50%, -50%)",
+                      touchAction: "none",
+                    }}
+                  >
+                    <img src={des.image} alt="Design" className="w-full h-full object-contain pointer-events-none select-none opacity-85 drop-shadow-md" draggable={false} />
                   </div>
+                ))}
 
-                  {/* Overlaid uploaded design */}
-                  {uploadedImage && (
-                    <div
-                      className="absolute inset-0"
-                      onWheel={(e) => {
-                        e.preventDefault();
-                        setImgScale(s => Math.max(0.3, Math.min(3, s - e.deltaY * 0.001)));
-                      }}
-                    >
-                      <img
-                        src={uploadedImage}
-                        alt="Your design"
-                        className="opacity-85 pointer-events-none select-none"
-                        style={{
-                          width: `${60 * imgScale}%`,
-                          height: `${40 * imgScale}%`,
-                          objectFit: "contain",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                          transition: "width 0.2s ease, height 0.2s ease",
-                        }}
-                      />
-                    </div>
-                  )}
-
-                  {!uploadedImage && (
-                    <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/5 transition-colors pointer-events-none">
-                      <div className="text-center">
-                        <svg className="w-10 h-10 mx-auto mb-2 text-warm-gray/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <p className="text-warm-gray/50 text-xs">Click to upload your design</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Product label overlay */}
-                <div className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-[11px] uppercase tracking-wider text-dark">
-                  {selectedProduct.name}
-                </div>
-
-                {/* Item selector (for multi-item SKUs) */}
-                {hasItems && (
-                  <div className="absolute top-4 left-4 flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/40 shadow-sm">
-                    {currentColor.items.map((item, idx) => (
-                      <button
-                        key={item.slug}
-                        onClick={() => setSelectedItem(idx)}
-                        className={"px-2 py-1.5 text-[9px] uppercase tracking-wider font-medium transition-all " + (
-                          selectedItem === idx ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10"
-                        )}
-                      >
-                        {item.name}
-                      </button>
-                    ))}
+                {/* Empty state */}
+                {designs.length === 0 && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-warm-gray/30 pointer-events-none">
+                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span className="text-xs">Upload your design below</span>
+                    <span className="text-[10px]">Drag to move · Scroll to scale</span>
                   </div>
                 )}
 
-                {/* Front / Back toggle */}
-                {/* Front / Back toggle — always visible */}
-                <div className="absolute top-4 right-4 flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/40 shadow-sm">
-                  <button
-                    onClick={() => setShowingBack(false)}
-                    className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium transition-all " + (
-                      !showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10"
-                    )}
-                  >
-                    Front
-                  </button>
-                  <button
-                    onClick={() => setShowingBack(true)}
-                    className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium transition-all " + (
-                      showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10"
-                    )}
-                    disabled={!currentColors[selectedColorIdx]?.imageBack}
-                  >
-                    Back
-                  </button>
+                {/* Top bar: item selector + front/back toggle */}
+                <div className="absolute top-2 left-2 right-2 flex justify-between z-40">
+                  {/* Item selector */}
+                  <div className="flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/30 shadow-sm">
+                    {hasItems && currentColor.items.map((item, idx) => (
+                      <button key={item.slug} onClick={() => setSelectedItem(idx)}
+                        className={"px-2 py-1 text-[9px] uppercase tracking-wider font-medium transition-all " + (selectedItem === idx ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10")}
+                      >{item.name}</button>
+                    ))}
+                  </div>
+                  {/* Front / Back toggle */}
+                  <div className="flex gap-1 bg-white/90 backdrop-blur-sm rounded overflow-hidden border border-stone/30 shadow-sm">
+                    <button onClick={() => setShowingBack(false)}
+                      className={"px-2.5 py-1 text-[10px] uppercase tracking-wider font-medium transition-all " + (!showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10")}
+                    >Front</button>
+                    <button onClick={() => setShowingBack(true)}
+                      className={"px-2.5 py-1 text-[10px] uppercase tracking-wider font-medium transition-all " + (showingBack ? "bg-dark text-white" : "bg-white text-dark hover:bg-stone/10")}
+                      disabled={!currentColors[selectedColorIdx]?.imageBack}
+                    >Back</button>
+                  </div>
                 </div>
 
-                {uploadedImage && (
-                  <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] text-warm-gray uppercase tracking-wider">
-                    <span>Click to re-upload</span>
+                {/* Design count */}
+                {designs.length > 0 && (
+                  <div className="absolute bottom-2 right-2 px-2 py-1 bg-white/80 backdrop-blur-sm text-[10px] text-muted rounded z-40 shadow-sm pointer-events-none select-none">
+                    {designs.length} design{designs.length > 1 ? 's' : ''}
+                  </div>
+                )}
+              </div>
+
+              {/* ─── Upload button + Scale controls (below canvas) ─── */}
+              <div className="flex flex-col gap-3">
+                <input ref={fileInputRef} type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="hidden" />
+                <div className="flex gap-2">
+                  <button onClick={() => fileInputRef.current?.click()}
+                    className="flex-1 py-2.5 bg-dark text-cream text-[11px] uppercase tracking-widest rounded-full hover:bg-ink transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                    Upload Design
+                  </button>
+                  {activeDesign && (
+                    <button onClick={() => deleteDesign(activeDesign.id)}
+                      className="px-4 py-2.5 border border-red-200 text-red-400 text-[11px] uppercase tracking-widest rounded-full hover:bg-red-50 transition-all"
+                    >Remove</button>
+                  )}
+                </div>
+
+                {/* Scale slider (shown when design is selected) */}
+                {activeDesign && (
+                  <div className="flex items-center gap-2 bg-white rounded-xl border border-stone/30 px-3 py-2 shadow-sm">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted/60 shrink-0"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                    <input type="range" min="0.3" max="3" step="0.05" value={activeDesign.scale}
+                      onChange={e => updateDesign(activeDesign.id, { scale: Math.max(0.3, Math.min(3, parseFloat(e.target.value))) })}
+                      className="flex-1 h-1 bg-stone/20 rounded-full appearance-none cursor-pointer accent-charcoal"
+                    />
+                    <span className="text-[10px] text-muted tabular-nums w-8 text-right">{activeDesign.scale.toFixed(1)}x</span>
+                  </div>
+                )}
+
+                {/* Designs list */}
+                {designs.length > 0 && (
+                  <div className="bg-white rounded-xl border border-stone/30 p-3 shadow-sm">
+                    <h4 className="text-[10px] uppercase tracking-wider text-muted mb-2">Your Designs ({designs.length})</h4>
+                    <div className="flex gap-2 flex-wrap">
+                      {designs.map((des, i) => (
+                        <button key={des.id} onClick={() => setActiveDesignId(des.id)}
+                          className={`w-10 h-10 rounded-lg overflow-hidden border-2 transition-all ${activeDesignId === des.id ? 'border-gold/70 ring-1 ring-gold/30' : 'border-stone/20 hover:border-stone/40'}`}
+                        >
+                          <img src={des.image} alt={`Design ${i+1}`} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
