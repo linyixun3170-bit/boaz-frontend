@@ -1,7 +1,7 @@
 "use client";
 
 import { ugcImages } from "@/lib/images";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Footer from "@/components/Footer";
@@ -27,7 +27,28 @@ const trustSignals = [
   },
 ];
 
-const clients: string[] = [];
+const processes = [
+  {
+    step: "01",
+    title: "Fabric Sourcing",
+    desc: "Direct mill relationships. Every roll tested before cutting.",
+  },
+  {
+    step: "02",
+    title: "Pattern & Cut",
+    desc: "CAD-optimized nesting. Minimal waste. Precise tolerance.",
+  },
+  {
+    step: "03",
+    title: "Sew & Assemble",
+    desc: "Experienced operators. Inline QC at every station.",
+  },
+  {
+    step: "04",
+    title: "Inspect & Pack",
+    desc: "AQL 2.5 standard. Pre-shipment verification.",
+  },
+];
 
 const ugcGrid = [
   ugcImages.grid1,
@@ -39,35 +60,175 @@ const ugcGrid = [
 export default function WhyBoazPage() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   return (
     <main>
       <SchemaOrg type="about" />
 
-      {/* Hero */}
-      <section className="pt-32 md:pt-48 pb-16 section-padding bg-cream">
-        <div className="max-w-7xl mx-auto">
+      {/* ===== HERO — Video Background ===== */}
+      <section className="relative h-[80vh] min-h-[500px] md:min-h-[600px] overflow-hidden">
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          poster="/images/products/cl-washed-vintage-set/sku/sku-Gray-tee.webp"
+        >
+          <source src="/videos/about-hero-loop.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/50 to-charcoal/30" />
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col justify-end pb-16 md:pb-24 section-padding">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
+            className="max-w-7xl mx-auto w-full"
           >
-            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4">Why BOAZ</p>
-            <h1 className="text-display-xl font-serif text-charcoal mb-8 text-balance">
-              We Are Not a
-              <br />
-              <span className="italic">Middleman Factory</span>
+            <p className="text-caption uppercase tracking-[0.3em] text-cream/70 mb-4">About BOAZ</p>
+            <h1 className="text-display-xl md:text-display-2xl font-serif text-cream mb-6 text-balance max-w-3xl">
+              From Hebei<br />
+              <span className="italic">To the World</span>
             </h1>
-            <p className="text-body-lg text-muted max-w-2xl leading-relaxed">
-              Most wholesalers are just resellers with a website. We are the production line. When you work with BOAZ, you talk to the people who actually cut, sew, and inspect your garments.
+            <p className="text-body-lg text-cream/80 max-w-xl leading-relaxed">
+              We are not a trading company with a website. We own the production line — every cut, every stitch, every inspection happens under our roof.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Trust Grid */}
+      {/* ===== BRAND STORY ===== */}
+      <section className="py-24 md:py-32 section-padding bg-cream">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+          >
+            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4">Our Story</p>
+            <h2 className="text-display-lg font-serif text-charcoal mb-8 text-balance">
+              We Don&apos;t Just Make T-Shirts.
+              <br />
+              <span className="italic">We Build Trust.</span>
+            </h2>
+            <div className="space-y-4 text-body-md text-muted leading-relaxed">
+              <p>
+                BOAZ was founded with a simple conviction: the people who make your clothes should be the ones you talk to. No trading companies. No middlemen marking up prices. Just the factory floor, the people who cut and sew, and a direct line to you.
+              </p>
+              <p>
+                Based in Hebei, China, our factory has grown from a small workshop into a full-scale garment manufacturing operation. We specialize in premium T-shirts, hoodies, and custom apparel — serving brands and businesses worldwide who demand quality without the markup.
+              </p>
+              <p>
+                Every order that leaves our door passes through our own quality control, packed by the same hands that made it. That&apos;s the BOAZ difference.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
+            className="grid grid-cols-2 gap-4"
+          >
+            {[
+              { label: "Years Experience", value: "8+" },
+              { label: "Factory Area", value: "2,800 m²" },
+              { label: "Skilled Staff", value: "200+" },
+              { label: "Countries Served", value: "15+" },
+            ].map((stat, i) => (
+              <div key={stat.label} className="p-6 md:p-8 bg-offwhite border border-stone/40 text-center">
+                <span className="text-display-md font-serif text-charcoal block mb-1">{stat.value}</span>
+                <span className="text-[11px] uppercase tracking-wider text-muted">{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ===== FACTORY VIDEO SHOWCASE ===== */}
+      <section className="py-24 md:py-32 section-padding bg-charcoal">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <p className="text-caption uppercase tracking-[0.3em] text-subtle mb-4">Factory Tour</p>
+            <h2 className="text-display-md font-serif text-cream mb-4">
+              See the <span className="italic text-stone">Process</span>
+            </h2>
+            <p className="text-body-md text-cream/60 max-w-xl mx-auto">
+              From raw fabric rolls to finished garments — watch how your orders are made.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative aspect-video max-w-4xl mx-auto overflow-hidden bg-charcoal/50 border border-stone/20"
+          >
+            {!videoPlaying ? (
+              <div className="relative w-full h-full cursor-pointer group" onClick={() => setVideoPlaying(true)}>
+                {/* Video poster frame - using first frame */}
+                <video
+                  className="w-full h-full object-cover"
+                  src="/videos/about-hero-compressed.mp4"
+                  preload="metadata"
+                  muted
+                  playsInline
+                />
+                {/* Play overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-charcoal/40 group-hover:bg-charcoal/60 transition-colors duration-500">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-cream flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cream ml-1">
+                      <path d="M8 5v14l11-7z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-cream/60 text-[11px] uppercase tracking-wider">
+                  Click to watch &middot; 1:33
+                </p>
+              </div>
+            ) : (
+              <video
+                className="w-full h-full object-contain bg-black"
+                controls
+                autoPlay
+                playsInline
+              >
+                <source src="/videos/about-hero-compressed.mp4" type="video/mp4" />
+              </video>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ===== Trust Grid ===== */}
       <section ref={ref} className="py-24 md:py-32 section-padding bg-offwhite">
         <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-16"
+          >
+            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4">Why BOAZ</p>
+            <h2 className="text-display-lg font-serif text-charcoal text-balance">
+              What Sets Us <span className="italic">Apart</span>
+            </h2>
+          </motion.div>
+
           <div className="grid md:grid-cols-2 gap-8 md:gap-12">
             {trustSignals.map((signal, i) => (
               <motion.div
@@ -85,82 +246,8 @@ export default function WhyBoazPage() {
         </div>
       </section>
 
-      {/* Shipping & Logistics */}
+      {/* ===== Process Visual ===== */}
       <section className="py-24 md:py-32 section-padding bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <p className="text-caption uppercase tracking-[0.3em] text-muted mb-6">Shipping & Logistics</p>
-            <h2 className="text-display-md font-serif text-charcoal">
-              From Ningbo Port <span className="italic">To Your Door</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Sea Freight",
-                desc: "Most economical for bulk orders (200+ pcs). 20-40 day transit. Full container or LCL consolidation available.",
-                tag: "Bulk",
-              },
-              {
-                title: "Air Freight",
-                desc: "Balance of speed and cost. 7-15 day transit. Ideal for mid-size orders and time-sensitive projects.",
-                tag: "Express",
-              },
-              {
-                title: "Courier (DHL/FedEx/UPS)",
-                desc: "Fastest option: 3-7 day door-to-door delivery. Best for samples and small orders. Trackable worldwide.",
-                tag: "Fastest",
-              },
-            ].map((item) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="p-8 bg-offwhite border border-stone/40"
-              >
-                <span className="text-[10px] uppercase tracking-wider text-gold mb-3 block">{item.tag}</span>
-                <h3 className="text-body-md font-medium text-charcoal mb-3">{item.title}</h3>
-                <p className="text-body-sm text-muted leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-12 p-8 bg-offwhite border border-stone/40 text-center"
-          >
-            <h3 className="text-display-sm font-serif text-charcoal mb-4">Sample Policy</h3>
-            <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto text-left">
-              <div>
-                <p className="text-sm font-medium text-charcoal">No Minimum</p>
-                <p className="text-[13px] text-muted mt-1">Request 1-5 pieces of any product in our catalog.</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-charcoal">Fully Deductible</p>
-                <p className="text-[13px] text-muted mt-1">Sample cost is deducted from your first bulk order.</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-charcoal">5-7 Day Dispatch</p>
-                <p className="text-[13px] text-muted mt-1">Samples ready and shipped within 5-7 business days.</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Process Visual */}
-      <section className="py-24 md:py-32 section-padding bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -176,12 +263,7 @@ export default function WhyBoazPage() {
           </motion.div>
 
           <div className="grid md:grid-cols-4 gap-6">
-            {[
-              { step: "01", title: "Fabric Sourcing", desc: "Direct mill relationships. Every roll tested before cutting." },
-              { step: "02", title: "Pattern & Cut", desc: "CAD-optimized nesting. Minimal waste. Precise tolerance." },
-              { step: "03", title: "Sew & Assemble", desc: "Experienced operators. Inline QC at every station." },
-              { step: "04", title: "Inspect & Pack", desc: "AQL 2.5 standard. Pre-shipment verification." },
-            ].map((item, i) => (
+            {processes.map((item, i) => (
               <motion.div
                 key={item.step}
                 initial={{ opacity: 0, y: 30 }}
@@ -203,7 +285,7 @@ export default function WhyBoazPage() {
         </div>
       </section>
 
-      {/* UGC / Instagram */}
+      {/* ===== UGC / Instagram ===== */}
       <section className="py-24 md:py-32 section-padding bg-charcoal">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div
@@ -239,6 +321,31 @@ export default function WhyBoazPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ===== CTA ===== */}
+      <section className="py-24 md:py-32 section-padding bg-cream">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+          >
+            <h2 className="text-display-md font-serif text-charcoal mb-6">
+              Ready to Work With the <span className="italic">Factory Directly?</span>
+            </h2>
+            <p className="text-body-md text-muted mb-8 max-w-xl mx-auto leading-relaxed">
+              No middlemen. No inflated quotes. Just the people who make your garments, from first sample to final shipment.
+            </p>
+            <a
+              href="/contact"
+              className="inline-block px-10 py-4 bg-charcoal text-cream text-[12px] uppercase tracking-[0.2em] hover:bg-charcoal/90 transition-colors duration-300"
+            >
+              Get a Quote
+            </a>
+          </motion.div>
         </div>
       </section>
 
