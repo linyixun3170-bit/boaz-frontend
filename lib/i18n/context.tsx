@@ -1,69 +1,98 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { languages, type LangMeta } from "./languages";
 import en from "./en";
-import zh from "./zh";
 
-export type Lang = "en" | "zh";
-
-const translations: Record<Lang, Record<string, string>> = { en, zh };
+type Lang = string;
 
 interface LangContextType {
   lang: Lang;
+  meta: LangMeta;
   setLang: (lang: Lang) => void;
   t: (key: string) => string;
 }
 
 const LangContext = createContext<LangContextType>({
   lang: "en",
+  meta: languages[0],
   setLang: () => {},
   t: (key) => key,
 });
 
+// Cache loaded translations
+const translationCache: Record<string, Record<string, string>> = { en };
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");
+  const [dict, setDict] = useState<Record<string, string>>(en);
   const [mounted, setMounted] = useState(false);
+  const meta = languages.find((l) => l.code === lang) || languages[0];
+
+  // Load translation file
+  const loadLang = useCallback(async (code: string) => {
+    if (translationCache[code]) {
+      setDict(translationCache[code]);
+      return;
+    }
+    try {
+      const mod = await import(`./${code}.ts`);
+      translationCache[code] = mod.default;
+      setDict(mod.default);
+    } catch {
+      // Fallback to English
+      setDict(en);
+    }
+  }, []);
 
   useEffect(() => {
     setMounted(true);
     const saved = localStorage.getItem("boaz-lang") as Lang | null;
-    if (saved && (saved === "en" || saved === "zh")) {
-      setLangState(saved);
-    } else {
-      // Auto-detect browser language
-      const browserLang = navigator.language?.toLowerCase();
-      if (browserLang?.startsWith("zh")) {
-        setLangState("zh");
-      }
+    const detected = saved ||
+      (navigator.language?.startsWith("zh") ? "zh" :
+       navigator.language?.startsWith("es") ? "es" :
+       navigator.language?.startsWith("ar") ? "ar" :
+       navigator.language?.startsWith("fr") ? "fr" :
+       navigator.language?.startsWith("pt") ? "pt" :
+       navigator.language?.startsWith("ru") ? "ru" :
+       navigator.language?.startsWith("ja") ? "ja" :
+       navigator.language?.startsWith("de") ? "de" :
+       navigator.language?.startsWith("ko") ? "ko" : "en");
+    
+    if (detected !== "en") {
+      loadLang(detected);
     }
-  }, []);
+    setLangState(detected);
+  }, [loadLang]);
 
   const setLang = useCallback((newLang: Lang) => {
     setLangState(newLang);
     localStorage.setItem("boaz-lang", newLang);
-  }, []);
+    if (newLang !== "en") {
+      loadLang(newLang);
+    } else {
+      setDict(en);
+    }
+  }, [loadLang]);
 
   const t = useCallback(
-    (key: string): string => {
-      return translations[lang][key] || translations["en"][key] || key;
-    },
-    [lang]
+    (key: string): string => dict[key] || en[key] || key,
+    [dict]
   );
 
-  // Prevent hydration mismatch — render nothing until mounted
   if (!mounted) {
-    // Still render children but with default English T that returns keys
-    const fallbackT = (key: string) => translations["en"][key] || key;
     return (
-      <LangContext.Provider value={{ lang: "en", setLang, t: fallbackT }}>
+      <LangContext.Provider value={{ lang: "en", meta: languages[0], setLang, t }}>
         {children}
       </LangContext.Provider>
     );
   }
 
   return (
-    <LangContext.Provider value={{ lang, setLang, t }}>
-      {children}
+    <LangContext.Provider value={{ lang, meta, setLang, t }}>
+      <div dir={meta.dir || "ltr"} className={meta.dir === "rtl" ? "rtl" : ""}>
+        {children}
+      </div>
     </LangContext.Provider>
   );
 }
@@ -71,3 +100,5 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 export function useLang() {
   return useContext(LangContext);
 }
+
+export { languages } from "./languages";
