@@ -118,13 +118,13 @@ export default function WhyBoazPage() {
             </h2>
             <div className="space-y-4 text-body-md text-muted leading-relaxed">
               <p>
-                BOAZ was founded with a simple conviction: the people who make your clothes should be the ones you talk to. No trading companies. No middlemen marking up prices. Just the factory floor, the people who cut and sew, and a direct line to you.
+                BOAZ is a garment factory with 10 years of OEM & ODM experience. Our production base is located in Hebei, China, specializing in T-shirts and sweatshirts for global brands — from emerging labels to established names.
               </p>
               <p>
-                Based in Hebei, China, our factory has grown from a small workshop into a full-scale garment manufacturing operation. We specialize in premium T-shirts, hoodies, and custom apparel — serving brands and businesses worldwide who demand quality without the markup.
+                We work at every scale. Small batches starting from 50 pieces — light customization using ready-stock garments, swap your label, print your design, even custom poly bags. Delivery in 3&ndash;5 days. Large batches fully customized from fabric — you choose the weight, define the fit, pick the dye color. We control everything from cutting to sewing with full-process quality assurance.
               </p>
               <p>
-                Every order that leaves our door passes through our own quality control, packed by the same hands that made it. That&apos;s the BOAZ difference.
+                No middlemen. The price you see is product + labor + shipping. That&apos;s the BOAZ difference.
               </p>
             </div>
           </motion.div>
@@ -137,10 +137,10 @@ export default function WhyBoazPage() {
             className="grid grid-cols-2 gap-4"
           >
             {[
-              { label: "Years Experience", value: "8+" },
-              { label: "Factory Area", value: "2,800 m²" },
-              { label: "Skilled Staff", value: "200+" },
-              { label: "Countries Served", value: "15+" },
+              { label: "Years Experience", value: "10+" },
+              { label: "Production Base", value: "Hebei, China" },
+              { label: "Batch Range", value: "50–10K+" },
+              { label: "Lead Time", value: "3–5 Days" },
             ].map((stat, i) => (
               <div key={stat.label} className="p-6 md:p-8 bg-offwhite border border-stone/40 text-center">
                 <span className="text-display-md font-serif text-charcoal block mb-1">{stat.value}</span>
