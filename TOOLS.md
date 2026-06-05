@@ -12,6 +12,19 @@
 - **部署**: Git push to main → Cloudflare Pages 自动构建
 - **GitHub推送**: SSH（git@github.com:linyixun3170-bit/boaz-frontend.git）
 
+## ⚡ 安全部署流程（强制遵守）
+改代码后**必须先运行**以下检查，防止运行时崩溃：
+```bash
+bash scripts/pre-deploy-check.sh
+```
+三关：TypeScript 类型检查 → ESLint → 构建验证
+
+配置：
+- 构建时跳过检查（`next.config.js` 中 `ignoreDuringBuilds: true`）
+- 检查在 `scripts/pre-deploy-check.sh` 中独立执行
+- `.eslintrc.json` 已配置
+- `tsconfig.json` 已开启 `strict` + `noUnusedLocals`
+
 ## API 凭证
 - 都存于 CREDENTIALS.md（已 gitignore，权限600）
 - OpenRouter: sk-or-v1-3a72… — 可调用视觉模型看图（✅ 2026-05-26更新，已验证可用）

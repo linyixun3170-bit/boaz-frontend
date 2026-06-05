@@ -69,8 +69,23 @@ _待补充_
 - **设计**：商品原图优化 → 顶级品牌感
 - **域名**：Cloudflare DNS + SSL（Free plan）
 
+## ⚡ 部署安全流程（重要！）
+
+每次改代码后务必跑检查再上线，防止运行时崩溃：
+```bash
+bash scripts/pre-deploy-check.sh
+```
+三关：TypeScript 类型检查 → ESLint 代码检查 → 构建验证
+
+配置文件：
+- `.eslintrc.json` — ESLint 规则
+- `scripts/pre-deploy-check.sh` — 三合一检查脚本
+- `next.config.js` 中 `eslint.ignoreDuringBuilds: true` / `typescript.ignoreBuildErrors: true`（加快CF部署，检查在脚本中完成）
+- `tsconfig.json` strict + noUnusedLocals 已开启
+
 ## 版本标签
 
+- **v2.0** (2026-06-05) — About页重构 + 10语言 + 多SKU + 定制页设计系统 + 部署安全流程
 - **v1.0** (2026-05-28) — 手机端适配完成 + 飞书通知 + overflow 修复。稳定确认版。
   - 恢复命令（告诉我即可）：`git checkout v1.0`
 
@@ -83,6 +98,7 @@ _待补充_
 - [ ] lsz.lk666.ai 平台接入（需 JS 渲染）
 - [ ] 视频嵌入网站
 - [ ] 客户案例收集
+- [ ] Hostinger → Cloudflare 域名转移
 - [x] Cloudflare zone 已激活，apex 域名已可绑定 Pages
 - [ ] 试用 opencli 做浏览器自动化/数据扒取
 - [x] 修复 OpenRouter API Key（2026-05-26 更新，已验证可用）
