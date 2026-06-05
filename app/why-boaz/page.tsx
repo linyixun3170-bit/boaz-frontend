@@ -118,13 +118,13 @@ export default function WhyBoazPage() {
             </h2>
             <div className="space-y-4 text-body-md text-muted leading-relaxed">
               <p>
-                BOAZ is a garment factory with 10 years of OEM & ODM experience. Our production base is located in Hebei, China, specializing in T-shirts and sweatshirts for global brands — from emerging labels to established names.
+                BOAZ is a garment factory with 10 years of OEM & ODM experience. Our production base is located in Hebei, China, specializing in T-shirts and sweatshirts for brands of all sizes.
               </p>
               <p>
-                We work at every scale. Small batches starting from 50 pieces — light customization using ready-stock garments, swap your label, print your design, even custom poly bags. Delivery in 3&ndash;5 days. Large batches fully customized from fabric — you choose the weight, define the fit, pick the dye color. We control everything from cutting to sewing with full-process quality assurance.
+                Small batches starting from 50 pieces — light customization using ready-stock garments. Swap your label, print your design, add custom poly bags. Delivery in 3&ndash;5 days. Perfect for brand sampling, merch drops, and restocking without tying up inventory.
               </p>
               <p>
-                No middlemen. The price you see is product + labor + shipping. That&apos;s the BOAZ difference.
+                Larger volumes get full-process production with fabric sourcing, cutting, sewing, and QC — all under one roof. No middlemen. The price you see is product + labor + shipping. That&apos;s the BOAZ difference.
               </p>
             </div>
           </motion.div>
