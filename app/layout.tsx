@@ -4,6 +4,7 @@ import CustomCursor from "@/components/CustomCursor";
 import SmoothScrollProvider from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Analytics from "@/components/Analytics";
+import { LanguageProvider } from "@/lib/i18n/context";
 
 export const metadata: Metadata = {
   title: "Boaz — Premium T-Shirt & Hoodie Manufacturing",
@@ -55,9 +56,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SmoothScrollProvider>
-          <CustomCursor />
-          <Navbar />
-          {children}
+          <LanguageProvider>
+            <CustomCursor />
+            <Navbar />
+            {children}
+          </LanguageProvider>
         </SmoothScrollProvider>
         <Analytics />
       </body>

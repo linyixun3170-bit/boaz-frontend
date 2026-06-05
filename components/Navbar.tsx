@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLang } from "@/lib/i18n/context";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/wholesale/", label: "Products" },
-  { href: "/custom/", label: "Customize" },
-  { href: "/why-boaz/", label: "About" },
-  { href: "/contact/", label: "Contact" },
+  { href: "/", key: "nav.home" },
+  { href: "/wholesale/", key: "nav.products" },
+  { href: "/custom/", key: "nav.customize" },
+  { href: "/why-boaz/", key: "nav.about" },
+  { href: "/contact/", key: "nav.contact" },
 ];
 
 export default function Navbar() {
+  const { t } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -51,13 +54,14 @@ export default function Navbar() {
                   scrolled ? "text-dark/80 hover:text-dark" : "text-cream/80 hover:text-cream"
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>
 
-          {/* CTA + Hamburger */}
-          <div className="flex items-center gap-6">
+          {/* Language + CTA + Hamburger */}
+          <div className="flex items-center gap-1 md:gap-2">
+            <LanguageSwitcher light={!scrolled} />
             <Link
               href="/contact/"
               className={`text-[11px] md:text-[13px] uppercase tracking-[0.2em] btn-capsule transition-all ${
@@ -66,7 +70,7 @@ export default function Navbar() {
                   : "bg-cream text-charcoal hover:bg-white"
               }`}
             >
-              Request Quote
+              {t("nav.requestQuote")}
             </Link>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -110,7 +114,7 @@ export default function Navbar() {
               }`}
               style={{ transitionDelay: `${i * 50}ms` }}
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
         </div>
