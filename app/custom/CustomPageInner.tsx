@@ -249,8 +249,23 @@ export default function CustomPageInner() {
   const [searchQuery, setSearchQuery] = useState("");
   const currentColors = productColors[selectedProduct.id] || [];
   const [selectedColorIdx, setSelectedColorIdx] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(0);
   const [showingBack, setShowingBack] = useState(false);
   const selectedColorHex = currentColors[selectedColorIdx]?.hex || "#ffffff";
+  
+  // Multi-item sub-variant support
+  const currentColor = currentColors[selectedColorIdx];
+  const hasItems = currentColor?.items && currentColor.items.length > 0;
+  const currentItem = hasItems ? currentColor.items[selectedItem] : null;
+  const currentImage = (() => {
+    if (showingBack) {
+      if (currentItem?.imageBack) return currentItem.imageBack;
+      if (currentColor?.imageBack) return currentColor.imageBack;
+    }
+    if (currentItem?.image) return currentItem.image;
+    if (currentColor?.image) return currentColor.image;
+    return null;
+  })();
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [placement, setPlacement] = useState("center");
   const [quantity, setQuantity] = useState(50);
