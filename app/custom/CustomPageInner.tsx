@@ -792,37 +792,19 @@ export default function CustomPageInner() {
                   </div>
                 </div>
 
-                {/* Upload - integrated into preview area above */}
-                {uploadedImage && (
+                {/* Designs attached */}
+                {designs.length > 0 && (
                   <div>
                     <label className="block text-[11px] uppercase tracking-wider text-dark mb-2">
-                      Design Preview
+                      Design{designs.length > 1 ? 's' : ''} Attached ({designs.length})
                     </label>
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-light-gray overflow-hidden border border-stone">
-                        <img src={uploadedImage} alt="" className="w-full h-full object-contain" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setImgScale(s => Math.max(0.3, s - 0.1))}
-                          className="w-7 h-7 border border-stone flex items-center justify-center text-xs hover:bg-light-gray"
-                          title="Zoom out"
-                        >-</button>
-                        <span className="text-[11px] text-warm-gray w-8 text-center">{Math.round(imgScale * 100)}%</span>
-                        <button
-                          onClick={() => setImgScale(s => Math.min(3, s + 0.1))}
-                          className="w-7 h-7 border border-stone flex items-center justify-center text-xs hover:bg-light-gray"
-                          title="Zoom in"
-                        >+</button>
-                      </div>
-                      <button
-                        onClick={() => { setUploadedImage(null); setImgScale(1); }}
-                        className="text-[11px] text-warm-gray hover:text-dark underline ml-2"
-                      >
-                        Remove
-                      </button>
+                    <div className="flex gap-2 flex-wrap">
+                      {designs.map((des, i) => (
+                        <div key={des.id} className="w-10 h-10 bg-light-gray rounded-lg overflow-hidden border border-stone/30">
+                          <img src={des.image} alt={`Design ${i+1}`} className="w-full h-full object-cover" />
+                        </div>
+                      ))}
                     </div>
-                    <p className="text-[10px] text-warm-gray/60 mt-2">Scroll to zoom - Click preview to re-upload</p>
                   </div>
                 )}
 
