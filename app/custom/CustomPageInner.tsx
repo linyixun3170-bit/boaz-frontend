@@ -269,8 +269,79 @@ export default function CustomPageInner() {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [placement, setPlacement] = useState("center");
   const [quantity, setQuantity] = useState(50);
+  // ─── Design Placement System ──
+  interface PlacedDesign { id: string; image: string; x: number; y: number; scale: number; }
+  const [designs, setDesigns] = useState<PlacedDesign[]>([]);
+  const [activeDesignId, setActiveDesignId] = useState<string | null>(null);
+  const activeDesign = designs.find(d => d.id === activeDesignId) || null;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const pointers = useRef<Map<number,{x:number;y:number}>>(new Map());
+  const dragRef = useRef<{startX:number;startY:number;origX:number;origY:number;designId:string}|null>(null);
+  const pinchRef = useRef<{dist:number;scale:number;designId:string}|null>(null);
+
+  const updateDesign = useCallback((id: string, patch: Partial<PlacedDesign>) => {
+    setDesigns(prev => prev.map(d => d.id === id ? {...d, ...patch} : d));
+  }, []);
+
+  const handleUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const n: PlacedDesign = { id: Date.now().toString(36), image: ev.target?.result as string, x: 50, y: 50, scale: 1 };
+      setDesigns(prev => [...prev, n]);
+      setActiveDesignId(n.id);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }, []);
+
+  const deleteDesign = useCallback((id: string) => {
+    setDesigns(prev => { const next = prev.filter(d => d.id !== id); if (activeDesignId === id) setActiveDesignId(next.length ? next[next.length-1].id : null); return next; });
+  }, [activeDesignId]);
+
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    pointers.current.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    const t = (e.target as HTMLElement).closest("[data-did]");
+    const did = t?.getAttribute("data-did");
+    if (!did || !designs.find(d => d.id === did)) { if (pointers.current.size === 1) setActiveDesignId(null); return; }
+    setActiveDesignId(did);
+    const des = designs.find(d => d.id === did)!;
+    if (pointers.current.size === 1) {
+      (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+      dragRef.current = { startX: e.clientX, startY: e.clientY, origX: des.x, origY: des.y, designId: did };
+    } else if (pointers.current.size === 2) {
+      const pts = Array.from(pointers.current.values());
+      pinchRef.current = { dist: Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y), scale: des.scale, designId: did };
+      dragRef.current = null;
+    }
+  }, [designs]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    pointers.current.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    const c = canvasRef.current; if (!c) return;
+    const r = c.getBoundingClientRect();
+    if (pointers.current.size === 1 && dragRef.current) {
+      updateDesign(dragRef.current.designId, {
+        x: Math.max(5, Math.min(95, dragRef.current.origX + ((e.clientX - dragRef.current.startX)/r.width)*100)),
+        y: Math.max(5, Math.min(95, dragRef.current.origY + ((e.clientY - dragRef.current.startY)/r.height)*100)),
+      });
+    } else if (pointers.current.size >= 2 && pinchRef.current) {
+      const pts = Array.from(pointers.current.values());
+      const ratio = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y) / pinchRef.current.dist;
+      updateDesign(pinchRef.current.designId, { scale: Math.max(0.3, Math.min(3, pinchRef.current.scale * ratio)) });
+    }
+  }, [updateDesign]);
+
+  const onPointerUp = useCallback(() => { pointers.current.clear(); dragRef.current = null; pinchRef.current = null; }, []);
+
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    if (!activeDesign) return;
+    e.preventDefault();
+    updateDesign(activeDesign.id, { scale: Math.max(0.3, Math.min(3, activeDesign.scale + (e.deltaY > 0 ? -0.08 : 0.08))) });
+  }, [activeDesign, updateDesign]);
 
   const currentMethod = decorationMethods.find(m => m.id === selectedMethod);
 
@@ -312,8 +383,6 @@ export default function CustomPageInner() {
     });
     return () => ctx.revert();
   }, []);
-
-  // handleImageUpload removed — replaced by handleUpload above
 
   const handleQuantityStep = (delta: number) => {
     const newQty = Math.max(1, quantity + delta);
