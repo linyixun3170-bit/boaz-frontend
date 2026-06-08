@@ -376,8 +376,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           </div>
           <div>
             <Clock size={22} className="mx-auto mb-2 md:mb-3 text-charcoal" />
-            <p className="text-sm font-medium text-charcoal">3-5 Day Turnaround</p>
-            <p className="text-[10px] md:text-[11px] text-muted mt-1">Sample in 1-2 days, bulk in 3-5 days</p>
+            <p className="text-sm font-medium text-charcoal">5-7 Day Turnaround</p>
+            <p className="text-[10px] md:text-[11px] text-muted mt-1">Sample in ~3 days, bulk in 5-7 days</p>
           </div>
           <div>
             <Check size={22} className="mx-auto mb-2 md:mb-3 text-charcoal" />
