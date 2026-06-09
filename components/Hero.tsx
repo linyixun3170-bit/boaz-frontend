@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 import { useRef } from "react";
+import { SITE_CONFIG } from "@/lib/config";
 
 export default function Hero() {
   const ref = useRef(null);
@@ -70,8 +71,9 @@ export default function Hero() {
             OEM/ODM Custom • Small Orders Welcome • Global Shipping
           </p>
           <p className="text-sm text-cream/40">
-            From $1.99 blanks to $9.90 heavyweight hoodies. 
-            5-day turnaround. FOB.
+            {SITE_CONFIG.showPricing
+              ? "From $1.99 blanks to $9.90 heavyweight hoodies. 5-day turnaround. FOB."
+              : "5-day turnaround. FOB. Direct factory pricing available."}
           </p>
         </motion.div>
 

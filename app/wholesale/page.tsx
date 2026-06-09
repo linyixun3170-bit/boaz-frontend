@@ -8,6 +8,7 @@ import { ArrowUpRight, Filter } from "lucide-react";
 import Footer from "@/components/Footer";
 import SchemaOrg from "@/components/SchemaOrg";
 import { products, type Product } from "@/lib/products-catalog";
+import { SITE_CONFIG } from "@/lib/config";
 
 const categories = ["All", "T-Shirts", "Hoodies", "Long Sleeves", "Kids"];
 
@@ -122,7 +123,7 @@ function ProductCard({ product, index, isInView }: { product: Product; index: nu
         <div className="space-y-1">
           <h3 className="text-body-sm font-semibold text-charcoal group-hover:text-ink transition-colors leading-tight">{product.name}</h3>
           <p className="text-caption text-warmink uppercase tracking-wide">{product.weight} · {product.fabric}</p>
-          <p className="text-body-sm text-charcoal font-semibold mt-1">{product.priceFOB}</p>
+          <p className="text-body-sm text-charcoal font-semibold mt-1">{SITE_CONFIG.showPricing ? product.priceFOB : SITE_CONFIG.pricingPlaceholder}</p>
           <p className="text-[11px] text-gold">{product.colors.length} colors · {product.sizes.length} sizes</p>
         </div>
       </Link>

@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { products } from "@/lib/products-catalog";
 import type { Product } from "@/lib/products-catalog";
 import { buildSizeTable } from "@/lib/size-chart";
+import { SITE_CONFIG } from "@/lib/config";
 
 function SizeTable({ product }: { product: Product }) {
   if (!product.sizeChart || product.sizeChart.length === 0) return null;
@@ -156,12 +157,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     if (currentItem) return currentItem.image ?? currentColor.image ?? product.images.main;
     return currentColor.image ?? product.images.main;
   };
-  const getColorBackImage = () => {
-    if (!currentColor) return undefined;
-    if (currentItem) return currentItem.imageBack ?? currentColor.imageBack;
-    return currentColor.imageBack;
-  };
-
   const mainPic = showingColor
     ? getColorImage()
     : (product.images.gallery[selectedImage] ?? product.images.main);
@@ -244,7 +239,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <div className="mb-4">
                 <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted mb-2">Style</p>
                 <div className="flex flex-wrap gap-2">
-                  {currentColor.items.map((item, i) => (
+                  {currentColor?.items?.map((item, i) => (
                     <button
                       key={item.slug}
                       onClick={() => { setSelectedItem(i); setShowingColor(true); }}
@@ -272,8 +267,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
 
             <div className="py-3 md:py-4 border-y border-stone">
-              <p className="text-xl md:text-2xl font-medium text-charcoal">{product.priceFOB}</p>
-              <p className="text-[10px] md:text-[11px] text-muted mt-1">FOB · Minimum {product.moq} pcs per color/size</p>
+              {SITE_CONFIG.showPricing ? (
+                <p className="text-xl md:text-2xl font-medium text-charcoal">{product.priceFOB}</p>
+              ) : (
+                <p className="text-xl md:text-2xl font-medium text-gold">{SITE_CONFIG.pricingPlaceholder}</p>
+              )}
+              <p className="text-[10px] md:text-[11px] text-muted mt-1">Minimum {product.moq} pcs per color/size</p>
             </div>
 
             {/* B2B Key Info */}
@@ -318,7 +317,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   Style
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {currentColor.items.map((item, i) => (
+                  {currentColor?.items?.map((item, i) => (
                     <button
                       key={item.slug}
                       onClick={() => { setSelectedItem(i); setShowingColor(true); }}
@@ -404,7 +403,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     </div>
                   </div>
                   <p className="text-xs md:text-sm font-medium text-charcoal group-hover:text-ink transition-colors leading-tight">{p.name}</p>
-                  <p className="text-[10px] md:text-[11px] text-muted mt-0.5">{p.priceFOB}</p>
+                  <p className="text-[10px] md:text-[11px] text-muted mt-0.5">{SITE_CONFIG.showPricing ? p.priceFOB : SITE_CONFIG.pricingPlaceholder}</p>
                 </Link>
               ))}
             </div>

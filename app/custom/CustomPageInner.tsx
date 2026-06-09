@@ -13,6 +13,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products as catalogProducts } from "@/lib/products-catalog";
 import { buildSizeTable } from "@/lib/size-chart";
 import PricingTiers from "@/components/PricingTiers";
+import { SITE_CONFIG } from "@/lib/config";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -215,10 +216,11 @@ const products: ProductOption[] = [
 ];
 
 const decorationMethods = [
-  { id: "screen", label: "Screen Print", desc: "Best for bold flat colors. Most cost-effective for 50+ pcs.", pricePerPc: 1.50, tag: "Popular", minQty: 50 },
-  { id: "dtg", label: "DTG", desc: "Full-color photo-quality prints. No minimum quantity, ideal for samples.", pricePerPc: 3.00, tag: null, minQty: 1 },
-  { id: "embroidery", label: "Embroidery", desc: "Premium stitched logo with texture. Best for hats, polos, and outerwear.", pricePerPc: 2.50, tag: "Premium", minQty: 50 },
-  { id: "transfer", label: "Heat Transfer", desc: "Complex designs & small runs. Quick turnaround, vivid colors.", pricePerPc: 2.00, tag: null, minQty: 25 },
+  { id: "transfer", label: "Heat Transfer", desc: "Value pick — works for all sizes, from small logos to full-front designs.", priceLabel: "$1–3/design", pricePerPc: 2.00, tag: "Best Value", minQty: 1 },
+  { id: "screen", label: "Screen Print", desc: "Clean bold colors, premium finish. +$1 per additional color.", priceLabel: "From $1.50/pc", pricePerPc: 1.50, tag: "Popular", minQty: 50 },
+  { id: "dtg", label: "DTG", desc: "Light tees: $2–3/design. Dark tees: quoted based on artwork.", priceLabel: "$2–3/design", pricePerPc: 2.50, tag: null, minQty: 1 },
+  { id: "embroidery", label: "Embroidery", desc: "Standard left chest logo $1–3. Large/custom placements quoted.", priceLabel: "$1–3", pricePerPc: 2.00, tag: "Premium", minQty: 50 },
+  { id: "other", label: "Other Effects", desc: "Puff print, foil, rhinestone, sublimation — send us your idea.", priceLabel: "Consult", pricePerPc: 0, tag: null, minQty: 1 },
 ];
 
 const productColors = products.reduce((acc: Record<string, ProductOption["colors"]>, p) => {
@@ -566,7 +568,7 @@ export default function CustomPageInner() {
                 {products
                   .filter(p => !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase()))
                   .map(p => (
-                  <option key={p.id} value={p.id}>{p.name} -- From ${p.priceBase.toFixed(2)}/pc</option>
+                  <option key={p.id} value={p.id}>{p.name}{SITE_CONFIG.showPricing ? ` -- From $${p.priceBase.toFixed(2)}/pc` : ""}</option>
                 ))}
               </select>
             </div>
@@ -629,12 +631,14 @@ export default function CustomPageInner() {
                 <div>
                   <p className="text-[11px] uppercase tracking-wider text-muted mb-1">{selectedProduct.category}</p>
                   <h2 className="text-base font-serif text-charcoal leading-snug">{selectedProduct.name}</h2>
-                  <p className="text-[16px] font-medium text-charcoal mt-1">{selectedProduct.priceBase.toFixed(2)}/pc</p>
+                  {SITE_CONFIG.showPricing && (
+                    <p className="text-[16px] font-medium text-charcoal mt-1">{selectedProduct.priceBase.toFixed(2)}/pc</p>
+                  )}
                 </div>
 
                 {/* Item selector + Front/Back toggle */}
                 <div className="flex gap-2 flex-wrap">
-                  {hasItems {hasItems && currentColor.items.map{hasItems && currentColor.items.map currentColor?.items?.map((item, idx) => (
+                  {hasItems && currentColor?.items?.map((item, idx) => (
                     <button key={item.slug} onClick={() => setSelectedItem(idx)}
                       className={"px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium border rounded-full transition-all " + (selectedItem === idx ? "bg-dark text-cream border-dark" : "bg-white text-dark border-stone/40 hover:border-dark/30")}
                     >{item.name}</button>
@@ -724,7 +728,9 @@ export default function CustomPageInner() {
                       >
                         <span className="text-[11px] uppercase tracking-wider text-dark block mb-1">{m.label}</span>
                         <span className="text-[10px] text-warm-gray block">{m.desc}</span>
-                        <span className="text-[11px] text-dark font-medium mt-1 block">+${m.pricePerPc.toFixed(2)}/pc</span>
+                        {SITE_CONFIG.showPricing && (
+                          <span className="text-[11px] text-dark font-medium mt-1 block">{m.priceLabel}</span>
+                        )}
                         {m.tag && (
                           <span className="absolute top-2 right-2 px-1.5 py-0.5 bg-dark text-cream text-[8px] uppercase tracking-wider">
                             {m.tag}
@@ -773,17 +779,19 @@ export default function CustomPageInner() {
                   </div>
                 )}
 
-                {/* Quantity + Pricing Tiers */}
+                {/* Quantity Selector */}
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex-1">
-                      <PricingTiers
-                        basePrice={selectedProduct.priceBase + (currentMethod?.pricePerPc || 0)}
-                        currentQty={quantity}
-                        onSelectQty={setQuantity}
-                      />
+                  {SITE_CONFIG.showPricing && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="flex-1">
+                        <PricingTiers
+                          basePrice={selectedProduct.priceBase + (currentMethod?.pricePerPc || 0)}
+                          currentQty={quantity}
+                          onSelectQty={setQuantity}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="flex items-center gap-3">
                     <label className="text-[11px] uppercase tracking-wider text-dark shrink-0">
@@ -811,35 +819,49 @@ export default function CustomPageInner() {
                   </div>
                 </div>
 
-                {/* Price Summary (Desktop) */}
-                <div className="hidden lg:block border-t border-stone pt-6">
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit x {quantity} pcs (garment)</span>
-                      <span className="text-dark">${(selectedProduct.priceBase * quantity).toFixed(2)}</span>
-                    </div>
-                    {currentMethod && (
+                {/* Price Summary (Desktop) — hidden when pricing is off */}
+                {SITE_CONFIG.showPricing ? (
+                  <div className="hidden lg:block border-t border-stone pt-6">
+                    <div className="space-y-2 mb-4">
                       <div className="flex justify-between text-sm">
-                        <span className="text-warm-gray">+ ${currentMethod.pricePerPc.toFixed(2)}/unit x {quantity} pcs ({currentMethod.label})</span>
-                        <span className="text-dark">${(currentMethod.pricePerPc * quantity).toFixed(2)}</span>
+                        <span className="text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit x {quantity} pcs (garment)</span>
+                        <span className="text-dark">${(selectedProduct.priceBase * quantity).toFixed(2)}</span>
                       </div>
-                    )}
-                    <div className="flex justify-between text-sm font-medium pt-2 border-t border-stone">
-                      <span className="text-dark">Estimated Total</span>
-                      <span className="text-dark text-lg">${calculateTotal().toFixed(2)}</span>
+                      {currentMethod && (
+                        <div className="flex justify-between text-sm">
+                          <span className="text-warm-gray">+ ${currentMethod.pricePerPc.toFixed(2)}/unit x {quantity} pcs ({currentMethod.label})</span>
+                          <span className="text-dark">${(currentMethod.pricePerPc * quantity).toFixed(2)}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between text-sm font-medium pt-2 border-t border-stone">
+                        <span className="text-dark">Estimated Total</span>
+                        <span className="text-dark text-lg">${calculateTotal().toFixed(2)}</span>
+                      </div>
+                      <p className="text-[10px] text-warm-gray">FOB. Price includes garment + decoration. Shipping calculated separately.</p>
                     </div>
-                    <p className="text-[10px] text-warm-gray">FOB. Price includes garment + decoration. Shipping calculated separately.</p>
+                    <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
+                      Request Quote
+                    </a>
+                    <Link 
+                      href={`/custom-design?product=${selectedProduct.id}&name=${encodeURIComponent(selectedProduct.name)}&color=${encodeURIComponent((currentItem?.name ? currentItem.name + " - " : "") + (currentColors[selectedColorIdx]?.name || ""))}&image=${encodeURIComponent(currentImage || "")}`}
+                      className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2"
+                    >
+                      🎨 Open Design Studio
+                    </Link>
                   </div>
-                  <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
-                    Request Quote
-                  </a>
-                  <Link 
-                    href={`/custom-design?product=${selectedProduct.id}&name=${encodeURIComponent(selectedProduct.name)}&color=${encodeURIComponent((currentItem?.name ? currentItem.name + " - " : "") + (currentColors[selectedColorIdx]?.name || ""))}&image=${encodeURIComponent(currentImage || "")}`}
-                    className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2"
-                  >
-                    🎨 Open Design Studio
-                  </Link>
-                </div>
+                ) : (
+                  <div className="hidden lg:block border-t border-stone pt-6">
+                    <a href={buildQuoteUrl()} className="btn-capsule w-full block text-center">
+                      Request Quote
+                    </a>
+                    <Link 
+                      href={`/custom-design?product=${selectedProduct.id}&name=${encodeURIComponent(selectedProduct.name)}&color=${encodeURIComponent((currentItem?.name ? currentItem.name + " - " : "") + (currentColors[selectedColorIdx]?.name || ""))}&image=${encodeURIComponent(currentImage || "")}`}
+                      className="w-full block text-center text-sm py-3 px-6 border border-charcoal/30 text-charcoal uppercase tracking-widest rounded-full hover:border-charcoal hover:bg-charcoal/5 transition-all duration-300 mt-2"
+                    >
+                      🎨 Open Design Studio
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -864,18 +886,26 @@ export default function CustomPageInner() {
           </div>
         </div>
 
-        {/* Mobile Sticky Price Bar */}
+        {/* Mobile Sticky Bar */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone p-4 lg:hidden z-50">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] text-warm-gray uppercase tracking-wider">Estimated Total</p>
-              <p className="text-xl font-medium text-dark">${calculateTotal().toFixed(2)}</p>
-              <p className="text-[10px] text-warm-gray">
-                {selectedProduct.name} - {quantity} pcs
-                {currentMethod ? ` (${currentMethod.label})` : ""}
-              </p>
-              <p className="text-[10px] text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit + (${(currentMethod?.pricePerPc || 0).toFixed(2)}/unit decoration)</p>
-            </div>
+            {SITE_CONFIG.showPricing ? (
+              <div>
+                <p className="text-[10px] text-warm-gray uppercase tracking-wider">Estimated Total</p>
+                <p className="text-xl font-medium text-dark">${calculateTotal().toFixed(2)}</p>
+                <p className="text-[10px] text-warm-gray">
+                  {selectedProduct.name} - {quantity} pcs
+                  {currentMethod ? ` (${currentMethod.label})` : ""}
+                </p>
+                <p className="text-[10px] text-warm-gray">${selectedProduct.priceBase.toFixed(2)}/unit + (${(currentMethod?.pricePerPc || 0).toFixed(2)}/unit decoration)</p>
+              </div>
+            ) : (
+              <div>
+                <p className="text-[10px] text-warm-gray uppercase tracking-wider">Custom Order</p>
+                <p className="text-sm font-medium text-dark">{selectedProduct.name} — {quantity} pcs</p>
+                <p className="text-[10px] text-warm-gray">{currentColor?.name || ""}{currentMethod ? ` · ${currentMethod.label}` : ""}</p>
+              </div>
+            )}
             <a href={buildQuoteUrl()} className="px-6 py-3 bg-dark text-cream text-sm uppercase tracking-widest">
               Get Quote
             </a>

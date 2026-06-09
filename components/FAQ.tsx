@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/config";
 
 // ============================================================
 // ❓ FAQ 组件（GEO 优化核心）
@@ -47,7 +48,9 @@ const defaultFaqs: FAQItem[] = [
   {
     question: "What is your price range?",
     answer:
-      "Our blank garment prices range from $0.85 for lightweight basic tees to $9.90 for heavyweight premium hoodies. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you.",
+      SITE_CONFIG.showPricing
+        ? "Our blank garment prices range from $0.85 for lightweight basic tees to $9.90 for heavyweight premium hoodies. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you."
+        : "Our pricing is competitive and transparent. Garment prices depend on fabric weight, style, and quantity. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you. Contact us for a quote tailored to your specific needs.",
   },
   {
     question: "Can you develop a completely custom garment from a tech pack or sketch?",
