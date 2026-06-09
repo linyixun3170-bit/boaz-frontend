@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { Check, Upload, ZoomIn, ZoomOut, ArrowRight, X, Trash2, Move } from "lucide-react";
 import Navbar from "@/components/Navbar";

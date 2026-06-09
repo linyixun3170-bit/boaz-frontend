@@ -82,7 +82,6 @@ export default function CustomerCases({
     if (!isDown.current || !trackRef.current) return;
     const dx = clientX - lastX.current;
     const walked = clientX - startX.current;
-    const now = Date.now();
     velocity.current = dx;
     lastX.current = clientX;
     if (Math.abs(walked) > 5) moved.current = true;

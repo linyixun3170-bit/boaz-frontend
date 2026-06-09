@@ -47,22 +47,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
+    // 默认英文，只有用户手动选择过才用 localStorage 记住的语言
     const saved = localStorage.getItem("boaz-lang") as Lang | null;
-    const detected = saved ||
-      (navigator.language?.startsWith("zh") ? "zh" :
-       navigator.language?.startsWith("es") ? "es" :
-       navigator.language?.startsWith("ar") ? "ar" :
-       navigator.language?.startsWith("fr") ? "fr" :
-       navigator.language?.startsWith("pt") ? "pt" :
-       navigator.language?.startsWith("ru") ? "ru" :
-       navigator.language?.startsWith("ja") ? "ja" :
-       navigator.language?.startsWith("de") ? "de" :
-       navigator.language?.startsWith("ko") ? "ko" : "en");
+    const langToUse = saved || "en";
     
-    if (detected !== "en") {
-      loadLang(detected);
+    if (langToUse !== "en") {
+      loadLang(langToUse);
     }
-    setLangState(detected);
+    setLangState(langToUse);
   }, [loadLang]);
 
   const setLang = useCallback((newLang: Lang) => {

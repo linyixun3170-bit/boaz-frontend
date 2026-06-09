@@ -1,5 +1,5 @@
 // ⏰ Daily 8AM Check — Pending Leads → AI Draft → Notify
-// Called by cron: curl https://boazclothes.com/api/daily-check
+// Called by cron: curl https://boaz-clothes.com/api/daily-check
 
 const BITABLE_APP_TOKEN = "GySHbb1LJa4XTaso87BcGKKWncb";
 const BITABLE_TABLE_ID = "tblAFoXji5JLlEvM";

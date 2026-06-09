@@ -44,6 +44,27 @@ _人工 curated，只放重要的。_
 - Cloudflare API Token（Pages+DNS+SSL+Zone 全权限）
 - Cloudflare Account ID: 9450ced919248d081e1a52db0b31b748
 
+## 关键配置
+
+| 项目 | 值 |
+|------|-----|
+| 主域名 | `boaz-clothes.com` |
+| Cloudflare Pages | 项目 `boaz`，手动 wrangler deploy |
+| 联系邮箱 | `sale@boaz-clothes.com` |
+| 企业邮箱 | 飞书企业邮（MX: larksuite.com） |
+| GA4 ID | `G-4L2NLJ75Z2` |
+| 价格开关 | `lib/config.ts` → `showPricing: false` |
+| 邮件兜底 | Cloudflare env `EMAIL_FALLBACK_TO` = sale@boaz-clothes.com（需 SendGrid API Key） |
+| Git 版本标签 | v2.1（价格隐藏版）|
+
+## 重要决策
+- 2026-06-09：域名从 boazclothes.com → boaz-clothes.com
+- 2026-06-09：多语言默认英文，去掉浏览器自动检测
+- 2026-06-09：新增 Privacy Policy + Terms & Conditions 页面
+- 2026-06-09：GA4 配置完成 G-4L2NLJ75Z2
+- 2026-06-09：Schema.org 改为服务端组件，动态从产品目录生成
+- 2026-06-09：联系表单加超时保护 + 邮件兜底
+
 ## 已完成的功能优化
 
 - 产品卡片 MOQ + 交期标签

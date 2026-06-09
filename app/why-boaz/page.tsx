@@ -141,7 +141,7 @@ export default function WhyBoazPage() {
               { label: "Production Base", value: "Hebei, China" },
               { label: "Batch Range", value: "50–10K+" },
               { label: "Lead Time", value: "3–5 Days" },
-            ].map((stat, i) => (
+            ].map((stat) => (
               <div key={stat.label} className="p-6 md:p-8 bg-offwhite border border-stone/40 text-center">
                 <span className="text-display-md font-serif text-charcoal block mb-1">{stat.value}</span>
                 <span className="text-[11px] uppercase tracking-wider text-muted">{stat.label}</span>

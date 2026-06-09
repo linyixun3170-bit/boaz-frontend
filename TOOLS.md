@@ -97,3 +97,11 @@ convert input.jpg -quality 82 output.webp
 - 版本: 1.8.0
 - 全局安装: npm install -g @jackwener/opencli
 - 命令: browser、list、plugin、adapter、doctor 等
+
+## GA4
+- Measurement ID: G-4L2NLJ75Z2
+- 配置位置: components/Analytics.tsx
+
+## 当前域名
+- 主域名: boaz-clothes.com
+- 旧域名: boazclothes.com（仍保留）

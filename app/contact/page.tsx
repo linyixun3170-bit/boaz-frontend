@@ -87,6 +87,13 @@ export default function ContactPage() {
     setSending(true);
     setError(null);
 
+    // ⏱ 超时保护: 8 秒无响应提醒用户
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      setError("Request is taking longer than expected. We'll still get your message — or you can reach us directly on WhatsApp: +86 188 6879 8631");
+    }, 8000);
+
     try {
       const payload = {
         name: formData.get('cf_name') as string || '',
@@ -105,13 +112,25 @@ export default function ContactPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
-      if (!res.ok) throw new Error('Failed to submit');
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || 'Failed to submit');
+      }
 
       setSubmitted(true);
     } catch (err) {
-      setError("Something went wrong. Please email us directly at info@boazclothes.com");
+      // 如果已经超时报错了，不再覆盖错误信息
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        // 超时提醒已经在上面设置了，不覆盖
+      } else {
+        clearTimeout(timeoutId);
+        setError("Something went wrong. Please email us directly or reach us on WhatsApp: +86 188 6879 8631");
+      }
     } finally {
       setSending(false);
     }
@@ -152,10 +171,10 @@ export default function ContactPage() {
             </a>{" "}
             or email{" "}
             <a
-              href="mailto:info@boazclothes.com"
+              href="mailto:sale@boaz-clothes.com"
               className="text-gold underline"
             >
-              info@boazclothes.com
+              sale@boaz-clothes.com
             </a>
             .
           </p>
@@ -509,10 +528,10 @@ export default function ContactPage() {
                     Email
                   </p>
                   <a
-                    href="mailto:hello@boaz.apparel"
+                    href="mailto:sale@boaz-clothes.com"
                     className="text-sm text-dark hover:text-gold transition-colors"
                   >
-                    hello@boaz.apparel
+                    sale@boaz-clothes.com
                   </a>
                 </div>
 

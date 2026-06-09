@@ -1,5 +1,5 @@
 // 📩 Contact Form → Feishu Bitable + Notification
-// 网站表单提交 → 飞书多维表格记录 + Bot 卡片通知
+// 网站表单提交 → 飞书多维表格记录 + Bot 卡片通知 + 邮件兜底
 
 const BITABLE_APP_TOKEN = "GySHbb1LJa4XTaso87BcGKKWncb";
 const BITABLE_TABLE_ID = "tblAFoXji5JLlEvM";
@@ -55,7 +55,6 @@ async function getTenantToken(env) {
 }
 
 async function addRecordToBitable(token, body, headers) {
-  // IP country code → full name mapping
   const COUNTRY_MAP = {
     "US": "United States", "GB": "United Kingdom", "CA": "Canada",
     "AU": "Australia", "DE": "Germany", "FR": "France",
@@ -90,7 +89,7 @@ async function addRecordToBitable(token, body, headers) {
     [FIELDS.quantity]: body.quantity || "",
     [FIELDS.message]: body.message || "",
     [FIELDS.status]: STATUS_OPTIONS.pending,
-    [FIELDS.notes]: `Submitted from boazclothes.com`,
+    [FIELDS.notes]: `Submitted from boaz-clothes.com`,
     [FIELDS.ip]: ip,
   };
 
@@ -102,9 +101,7 @@ async function addRecordToBitable(token, body, headers) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        fields,
-      }),
+      body: JSON.stringify({ fields }),
     }
   );
 
@@ -131,7 +128,7 @@ function buildCard(body) {
   return {
     config: { wide_screen_mode: true },
     header: {
-      title: { tag: "plain_text", content: "📩 New Inquiry — boazclothes.com" },
+      title: { tag: "plain_text", content: "📩 New Inquiry — boaz-clothes.com" },
       template: "blue",
     },
     elements: [
@@ -183,6 +180,55 @@ function buildCard(body) {
   };
 }
 
+// 📧 邮件兜底 — 飞书通知失败时发邮件
+async function sendFallbackEmail(body, env) {
+  const to = env.EMAIL_FALLBACK_TO;
+  if (!to) return;
+
+  const labels = {
+    wholesale: "Wholesale Pricing",
+    custom: "Custom Manufacturing",
+    sample: "Request Samples",
+    "private-label": "Private Label",
+    partnership: "Partnership",
+    other: "Other",
+  };
+
+  const subject = `[New Inquiry] ${body.company || body.name} — ${labels[body.inquiryType] || body.inquiryType || "General"}`;
+  const text = [
+    `Name: ${body.name || "—"}`,
+    `Email: ${body.email || "—"}`,
+    `Company: ${body.company || "—"}`,
+    `Phone: ${body.phone || "—"}`,
+    `WeChat: ${body.wechat || "—"}`,
+    `Inquiry Type: ${labels[body.inquiryType] || body.inquiryType || "—"}`,
+    `Quantity: ${body.quantity || "—"}`,
+    `Message: ${body.message || "—"}`,
+    `Time: ${new Date().toISOString()}`,
+  ].join("\n");
+
+  // SendGrid
+  try {
+    const msg = {
+      personalizations: [{ to: [{ email: to }] }],
+      from: { email: env.EMAIL_FROM || "noreply@boaz-clothes.com" },
+      subject,
+      content: [{ type: "text/plain", value: text }],
+    };
+    await fetch("https://api.sendgrid.com/v3/mail/send", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.SENDGRID_API_KEY || ""}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(msg),
+    });
+    console.log("[Contact] Fallback email sent to", to);
+  } catch (e) {
+    console.error("[Contact] Fallback email failed:", e);
+  }
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
 
@@ -209,13 +255,15 @@ export async function onRequest(context) {
     }
 
     const token = await getTenantToken(env);
-
-    // 1. Write to Bitable (includes IP + country from Cloudflare headers)
+    let feishuOk = true;
     let recordId = null;
+
+    // 1. Write to Bitable
     try {
       recordId = await addRecordToBitable(token, body, request.headers);
       console.log("[Contact] Bitable record created:", recordId);
     } catch (e) {
+      feishuOk = false;
       console.error("[Contact] Failed to write bitable:", e);
     }
 
@@ -223,7 +271,6 @@ export async function onRequest(context) {
     try {
       const card = buildCard(body);
       const openId = env.FEISHU_USER_OPEN_ID || "ou_beec7c4f13589d61fbf39ca28d61cf39";
-
       await fetch(
         `https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=open_id`,
         {
@@ -240,7 +287,14 @@ export async function onRequest(context) {
         }
       );
     } catch (e) {
+      feishuOk = false;
       console.error("[Contact] Failed to send notification:", e);
+    }
+
+    // 3. 飞书失败 → 邮件兜底
+    if (!feishuOk) {
+      console.log("[Contact] Feishu failed, trying email fallback...");
+      await sendFallbackEmail(body, env);
     }
 
     return new Response(JSON.stringify({ success: true, recordId }), {
@@ -248,6 +302,13 @@ export async function onRequest(context) {
     });
   } catch (err) {
     console.error("[Contact] Error:", err);
+
+    // 兜底：异常时也尝试发邮件
+    try {
+      const body = await request.json().catch(() => ({}));
+      await sendFallbackEmail(body, env);
+    } catch (_) {}
+
     return new Response(JSON.stringify({ error: "Internal error" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

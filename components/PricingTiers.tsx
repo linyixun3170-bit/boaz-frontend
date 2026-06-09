@@ -1,6 +1,6 @@
 "use client";
 
-import { PRICING_TIERS, unitPrice, totalPrice, currentTier, nextTier } from "@/lib/pricing-tiers";
+import { PRICING_TIERS, unitPrice, currentTier, nextTier } from "@/lib/pricing-tiers";
 import { ChevronRight } from "lucide-react";
 
 interface Props {

@@ -16,7 +16,7 @@ function buildCard(body) {
   return {
     config: { wide_screen_mode: true },
     header: {
-      title: { tag: "plain_text", content: "🧵 Custom Quote Request — boazclothes.com" },
+      title: { tag: "plain_text", content: "🧵 Custom Quote Request — boaz-clothes.com" },
       template: "indigo",
     },
     elements: [

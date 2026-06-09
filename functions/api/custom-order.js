@@ -47,7 +47,7 @@ export async function onRequest(context) {
     ).join("\n");
 
     const notes = [
-      `📦 Custom Order from boazclothes.com`,
+      `📦 Custom Order from boaz-clothes.com`,
       `Designs: ${activeDesigns.length}/${(designs || []).length} positions`,
       ``,
       designNote,

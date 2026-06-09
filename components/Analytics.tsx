@@ -9,10 +9,10 @@ import Script from "next/script";
 // 格式: G-XXXXXXXXXX
 // ============================================================
 
-const GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
+const GA_MEASUREMENT_ID = "G-4L2NLJ75Z2";
 
 export default function Analytics() {
-  if (GA_MEASUREMENT_ID === "G-XXXXXXXXXX") {
+  if (GA_MEASUREMENT_ID.startsWith("G-") === false) {
     console.warn("[Analytics] GA_MEASUREMENT_ID not configured. Set your GA4 ID in components/Analytics.tsx");
     return null;
   }

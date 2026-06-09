@@ -60,11 +60,11 @@ export default function Footer() {
             <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">Connect</h4>
             <div className="space-y-3">
               <a
-                href="mailto:hello@boaz.apparel"
+                href="mailto:sale@boaz-clothes.com"
                 className="flex items-center gap-2 text-body-sm text-cream/70 hover:text-cream transition-colors duration-300"
               >
                 <Mail size={14} />
-                hello@boaz.apparel
+                sale@boaz-clothes.com
               </a>
               <a
                 href="https://wa.me/8618868798631"
@@ -85,6 +85,8 @@ export default function Footer() {
             © {new Date().getFullYear()} BOAZ Apparel. All rights reserved.
           </p>
           <div className="flex gap-6">
+            <Link href="/privacy-policy" className="text-caption text-subtle hover:text-cream transition-colors duration-300">Privacy</Link>
+            <Link href="/terms-and-conditions" className="text-caption text-subtle hover:text-cream transition-colors duration-300">Terms</Link>
             {["Instagram", "LinkedIn", "Twitter"].map((social) => (
               <a
                 key={social}

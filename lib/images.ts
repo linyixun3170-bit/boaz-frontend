@@ -67,7 +67,7 @@ export const productImages = {
     alt: "Crop boxy fit t-shirt with drop shoulder",
   } satisfies ImageAsset,
   XJ78000: {
-    src: "/images/products/XJ-78000/XJ-78000-04.jpg",
+    src: "/images/products/XJ-78000/model/XJ-78000-04.jpg",
     alt: "XJ-78000 Heavyweight Drop Shoulder Tee",
   } satisfies ImageAsset,
 };

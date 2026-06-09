@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "skills": {
+    "marketing-skills": {
+      "version": "0.1.2",
+      "installedAt": 1780974847821
+    },
+    "gingiris-seo-geo-agent": {
+      "version": "1.0.8",
+      "installedAt": 1780974888383
+    },
+    "ai-growth-engine": {
+      "version": "1.0.0",
+      "installedAt": 1780974896665
+    },
+    "afrexai-growth-engine": {
+      "version": "1.1.0",
+      "installedAt": 1780974902234
+    }
+  }
+}

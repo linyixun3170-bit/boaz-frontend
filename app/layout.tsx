@@ -8,25 +8,25 @@ import { LanguageProvider } from "@/lib/i18n/context";
 
 export const metadata: Metadata = {
   title: "Boaz — Premium T-Shirt & Hoodie Manufacturing",
-  description: "Three generations of garment manufacturing. From $0.85 blanks to $9.90 heavyweight hoodies. 50 MOQ. 5-day turnaround. FOB. Serving independent brands, Amazon sellers, and stores worldwide.",
+  description: "Three generations of garment manufacturing. Direct factory pricing. 50 MOQ. 5-day turnaround. FOB. Serving independent brands, Amazon sellers, and stores worldwide.",
   keywords: ["t-shirt manufacturer", "hoodie factory", "custom apparel", "wholesale blanks", "China garment factory", "Amazon FBA supplier", "DTG ready blanks", "vintage washed tees"],
   authors: [{ name: "Boaz Apparel" }],
   creator: "Boaz Apparel",
   publisher: "Boaz Apparel",
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://boazclothes.com",
+    url: "https://boaz-clothes.com",
     siteName: "Boaz Apparel",
     title: "Boaz — Premium T-Shirt & Hoodie Manufacturing",
     description: "Three generations of garment manufacturing. From $0.85 blanks to $9.90 heavyweight hoodies. 50 MOQ. 5-day turnaround. FOB.",
     images: [
       {
-        url: "https://boazclothes.com/og-image.jpg",
+        url: "https://boaz-clothes.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Boaz Apparel — Premium T-Shirt & Hoodie Manufacturing",
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Boaz — Premium T-Shirt & Hoodie Manufacturing",
     description: "Three generations of garment manufacturing. 50 MOQ. 5-day turnaround.",
-    images: ["https://boazclothes.com/og-image.jpg"],
+    images: ["https://boaz-clothes.com/og-image.jpg"],
   },
   alternates: {
-    canonical: "https://boazclothes.com",
+    canonical: "https://boaz-clothes.com",
   },
   verification: {
     google: "your-google-verification-code",

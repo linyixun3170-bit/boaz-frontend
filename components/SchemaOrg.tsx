@@ -1,127 +1,123 @@
-"use client";
-
-import Script from "next/script";
-
-// ============================================================
-// 🔍 Schema.org 结构化数据
-// 
-// 这是 SEO 的隐藏王牌。Google 用这些数据生成富媒体摘要。
-// B2B 网站尤其需要 Organization 和 Product 的 Schema。
-// ============================================================
+// 🔍 Schema.org 结构化数据 — 服务端组件，在 SSG 时直接嵌入 HTML
+// 无 "use client"，确保 JSON-LD 出现在静态 HTML 中
 
 interface SchemaOrgProps {
   type?: "home" | "product" | "about" | "contact" | "wholesale";
+  product?: {
+    name: string;
+    description: string;
+    image: string;
+    slug: string;
+    moq: number;
+    category: string;
+  };
 }
 
-export default function SchemaOrg({ type = "home" }: SchemaOrgProps) {
+const BASE = "https://boaz-clothes.com";
+
+export default function SchemaOrg({ type = "home", product }: SchemaOrgProps) {
   const schemas: Record<string, object> = {
     home: {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "Organization",
-          "@id": "https://boaz.apparel/#organization",
+          "@id": `${BASE}/#organization`,
           name: "BOAZ Apparel",
-          url: "https://boaz.apparel",
-          logo: {
-            "@type": "ImageObject",
-            url: "https://boaz.apparel/logo.png",
-          },
+          url: BASE,
+          logo: { "@type": "ImageObject", url: `${BASE}/logo.png` },
           description:
-            "Premium T-shirt and hoodie manufacturing factory in Hebei. 50 MOQ. Direct production line ownership.",
+            "Premium T-shirt and hoodie manufacturing factory. 50 MOQ. Direct factory ownership.",
           address: {
             "@type": "PostalAddress",
-            addressLocality: "Hebei",
+            addressLocality: "Hangzhou",
             addressCountry: "CN",
           },
           contactPoint: {
             "@type": "ContactPoint",
             contactType: "sales",
-            email: "hello@boaz.apparel",
+            email: "sale@boaz-clothes.com",
             telephone: "+8618868798631",
             availableLanguage: ["English", "Chinese"],
           },
-          sameAs: [
-            "https://instagram.com/boaz.apparel",
-            "https://linkedin.com/company/boaz-apparel",
-          ],
+          sameAs: ["https://instagram.com/boaz.apparel"],
         },
         {
           "@type": "WebSite",
-          "@id": "https://boaz.apparel/#website",
-          url: "https://boaz.apparel",
+          "@id": `${BASE}/#website`,
+          url: BASE,
           name: "BOAZ Apparel",
-          publisher: {
-            "@id": "https://boaz.apparel/#organization",
-          },
+          publisher: { "@id": `${BASE}/#organization` },
         },
         {
           "@type": "WebPage",
-          "@id": "https://boaz.apparel/#webpage",
-          url: "https://boaz.apparel",
+          "@id": `${BASE}/#webpage`,
+          url: BASE,
           name: "Premium Apparel Manufacturing | BOAZ",
-          isPartOf: {
-            "@id": "https://boaz.apparel/#website",
-          },
-          about: {
-            "@id": "https://boaz.apparel/#organization",
-          },
+          isPartOf: { "@id": `${BASE}/#website` },
+          about: { "@id": `${BASE}/#organization` },
         },
       ],
     },
-    product: {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      itemListElement: [
-        {
+    product: product
+      ? {
+          "@context": "https://schema.org",
           "@type": "Product",
-          name: "Classic Heavyweight Tee",
-          description: "240gsm 100% combed cotton t-shirt",
-          image: "https://boaz.apparel/products/heavyweight-tee.jpg",
-          brand: {
-            "@type": "Brand",
-            name: "BOAZ",
-          },
+          name: product.name,
+          description: product.description,
+          image: product.image.startsWith("http")
+            ? product.image
+            : `${BASE}${product.image}`,
+          url: `${BASE}/wholesale/${product.slug}`,
+          category: product.category,
+          brand: { "@type": "Brand", name: "BOAZ" },
           offers: {
             "@type": "Offer",
             priceCurrency: "USD",
             availability: "https://schema.org/InStock",
-            seller: {
-              "@type": "Organization",
-              name: "BOAZ Apparel",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              priceType: "MinimumAdvertisedPrice",
+              minPrice: 3.0,
+              price: 3.5,
+              maxPrice: 12.5,
+              unitText: `${product.moq}+ pcs`,
             },
+            seller: { "@type": "Organization", name: "BOAZ Apparel" },
           },
-        },
-      ],
-    },
+        }
+      : {},
     about: {
       "@context": "https://schema.org",
       "@type": "AboutPage",
       name: "Why BOAZ — Factory-Direct Manufacturing",
       description:
-        "Learn why BOAZ is different from apparel brokers. Direct factory ownership, transparent pricing, and certified quality control.",
+        "Learn why BOAZ is different from apparel brokers. Direct factory ownership, transparent pricing, and quality control.",
     },
     contact: {
       "@context": "https://schema.org",
       "@type": "ContactPage",
       name: "Contact BOAZ Apparel",
-      description: "Get a quote for premium apparel manufacturing. Free samples available.",
+      description:
+        "Get a quote for premium apparel manufacturing. Free samples available.",
     },
     wholesale: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "Wholesale Apparel Catalog",
-      description: "Browse our catalog of premium blank t-shirts, hoodies, and crewnecks. MOQ starts at 50 units.",
+      description:
+        "Browse our catalog of premium blank t-shirts, hoodies, and more. MOQ starts at 50 units.",
     },
   };
 
+  const schema = schemas[type];
+  if (!schema || (type === "product" && !product)) return null;
+
   return (
-    <Script
+    <script
       id="schema-org"
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schemas[type]),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
