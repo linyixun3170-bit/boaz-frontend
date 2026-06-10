@@ -1,5 +1,7 @@
 // 📩 Contact Form → Feishu Bitable + Notification
-// 网站表单提交 → 飞书多维表格记录 + Bot 卡片通知 + 邮件兜底
+// 网站表单提交 → 飞书多维表格记录 + Bot 卡片通知 + 邮件抄送
+
+import { sendEmail } from "../lib/smtp.js";
 
 const BITABLE_APP_TOKEN = "GySHbb1LJa4XTaso87BcGKKWncb";
 const BITABLE_TABLE_ID = "tblAFoXji5JLlEvM";
@@ -180,7 +182,7 @@ function buildCard(body) {
   };
 }
 
-// 📧 邮件兜底 — 飞书通知失败时发邮件
+// 📧 邮件发送 — 每次提交都发一份到 sale@boaz-clothes.com
 async function sendFallbackEmail(body, env) {
   const to = env.EMAIL_FALLBACK_TO;
   if (!to) return;
@@ -207,25 +209,12 @@ async function sendFallbackEmail(body, env) {
     `Time: ${new Date().toISOString()}`,
   ].join("\n");
 
-  // SendGrid
   try {
-    const msg = {
-      personalizations: [{ to: [{ email: to }] }],
-      from: { email: env.EMAIL_FROM || "noreply@boaz-clothes.com" },
-      subject,
-      content: [{ type: "text/plain", value: text }],
-    };
-    await fetch("https://api.sendgrid.com/v3/mail/send", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.SENDGRID_API_KEY || ""}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(msg),
-    });
-    console.log("[Contact] Fallback email sent to", to);
+    await sendEmail({ to, subject, text, from: "sale@boaz-clothes.com", env });
+    console.log("[Contact] Email sent to", to);
   } catch (e) {
-    console.error("[Contact] Fallback email failed:", e);
+    console.error("[Contact] Email send failed:", e);
+    throw e;
   }
 }
 
@@ -255,7 +244,6 @@ export async function onRequest(context) {
     }
 
     const token = await getTenantToken(env);
-    let feishuOk = true;
     let recordId = null;
 
     // 1. Write to Bitable
@@ -263,7 +251,6 @@ export async function onRequest(context) {
       recordId = await addRecordToBitable(token, body, request.headers);
       console.log("[Contact] Bitable record created:", recordId);
     } catch (e) {
-      feishuOk = false;
       console.error("[Contact] Failed to write bitable:", e);
     }
 
@@ -287,14 +274,14 @@ export async function onRequest(context) {
         }
       );
     } catch (e) {
-      feishuOk = false;
       console.error("[Contact] Failed to send notification:", e);
     }
 
-    // 3. 飞书失败 → 邮件兜底
-    if (!feishuOk) {
-      console.log("[Contact] Feishu failed, trying email fallback...");
+    // 3. 邮件抄送 — 每次提交都发一份到邮箱
+    try {
       await sendFallbackEmail(body, env);
+    } catch (e) {
+      console.error("[Contact] Email send failed:", e);
     }
 
     return new Response(JSON.stringify({ success: true, recordId }), {
