@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "rico3cats-wow-video-analyzer-skill": {
+      "name": "rico3cats-wow-video-analyzer-skill",
+      "version": "1.0.0",
+      "source": "redskill",
+      "install_dir": "/root/.openclaw/workspace/skills/rico3cats-wow-video-analyzer-skill",
+      "installed_at": "1781496229250",
+      "sha256": "b9c3673e33fdcabdfacf326dc91bb9b3a97d1ccd86a0b8e3a3370de24e67a8f4"
+    }
+  }
+}
