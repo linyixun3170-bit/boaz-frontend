@@ -4,6 +4,7 @@ const translations = {
   "nav.customize": "カスタマイズ",
   "nav.about": "会社概要",
   "nav.contact": "お問い合わせ",
+  "nav.blog": "ブログ",
   "nav.requestQuote": "見積もり依頼",
   "hero.title1": "プレミアムアパレル製造",
   "hero.title2": "河北から世界へ",

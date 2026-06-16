@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/", key: "nav.home" },
   { href: "/wholesale/", key: "nav.products" },
   { href: "/custom/", key: "nav.customize" },
+  { href: "/journal/", key: "nav.blog" },
   { href: "/why-boaz/", key: "nav.about" },
   { href: "/contact/", key: "nav.contact" },
 ];

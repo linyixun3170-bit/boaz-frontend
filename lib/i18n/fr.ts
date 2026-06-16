@@ -4,6 +4,7 @@ const translations = {
   "nav.customize": "Personnaliser",
   "nav.about": "À propos",
   "nav.contact": "Contact",
+  "nav.blog": "Blog",
   "nav.requestQuote": "Demande de devis",
   "hero.title1": "Fabrication d'articles vestimentaires premium",
   "hero.title2": "Du Hebei au monde entier",

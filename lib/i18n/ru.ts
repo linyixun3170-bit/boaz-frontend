@@ -4,6 +4,7 @@ const translations = {
   "nav.customize": "Настройка",
   "nav.about": "О нас",
   "nav.contact": "Контакты",
+  "nav.blog": "Блог",
   "nav.requestQuote": "Запросить предложение",
   "hero.title1": "Премиальное производство одежды",
   "hero.title2": "От Хэбэя до всего мира",

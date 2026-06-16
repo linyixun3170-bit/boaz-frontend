@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { products } from "@/lib/products-catalog";
+import { blogPosts } from "@/lib/blog-posts";
 
 export const dynamic = "force-static";
 
@@ -25,5 +26,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  return [...staticPages, ...productPages];
+  // Blog pages
+  const blogPages = [
+    { url: `${baseUrl}/journal`, changeFrequency: "weekly" as const, priority: 0.7 },
+    ...blogPosts.map((p) => ({
+      url: `${baseUrl}/journal/${p.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      lastModified: new Date(p.date + "T00:00:00Z"),
+    })),
+  ];
+
+  return [...staticPages, ...productPages, ...blogPages];
 }

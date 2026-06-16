@@ -4,6 +4,7 @@ const translations = {
   "nav.customize": "تخصيص",
   "nav.about": "معلومات عنا",
   "nav.contact": "اتصال",
+  "nav.blog": "المدونة",
   "nav.requestQuote": "طلب عرض أسعار",
   "hero.title1": "تصنيع الملابس الفاخرة",
   "hero.title2": "من خبي إلى العالم",

@@ -4,6 +4,7 @@ const es: Record<string, string> = {
   "nav.customize": "Personalizar",
   "nav.about": "Sobre Nosotros",
   "nav.contact": "Contacto",
+  "nav.blog": "Blog",
   "nav.requestQuote": "Solicitar Presupuesto",
   "hero.title1": "Fabricación de Prendas Premium",
   "hero.title2": "De Hebei al Mundo",

@@ -5,6 +5,7 @@ const zh: Record<string, string> = {
   "nav.customize": "定制",
   "nav.about": "关于我们",
   "nav.contact": "联系",
+  "nav.blog": "博客",
   "nav.requestQuote": "获取报价",
 
   // Hero

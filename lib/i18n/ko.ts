@@ -4,6 +4,7 @@ const translations = {
   "nav.customize": "맞춤 제작",
   "nav.about": "회사 소개",
   "nav.contact": "연락처",
+  "nav.blog": "블로그",
   "nav.requestQuote": "견적 요청",
   "hero.title1": "프리미엄 의류 제조",
   "hero.title2": "헤베이에서 세계로",

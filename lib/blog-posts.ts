@@ -412,6 +412,274 @@ At BOAZ, our production lines handle screen printing up to 6 colors with precisi
     tags: ["screen printing", "silkscreen", "bulk printing", "apparel decoration"],
     image: "https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=800&q=80",
   },
+  {
+    id: "11",
+    slug: "custom-t-shirt-manufacturer-china-guide",
+    title: "Custom T-Shirt Manufacturing in China: The Complete Sourcing Guide",
+    excerpt: "Everything you need to know about sourcing custom t-shirts from Chinese manufacturers — from finding partners to managing quality and shipping.",
+    content: `
+China remains the world's largest apparel manufacturer for good reason. But working with manufacturers there requires understanding how the industry works.
+
+## Why Source T-Shirts from China?
+
+- **Cost advantage** — Factory-direct pricing eliminates middlemen markups
+- **Scale** — Factories handle everything from 50-piece sample runs to 50,000-unit production orders
+- **Material options** — Access to a wider range of fabrics, from 180gsm budget tees to 360gsm heavyweight ringspun cotton
+- **One-stop production** — Cut, sew, print, label, pack, and ship from a single partner
+
+## Finding the Right Manufacturer
+
+Not all factories are equal. Here's what to look for:
+
+1. **Factory type** — Vertical integration (fabric to finished garment under one roof) beats outsourcing at every step
+2. **Export experience** — A factory that regularly ships FOB to the US and EU has the logistics down
+3. **Minimum order quantities** — 50-100 pieces per style is standard for established factories
+4. **Certifications** — OEKO-TEX, BSCI, or ISO certification indicates quality standards
+5. **Communication** — English-speaking sales team and quick response times
+
+## The Sourcing Process
+
+- **Step 1:** Send your spec sheet (garment type, fabric, colors, sizes, quantities)
+- **Step 2:** Receive pricing and lead time quote
+- **Step 3:** Approve samples (fabric swatch, then proto sample, then pp sample)
+- **Step 4:** Place deposit (typically 30%), production begins
+- **Step 5:** Mid-production quality inspection
+- **Step 6:** Final inspection before shipping
+- **Step 7:** Balance payment, shipment, delivery
+
+## Red Flags to Avoid
+
+- Prices that seem too good to be true — they usually are
+- Factories that claim "no MOQ" for fully custom cut-and-sew
+- Vague communication about lead times
+- No sample process or unwillingness to send samples
+
+## Why BOAZ Stands Out
+
+As a third-generation garment factory in Hebei, China, BOAZ offers advantages that newer trading companies can't match: in-house fabric sourcing, full production line under one roof, English-speaking export team, and FOB pricing that beats the market.
+    `,
+    date: "2026-04-10",
+    author: "BOAZ Team",
+    category: "Sourcing Guide",
+    tags: ["china manufacturer", "t-shirt sourcing", "custom apparel", "garment factory", "FOB"],
+  },
+  {
+    id: "12",
+    slug: "start-clothing-line-low-moq",
+    title: "How to Start a Clothing Line with Low Minimum Orders",
+    excerpt: "Launch your apparel brand without committing to thousands of units. A practical guide to starting with 50-200 piece minimums.",
+    content: `
+One of the biggest barriers to starting a clothing brand is the minimum order quantity. Many factories want 500-1000 pieces per design. But there are ways to start smaller.
+
+## Why MOQs Exist
+
+Factories buy fabric, thread, and trim in bulk. Setting up a production line takes half a day. The MOQ ensures the order is worth the setup cost. Understanding this helps you negotiate better.
+
+## Realistic MOQ Ranges
+
+| Product Type | Typical MOQ | Where to Start |
+|-------------|-------------|----------------|
+| Blank t-shirts (stock) | 50-100 pcs | Good starting point |
+| Custom screen printing | 50-200 pcs per design | Mix colors to hit minimum |
+| Private label (neck label) | 100-300 pcs | Add your brand tags |
+| Custom cut-and-sew | 200-500 units | Only after validating demand |
+
+## 5 Strategies to Start Small
+
+### 1. Start with Blanks + Decoration
+The simplest path. Buy quality blanks, add your print, and sell. This keeps your MOQ to 50-100 pieces per color.
+
+### 2. Mix Colors Within One Style
+Need 300 pieces but can't sell 300 of one color? Order 100 black, 100 white, 50 navy, 50 heather grey. Same style, different colors — counts as one MOQ at many factories.
+
+### 3. Combine with Other Brands
+If you know other brand owners, combine orders into one production run. This works especially well for screen printing.
+
+### 4. Use Stock Programs
+Many manufacturers keep popular blanks in inventory. You can order 50-100 pieces for immediate shipment without waiting for production.
+
+### 5. Start with a Capsule Collection
+Instead of 10 styles with 10 colors each, launch with 2-3 core styles in 3-5 colors. Prove demand first, then expand.
+
+## The BOAZ Approach
+
+We start at 50 pieces per style — accessible for startups while scalable to 30,000+ units for established brands. Our stock program ships within 5 days for popular blanks.
+    `,
+    date: "2026-04-25",
+    author: "BOAZ Team",
+    category: "Business Guide",
+    tags: ["start clothing brand", "low MOQ", "apparel startup", "fashion business", "small minimum"],
+  },
+  {
+    id: "13",
+    slug: "fob-vs-cif-vs-exw-apparel-sourcing",
+    title: "FOB vs CIF vs EXW: Which Incoterm Is Best for Your Apparel Order?",
+    excerpt: "Understanding international shipping terms for garment sourcing. Compare costs, risks, and when to choose each option.",
+    content: `
+If you're sourcing apparel from overseas manufacturers, you'll encounter three common Incoterms: EXW, FOB, and CIF. Choosing the right one affects your total cost, risk, and control.
+
+## EXW (Ex Works)
+
+**You handle everything** — pickup from the factory, export customs, ocean/air freight, import customs, and last-mile delivery.
+
+- **Best for:** Experienced importers with their own freight forwarder
+- **Cost control:** Maximum — you negotiate every leg
+- **Risk:** You own the cargo from the factory door
+- **Hidden costs:** Inland trucking from the factory to port
+
+## FOB (Free on Board)
+
+**The factory handles** everything until the goods are on the ship at the port of departure. You handle ocean freight, insurance, and everything after.
+
+- **Best for:** Most buyers — it is the industry standard
+- **Cost control:** Good — you get factory pricing + shipping you control
+- **Risk:** Factory bears risk until cargo passes the ship's rail
+- **Why it's popular:** Clear division of responsibility, factory has incentive to deliver to port
+
+## CIF (Cost, Insurance & Freight)
+
+**The factory handles** everything including ocean freight and insurance to the destination port. You handle import customs and inland delivery.
+
+- **Best for:** New importers who want a simpler process
+- **Cost control:** Less — the factory marks up shipping and insurance
+- **Risk:** Factory bears risk until the destination port
+- **Watch out:** Shipping costs are bundled into the product price — harder to compare quotes
+
+## Quick Comparison
+
+| Factor | EXW | FOB | CIF |
+|--------|-----|-----|-----|
+| Your control | Maximum | High | Low |
+| Complexity | High (you manage everything) | Medium | Low |
+| Total cost | Potentially lowest | Competitive | Usually highest |
+| Best for | Experienced importers | Most apparel buyers | New importers |
+
+## Our Recommendation
+
+For most first-time and intermediate apparel buyers, **FOB** offers the best balance of cost, control, and simplicity. You get transparent factory pricing plus the freedom to choose your own freight forwarder.
+
+All BOAZ quotes are provided FOB Tianjin port by default. We can arrange CIF or DDP upon request.
+    `,
+    date: "2026-05-10",
+    author: "BOAZ Team",
+    category: "Sourcing Guide",
+    tags: ["FOB", "CIF", "EXW", "incoterms", "shipping", "apparel import"],
+  },
+  {
+    id: "14",
+    slug: "apparel-quality-control-checklist",
+    title: "Apparel Quality Control: What Every Buyer Should Check",
+    excerpt: "A factory-level quality control checklist for garment orders. Catch defects before they ship — not after.",
+    content: `
+Quality control in apparel isn't just about checking for loose threads. A proper QC process catches issues at four stages of production.
+
+## Stage 1: Pre-Production (Fabric & Trim Check)
+
+Before cutting begins, verify:
+
+- **Fabric weight** — Use a GSM scale to confirm the fabric matches the spec
+- **Color consistency** — Check dye lot numbers across all rolls of fabric
+- **Shrinkage** — Wash test a fabric sample to confirm shrinkage rates
+- **Trim verification** — Thread, zippers, buttons, labels all match the spec sheet
+
+## Stage 2: In-Line Production (During Cutting & Sewing)
+
+While garments are being made:
+
+- **Cutting accuracy** — Are pattern pieces aligned with the grain line?
+- **Stitch quality** — Stitches per inch (SPI): 8-12 for most garments
+- **Seam strength** — Pull test to check for seam slippage
+- **Size grading** — Random check that each size matches the measurement spec
+
+## Stage 3: Final Random Inspection (AQL)
+
+Before shipment, inspect a random sample using AQL (Acceptable Quality Limit):
+
+| Order Quantity | Sample Size | Critical Defects | Major Defects | Minor Defects |
+|----------------|-------------|------------------|---------------|---------------|
+| 50-100 | 5 | 0 | 1 | 2 |
+| 101-500 | 20 | 0 | 2 | 4 |
+| 501-1000 | 32 | 0 | 3 | 5 |
+| 1000+ | 80 | 0 | 5 | 7 |
+
+### Defect Classification
+
+- **Critical:** Safety hazard, holes, chemical smell — zero tolerance
+- **Major:** Wrong size, color mismatch, crooked print, broken zipper
+- **Minor:** Loose thread, slightly crooked label, 1/4" off in length
+
+## Stage 4: Pre-Shipment Check
+
+Final verification before the container is sealed:
+
+- Quantity count vs. packing list
+- Carton weight and dimensions
+- Label placement and barcode readability
+- Poly bag quality and carton condition
+
+## How BOAZ Handles QC
+
+Every order goes through these four stages. We provide photos and video at each stage. Third-party inspection firms (SGS, Bureau Veritas) are welcome at the factory at any time.
+    `,
+    date: "2026-05-20",
+    author: "BOAZ Team",
+    category: "Quality Guide",
+    tags: ["quality control", "garment inspection", "AQL", "apparel manufacturing", "defect checklist"],
+  },
+  {
+    id: "15",
+    slug: "apparel-production-timeline-sample-to-bulk",
+    title: "From Sample to Bulk: The Apparel Production Timeline Explained",
+    excerpt: "How long does it really take to manufacture custom apparel? A week-by-week breakdown from sample approval to delivery.",
+    content: `
+One of the most common questions from new apparel buyers is: "How long will this take?" Here is a realistic timeline for custom garment production.
+
+## The Complete Timeline
+
+| Phase | Duration | What Happens |
+|-------|----------|--------------|
+| Sample development | 5-10 business days | Fabric sourcing, proto sample, fit sample |
+| Sample approval | 1-3 business days | Customer reviews and approves |
+| Fabric procurement | 3-7 business days | Order fabric, await delivery to factory |
+| Production cutting | 2-3 business days | Fabric laid, cut by pattern |
+| Sewing & assembly | 5-10 business days | Garments sewn, trimmed, inspected |
+| Decoration (if any) | 3-5 business days | Screen printing, embroidery, or DTG |
+| Final QC | 1-2 business days | AQL inspection, measurement check |
+| Packing | 1-2 business days | Fold, polybag, carton, label |
+| Shipping | Varies | Sea: 15-25 days. Air: 3-7 days |
+
+**Total production (without shipping):** 15-35 business days
+
+## Sample Types Explained
+
+- **Proto sample** — First physical version. Checks silhouette, sizing, construction
+- **Fabric swatch** — Small piece of the actual fabric for color and hand-feel approval
+- **PP sample (Pre-Production)** — Made from the actual production fabric using the final patterns
+- **Shipment sample** — Pulled from the production run before shipping
+
+## What Accelerates Production
+
+- **Approved tech pack** — Detailed spec sheets reduce back-and-forth
+- **Standard fabric** — In-stock fabrics ship immediately; custom mill runs take 2-3 weeks extra
+- **Simplified trim** — Stock thread colors, standard zippers, and available labels
+- **Seasonal timing** — August-October (pre-holiday) is peak season; Q1 and mid-summer are faster
+
+## What Delays Production
+
+- Multiple sample revisions (each adds 5-10 days)
+- Custom fabric orders
+- Holiday closures (Chinese New Year: factory closed 2-4 weeks)
+- Mid-production design changes
+
+## BOAZ Production Timeline
+
+For standard blank t-shirt orders (50-500 pieces), we ship within **5-10 business days** from order confirmation. Custom cut-and-sew projects typically complete in **20-25 business days** from sample approval. We provide a detailed timeline with your quote.
+    `,
+    date: "2026-06-01",
+    author: "BOAZ Team",
+    category: "Sourcing Guide",
+    tags: ["production timeline", "sample process", "apparel manufacturing", "lead time", "bulk production"],
+  },
 ];
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {

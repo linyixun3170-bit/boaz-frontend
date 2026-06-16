@@ -5,6 +5,7 @@ const en: Record<string, string> = {
   "nav.customize": "Customize",
   "nav.about": "About",
   "nav.contact": "Contact",
+  "nav.blog": "Blog",
   "nav.requestQuote": "Request Quote",
 
   // Hero
