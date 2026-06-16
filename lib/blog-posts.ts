@@ -473,49 +473,74 @@ As a third-generation garment factory in Hebei, China, BOAZ offers advantages th
   {
     id: "12",
     slug: "start-clothing-line-low-moq",
-    title: "How to Start a Clothing Line with Low Minimum Orders",
-    excerpt: "Launch your apparel brand without committing to thousands of units. A practical guide to starting with 50-200 piece minimums.",
+    title: "How to Start a Clothing Line with Light Customization on Stock Blanks",
+    excerpt: "No need to order thousands. Start at 50 pcs with stock tees — add your print, label, hang tag, and packaging. A complete light customization model.",
     content: `
-One of the biggest barriers to starting a clothing brand is the minimum order quantity. Many factories want 500-1000 pieces per design. But there are ways to start smaller.
+The best news for new clothing brands: you don't need to order thousands of pieces to start.
 
-## Why MOQs Exist
+BOAZ operates a **stock + light customization** model — we keep blank tees in stock, and you add your brand elements on top. Starting at 50 pieces.
 
-Factories buy fabric, thread, and trim in bulk. Setting up a production line takes half a day. The MOQ ensures the order is worth the setup cost. Understanding this helps you negotiate better.
+## What Is Stock + Light Customization?
 
-## Realistic MOQ Ranges
+Simple: the garments are ready. You just add your branding.
 
-| Product Type | Typical MOQ | Where to Start |
-|-------------|-------------|----------------|
-| Blank t-shirts (stock) | 50-100 pcs | Good starting point |
-| Custom screen printing | 50-200 pcs per design | Mix colors to hit minimum |
-| Private label (neck label) | 100-300 pcs | Add your brand tags |
-| Custom cut-and-sew | 200-500 units | Only after validating demand |
+- **50 pcs minimum** — no need to sit on thousands of units
+- **3-5 days sampling** — quickly validate your design
+- **3-5 days printing** — production starts after approval
+- **5-9 days for custom tags and packaging** (optional)
 
-## 5 Strategies to Start Small
+## Our Light Customization Services
 
-### 1. Start with Blanks + Decoration
-The simplest path. Buy quality blanks, add your print, and sell. This keeps your MOQ to 50-100 pieces per color.
+### Core Service: Print Your Design
 
-### 2. Mix Colors Within One Style
-Need 300 pieces but can't sell 300 of one color? Order 100 black, 100 white, 50 navy, 50 heather grey. Same style, different colors — counts as one MOQ at many factories.
+Print on our stock tees using screen printing, heat transfer, or embroidery. Choose the best method for your design. 50 pcs minimum, 3-5 day turnaround.
 
-### 3. Combine with Other Brands
-If you know other brand owners, combine orders into one production run. This works especially well for screen printing.
+### Branding Add-Ons
 
-### 4. Use Stock Programs
-Many manufacturers keep popular blanks in inventory. You can order 50-100 pieces for immediate shipment without waiting for production.
+- **Neck label swap** — replace our label with yours
+- **Hang tags** — add your brand tag with product info and care instructions
 
-### 5. Start with a Capsule Collection
-Instead of 10 styles with 10 colors each, launch with 2-3 core styles in 3-5 colors. Prove demand first, then expand.
+### Packaging Options
 
-## The BOAZ Approach
+- **Generic poly bags** — free, ready to use
+- **Custom-printed bags** — with your brand logo, 5-9 days lead time
+- **Box or woven bag packing** — choose based on your sales channel
 
-We start at 50 pieces per style — accessible for startups while scalable to 30,000+ units for established brands. Our stock program ships within 5 days for popular blanks.
+> Custom packaging and hang tags add 5-9 days. If you have the time, we highly recommend it — branded packaging transforms the unboxing experience.
+
+## Full Process & Timeline
+
+| Step | Time | Details |
+|------|------|---------|
+| Select style & method | 1 day | Pick tee style, print method, and placement |
+| Sampling | 3-5 days | Make a sample for approval |
+| Confirm order | 1 day | Approve sample, arrange payment |
+| Production printing | 3-5 days | Bulk printing on stock blanks |
+| Packaging prep | Parallel | Hang tags and bags can run concurrently |
+| QC & ship | 1-2 days | Final inspection and dispatch |
+
+**Fastest turnaround: 7-10 days** from order to delivery.
+
+## Why This Works for New Brands
+
+1. **Low capital** — 50 pcs means a few hundred dollars per SKU
+2. **Low risk** — if a design flops, just change the print (the blank tees are already paid for)
+3. **Fast iterations** — order → produce → ship in about a week
+4. **Zero technical knowledge needed** — no need to understand fabric specs or pattern grading
+
+## Why BOAZ Does It Better
+
+The advantage is simple: **the blanks are ours, so we control everything.**
+
+- Every tee is our own product — quality and stock are guaranteed
+- Printing, labeling, tagging, packing happen under one roof
+- You deal with one supplier, not three
+- 50 pcs minimum with transparent pricing — no surprises
     `,
     date: "2026-04-25",
     author: "BOAZ Team",
     category: "Business Guide",
-    tags: ["start clothing brand", "low MOQ", "apparel startup", "fashion business", "small minimum"],
+    tags: ["clothing brand", "light customization", "custom t-shirts", "small batch", "stock blanks", "private label"],
   },
   {
     id: "13",
