@@ -434,18 +434,25 @@ Not all factories are equal. Here's what to look for:
 1. **Factory type** — Vertical integration (fabric to finished garment under one roof) beats outsourcing at every step
 2. **Export experience** — A factory that regularly ships FOB to the US and EU has the logistics down
 3. **Minimum order quantities** — 50-100 pieces per style is standard for established factories
-4. **Certifications** — OEKO-TEX, BSCI, or ISO certification indicates quality standards
-5. **Communication** — English-speaking sales team and quick response times
+4. **Communication** — English-speaking sales team and quick response times
 
 ## The Sourcing Process
 
 - **Step 1:** Send your spec sheet (garment type, fabric, colors, sizes, quantities)
 - **Step 2:** Receive pricing and lead time quote
 - **Step 3:** Approve samples (fabric swatch, then proto sample, then pp sample)
-- **Step 4:** Place deposit (typically 30%), production begins
-- **Step 5:** Mid-production quality inspection
+- **Step 4:** Confirm order and arrange payment
+- **Step 5:** Production + mid-process quality inspection
 - **Step 6:** Final inspection before shipping
-- **Step 7:** Balance payment, shipment, delivery
+- **Step 7:** Shipment
+
+### Payment Terms
+
+For cross-border clients, we operate on a **100% upfront payment** model. In return, we price our products competitively — the savings from simplified payment handling are passed directly to you in lower unit prices.
+
+Domestic clients also pay upfront, with 80% prepayment available for long-term partners.
+
+We know this differs from the industry norm of 30% deposit + 70% balance. That's why we make sure the pricing makes it worth your while.
 
 ## Red Flags to Avoid
 
