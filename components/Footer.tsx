@@ -2,26 +2,11 @@
 
 import Link from "next/link";
 import { Mail, MessageCircle } from "lucide-react";
-
-const footerLinks = {
-  Company: [
-    { label: "About", href: "/why-boaz" },
-    { label: "Factory", href: "/why-boaz" },
-    { label: "Quality", href: "/why-boaz" },
-  ],
-  Products: [
-    { label: "T-Shirts", href: "/wholesale" },
-    { label: "Hoodies", href: "/wholesale" },
-    { label: "Custom", href: "/contact" },
-  ],
-  Support: [
-    { label: "Contact", href: "/contact" },
-    { label: "FAQ", href: "/why-boaz" },
-    { label: "Shipping", href: "/why-boaz" },
-  ],
-};
+import { useLang } from "@/lib/i18n/context";
 
 export default function Footer() {
+  const { t } = useLang();
+
   return (
     <footer className="bg-charcoal text-cream section-padding py-16 md:py-24">
       <div className="max-w-7xl mx-auto">
@@ -32,32 +17,79 @@ export default function Footer() {
               BOAZ
             </Link>
             <p className="text-body-sm text-subtle max-w-xs leading-relaxed">
-              Premium apparel manufacturing. From Hebei to the world. No middlemen. No surprises.
+              {t("footer.tagline")}
             </p>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title} className="md:col-span-2">
-              <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">{title}</h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-          {/* Contact */}
+          {/* Company Links */}
           <div className="md:col-span-2">
-            <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">Connect</h4>
+            <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">{t("footer.company")}</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/why-boaz" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.aboutLink")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-boaz" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.factoryLink")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-boaz" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.qualityLink")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Products Links */}
+          <div className="md:col-span-2">
+            <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">{t("footer.products")}</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/wholesale" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.tshirtsLink")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/wholesale" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.hoodiesLink")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.customLink")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Support Links */}
+          <div className="md:col-span-2">
+            <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">{t("footer.support")}</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/contact" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.contactLink")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-boaz" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.faqLink")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-boaz" className="text-body-sm text-cream/70 hover:text-cream transition-colors duration-300">
+                  {t("footer.shippingLink")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div className="md:col-span-2">
+            <h4 className="text-caption uppercase tracking-widest text-subtle mb-4">{t("footer.connect")}</h4>
             <div className="space-y-3">
               <a
                 href="mailto:sale@boaz-clothes.com"
@@ -85,17 +117,11 @@ export default function Footer() {
             © {new Date().getFullYear()} BOAZ Apparel. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy-policy" className="text-caption text-subtle hover:text-cream transition-colors duration-300">Privacy</Link>
-            <Link href="/terms-and-conditions" className="text-caption text-subtle hover:text-cream transition-colors duration-300">Terms</Link>
-            {["Instagram", "LinkedIn", "Twitter"].map((social) => (
-              <a
-                key={social}
-                href="#"
-                className="text-caption text-subtle hover:text-cream transition-colors duration-300"
-              >
-                {social}
-              </a>
-            ))}
+            <Link href="/privacy-policy" className="text-caption text-subtle hover:text-cream transition-colors duration-300">{t("footer.privacy")}</Link>
+            <Link href="/terms-and-conditions" className="text-caption text-subtle hover:text-cream transition-colors duration-300">{t("footer.terms")}</Link>
+            <a href="#" className="text-caption text-subtle hover:text-cream transition-colors duration-300">{t("footer.instagram")}</a>
+            <a href="#" className="text-caption text-subtle hover:text-cream transition-colors duration-300">{t("footer.linkedin")}</a>
+            <a href="#" className="text-caption text-subtle hover:text-cream transition-colors duration-300">{t("footer.twitter")}</a>
           </div>
         </div>
       </div>

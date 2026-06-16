@@ -4,8 +4,10 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useLang } from "@/lib/i18n/context";
 
 export default function CTASection() {
+  const { t } = useLang();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -20,7 +22,7 @@ export default function CTASection() {
           transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
           className="text-caption uppercase tracking-[0.3em] text-muted mb-6"
         >
-          Ready to Start?
+          {t("cta.label")}
         </motion.p>
 
         <motion.h2
@@ -31,7 +33,7 @@ export default function CTASection() {
         >
           Get Your
           <br />
-          <span className="italic">Free Sample Pack</span>
+          <span className="italic">{t("cta.titleLine2")}</span>
         </motion.h2>
 
         <motion.p
@@ -40,8 +42,7 @@ export default function CTASection() {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
           className="text-body-lg text-muted max-w-xl mx-auto mb-12"
         >
-          No minimums for samples. Sample fee fully deductible from bulk orders.
-                Samples dispatched within 5-7 days. Feel the fabric, test the fit, inspect the stitch — then decide.
+          {t("cta.desc")}
         </motion.p>
 
         <motion.div
@@ -52,7 +53,7 @@ export default function CTASection() {
         >
           <Link href="/contact" className="pill-btn-filled group"
 >
-            Request a Quote
+            {t("nav.requestQuote")}
             <ArrowRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
           <a
@@ -61,7 +62,7 @@ export default function CTASection() {
             rel="noopener noreferrer"
             className="pill-btn"
           >
-            Chat on WhatsApp
+            {t("cta.whatsapp")}
           </a>
         </motion.div>
       </div>

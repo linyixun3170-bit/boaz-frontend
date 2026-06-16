@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { products } from "@/lib/products-catalog";
 import { blogPosts } from "@/lib/blog-posts";
+import { blogPostsZh } from "@/lib/blog-posts-zh";
 
 export const dynamic = "force-static";
 
@@ -26,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  // Blog pages
+  // Blog pages (English)
   const blogPages = [
     { url: `${baseUrl}/journal`, changeFrequency: "weekly" as const, priority: 0.7 },
     ...blogPosts.map((p) => ({
@@ -37,5 +38,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...productPages, ...blogPages];
+  // Blog pages (Chinese)
+  const zhBlogPages = [
+    { url: `${baseUrl}/zh/journal`, changeFrequency: "weekly" as const, priority: 0.7 },
+    ...blogPostsZh.map((p) => ({
+      url: `${baseUrl}/zh/journal/${p.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      lastModified: new Date(p.date + "T00:00:00Z"),
+    })),
+  ];
+
+  return [...staticPages, ...productPages, ...blogPages, ...zhBlogPages];
 }

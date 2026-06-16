@@ -2,34 +2,52 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLang } from "@/lib/i18n/context";
 
-const navLinks = [
+interface NavLink {
+  href: string;
+  key: string;
+  zh?: string;
+}
+
+const navLinks: NavLink[] = [
   { href: "/", key: "nav.home" },
   { href: "/wholesale/", key: "nav.products" },
   { href: "/custom/", key: "nav.customize" },
-  { href: "/journal/", key: "nav.blog" },
+  { href: "/journal/", key: "nav.blog", zh: "/zh/journal/" },
   { href: "/why-boaz/", key: "nav.about" },
   { href: "/contact/", key: "nav.contact" },
 ];
 
+const HOME_ONLY_TRANSPARENT = 100;
+
 export default function Navbar() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > HOME_ONLY_TRANSPARENT);
+    if (!isHome) setScrolled(true);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
+
+  const visible = scrolled || !isHome;
+
+  function linkHref(link: NavLink): string {
+    return link.zh && lang === "zh" ? link.zh : link.href;
+  }
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
-          scrolled
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+          visible
             ? "bg-cream/95 backdrop-blur-lg shadow-sm py-3 md:py-4"
             : "bg-transparent py-5 md:py-8"
         }`}
@@ -39,7 +57,7 @@ export default function Navbar() {
           <Link
             href="/"
             className={`font-heading text-2xl tracking-[0.15em] transition-opacity ${
-              scrolled ? "text-dark hover:opacity-60" : "text-cream hover:text-cream/70"
+              visible ? "text-dark hover:opacity-60" : "text-cream hover:text-cream/70"
             }`}
           >
             BOAZ
@@ -50,9 +68,9 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={linkHref(link)}
                 className={`text-[13px] uppercase tracking-[0.2em] transition-colors link-underline ${
-                  scrolled ? "text-dark/80 hover:text-dark" : "text-cream/80 hover:text-cream"
+                  visible ? "text-dark/80 hover:text-dark" : "text-cream/80 hover:text-cream"
                 }`}
               >
                 {t(link.key)}
@@ -62,11 +80,11 @@ export default function Navbar() {
 
           {/* Language + CTA + Hamburger */}
           <div className="flex items-center gap-1 md:gap-2">
-            <LanguageSwitcher light={!scrolled} />
+            <LanguageSwitcher light={!visible} />
             <Link
               href="/contact/"
               className={`text-[11px] md:text-[13px] uppercase tracking-[0.2em] btn-capsule transition-all ${
-                scrolled
+                visible
                   ? "bg-charcoal text-cream hover:bg-ink"
                   : "bg-cream text-charcoal hover:bg-white"
               }`}
@@ -80,17 +98,17 @@ export default function Navbar() {
             >
               <span
                 className={`block w-6 h-0.5 rounded transition-transform duration-300 ${
-                  scrolled ? "bg-dark" : "bg-cream"
+                  visible ? "bg-dark" : "bg-cream"
                 } ${menuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`}
               />
               <span
                 className={`block w-6 h-0.5 rounded transition-opacity duration-300 ${
-                  scrolled ? "bg-dark" : "bg-cream"
+                  visible ? "bg-dark" : "bg-cream"
                 } ${menuOpen ? "opacity-0" : ""}`}
               />
               <span
                 className={`block w-6 h-0.5 rounded transition-transform duration-300 ${
-                  scrolled ? "bg-dark" : "bg-cream"
+                  visible ? "bg-dark" : "bg-cream"
                 } ${menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""}`}
               />
             </button>
@@ -108,7 +126,7 @@ export default function Navbar() {
           {navLinks.map((link, i) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={linkHref(link)}
               onClick={() => setMenuOpen(false)}
               className={`font-heading text-xl md:text-2xl text-dark hover:text-gold transition-all duration-500 ${
                 menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"

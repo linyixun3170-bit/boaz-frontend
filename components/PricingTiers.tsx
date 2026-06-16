@@ -2,6 +2,7 @@
 
 import { PRICING_TIERS, unitPrice, currentTier, nextTier } from "@/lib/pricing-tiers";
 import { ChevronRight } from "lucide-react";
+import { useLang } from "@/lib/i18n/context";
 
 interface Props {
   basePrice: number;   // 单件基础价（garment + decoration）
@@ -10,14 +11,16 @@ interface Props {
   label?: string;
 }
 
-export default function PricingTiers({ basePrice, currentQty, onSelectQty, label = "Quantity Pricing" }: Props) {
+export default function PricingTiers({ basePrice, currentQty, onSelectQty, label }: Props) {
+  const { t } = useLang();
   const activeTier = currentTier(currentQty);
   const next = nextTier(currentQty);
+  const resolvedLabel = label ?? t("pricing.label");
 
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[11px] uppercase tracking-wider text-muted">{label}</h3>
+        <h3 className="text-[11px] uppercase tracking-wider text-muted">{resolvedLabel}</h3>
         {activeTier.tag && (
           <span className="text-[10px] text-gold font-medium flex items-center gap-1">
             {activeTier.tag}
@@ -66,7 +69,7 @@ export default function PricingTiers({ basePrice, currentQty, onSelectQty, label
               {/* 单价 */}
               <p className="text-sm font-medium text-charcoal">
                 ${perUnit.toFixed(2)}
-                <span className="text-[10px] font-normal text-muted">/unit</span>
+                <span className="text-[10px] font-normal text-muted">{t("pricing.perUnit")}</span>
               </p>
 
               {/* 折扣百分比 + 节省 */}
@@ -86,7 +89,7 @@ export default function PricingTiers({ basePrice, currentQty, onSelectQty, label
               {/* 选中高亮指示 */}
               {isCurrentTier && (
                 <div className="absolute bottom-1 right-1.5">
-                  <span className="text-[9px] text-gold font-medium">✓ Selected</span>
+                  <span className="text-[9px] text-gold font-medium">{t("pricing.selected")}</span>
                 </div>
               )}
             </button>

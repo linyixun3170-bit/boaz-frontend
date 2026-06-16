@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { CheckCircle, ArrowRight } from "lucide-react";
+import { useLang } from "@/lib/i18n/context";
 
 // ============================================================
 // 🛡️ Trust Progress Bar（信任进度指示器）
@@ -14,14 +15,15 @@ import { CheckCircle, ArrowRight } from "lucide-react";
 // 放在 Contact 页面顶部或 CTA 区域效果最佳
 // ============================================================
 
-const steps = [
-  { label: "Request Quote", desc: "2 minutes", active: true },
-  { label: "Request Sample", desc: "5-7 day dispatch · Deductible", active: false },
-  { label: "Approve & Produce", desc: "15-45 days", active: false },
-  { label: "Receive & Sell", desc: "Door delivery", active: false },
+const stepsData = [
+  { labelKey: "trust.step1", descKey: "trust.step1desc", active: true },
+  { labelKey: "trust.step2", descKey: "trust.step2desc", active: false },
+  { labelKey: "trust.step3", descKey: "trust.step3desc", active: false },
+  { labelKey: "trust.step4", descKey: "trust.step4desc", active: false },
 ];
 
 export default function TrustProgress() {
+  const { t } = useLang();
   const [hoveredStep, setHoveredStep] = useState(0);
 
   return (
@@ -35,17 +37,17 @@ export default function TrustProgress() {
           className="text-center mb-10"
         >
           <p className="text-caption uppercase tracking-[0.3em] text-muted mb-2">
-            How It Works
+            {t("trust.label")}
           </p>
           <h3 className="text-display-md font-serif text-charcoal text-balance">
-            From Quote to <span className="italic">Delivery</span>
+            {t("trust.titleLine1")} <span className="italic">{t("trust.titleLine2")}</span>
           </h3>
         </motion.div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-4">
-          {steps.map((step, i) => (
+          {stepsData.map((step, i) => (
             <div
-              key={step.label}
+              key={step.labelKey}
               className="flex items-center gap-4 flex-1"
               onMouseEnter={() => setHoveredStep(i)}
             >
@@ -75,12 +77,12 @@ export default function TrustProgress() {
 
               <div>
                 <p className="text-body-sm font-medium text-charcoal">
-                  {step.label}
+                  {t(step.labelKey)}
                 </p>
-                <p className="text-caption text-muted">{step.desc}</p>
+                <p className="text-caption text-muted">{t(step.descKey)}</p>
               </div>
 
-              {i < steps.length - 1 && (
+              {i < stepsData.length - 1 && (
                 <ArrowRight
                   size={16}
                   className="text-stone hidden md:block flex-shrink-0 ml-auto"
@@ -98,7 +100,7 @@ export default function TrustProgress() {
           className="text-center mt-10"
         >
           <Link href="/contact" className="pill-btn-filled">
-            Start Step 1 — Get a Quote
+            {t("trust.cta")}
           </Link>
         </motion.div>
       </div>

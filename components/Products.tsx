@@ -6,6 +6,7 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { useLang } from "@/lib/i18n/context";
 
 const products = [
   {
@@ -54,6 +55,8 @@ const products = [
 ];
 
 function ProductCard({ product, index }: { product: typeof products[0]; index: number }) {
+  const { t } = useLang();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 60 }}
@@ -91,7 +94,7 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
             href={"/custom?product=" + product.slug}
             className="inline-flex items-center gap-1.5 mt-2 text-[11px] uppercase tracking-widest text-gold hover:text-charcoal transition-colors"
           >
-            Customize This Style →
+            {t("products.customizeThis")}
           </Link>
         </div>
       </Link>
@@ -100,6 +103,7 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
 }
 
 export default function Products() {
+  const { t } = useLang();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -115,19 +119,19 @@ export default function Products() {
         >
           <div>
             <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4">
-              Core Collection
+              {t("products.sectionLabel")}
             </p>
             <h2 className="text-display-lg font-serif text-charcoal text-balance">
               Engineered for
               <br />
-              <span className="italic">Your Brand</span>
+              <span className="italic">{t("products.titleLine2")}</span>
             </h2>
           </div>
           <Link
             href="/wholesale"
             className="pill-btn mt-6 md:mt-0 self-start md:self-auto"
           >
-            View All Products
+            {t("products.viewAll")}
           </Link>
         </motion.div>
 

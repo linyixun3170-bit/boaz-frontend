@@ -2,13 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-
-const stats = [
-  { number: "50", label: "MOQ", suffix: "+", desc: "Start small, scale to 30,000" },
-  { number: "3-5", label: "Days", suffix: "", desc: "Stock + custom dispatch" },
-  { number: "50-500", label: "Daily", suffix: "", desc: "From indie brands to Amazon bulk" },
-  { number: "100", label: "Transparent", suffix: "%", desc: "Product + Labor + Logistics = Price" },
-];
+import { useLang } from "@/lib/i18n/context";
 
 function AnimatedNumber({ value, suffix }: { value: string; suffix: string }) {
   return (
@@ -20,8 +14,16 @@ function AnimatedNumber({ value, suffix }: { value: string; suffix: string }) {
 }
 
 export default function Stats() {
+  const { t } = useLang();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const stats = [
+    { number: "50", label: t("general.moq"), suffix: "+", desc: t("stats.moq") },
+    { number: "3-5", label: t("stats.days"), suffix: "", desc: t("stats.dispatch") },
+    { number: "50-500", label: t("stats.daily"), suffix: "", desc: t("stats.volume") },
+    { number: "100", label: t("stats.transparent"), suffix: "%", desc: t("stats.pricing") },
+  ];
 
   return (
     <section ref={ref} className="py-24 md:py-32 bg-cream section-padding">

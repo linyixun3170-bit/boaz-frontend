@@ -7,8 +7,10 @@ import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 import { useRef } from "react";
 import { SITE_CONFIG } from "@/lib/config";
+import { useLang } from "@/lib/i18n/context";
 
 export default function Hero() {
+  const { t } = useLang();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -47,7 +49,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
           className="text-caption uppercase tracking-[0.3em] text-cream/60 mb-5"
         >
-          Premium Apparel Manufacturing
+          {t("hero.title1")}
         </motion.p>
 
         <motion.h1
@@ -68,7 +70,7 @@ export default function Hero() {
           className="max-w-xl mb-10"
         >
           <p className="text-body-lg text-cream/80 mb-2">
-            OEM/ODM Custom • Small Orders Welcome • Global Shipping
+            {t("hero.subtitle")}
           </p>
           <p className="text-sm text-cream/40">
             {SITE_CONFIG.showPricing
@@ -84,10 +86,10 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-4"
         >
           <Link href="/contact" className="inline-block px-8 py-3.5 bg-cream text-charcoal text-sm uppercase tracking-widest font-medium rounded-full hover:bg-white transition-all duration-300">
-            Request a Quote
+            {t("nav.requestQuote")}
           </Link>
           <Link href="/wholesale" className="inline-block px-8 py-3.5 border border-cream/30 text-cream text-sm uppercase tracking-widest rounded-full hover:bg-cream/10 transition-all duration-300">
-            View Products
+            {t("hero.cta")}
           </Link>
         </motion.div>
       </motion.div>
@@ -99,7 +101,7 @@ export default function Hero() {
         transition={{ delay: 1.5 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
-        <span className="text-[10px] uppercase tracking-[0.3em] text-cream/30">Scroll</span>
+        <span className="text-[10px] uppercase tracking-[0.3em] text-cream/30">{t("hero.scroll")}</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}

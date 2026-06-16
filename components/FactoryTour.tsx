@@ -4,8 +4,10 @@ import { factoryImages } from "@/lib/images";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import { useLang } from "@/lib/i18n/context";
 
 export default function FactoryTour() {
+  const { t } = useLang();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -19,12 +21,12 @@ export default function FactoryTour() {
           className="text-center mb-16 md:mb-24"
         >
           <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4">
-            Inside Our Factory
+            {t("factory.label")}
           </p>
           <h2 className="text-display-lg font-serif text-charcoal text-balance">
             Where Precision
             <br />
-            <span className="italic">Meets Scale</span>
+            <span className="italic">{t("factory.titleLine2")}</span>
           </h2>
         </motion.div>
 

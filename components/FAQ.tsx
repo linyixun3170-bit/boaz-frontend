@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { SITE_CONFIG } from "@/lib/config";
+import { useLang } from "@/lib/i18n/context";
 
 // ============================================================
 // ❓ FAQ 组件（GEO 优化核心）
@@ -21,60 +21,48 @@ interface FAQItem {
 
 const defaultFaqs: FAQItem[] = [
   {
-    question: "What is the minimum order quantity (MOQ)?",
-    answer:
-      "Our MOQ starts at 50 pieces per style and color. But we routinely scale — our largest single order was 30,000 pieces. Whether you are testing the market or restocking a bestseller, we meet you where you are.",
+    question: "faq.q1",
+    answer: "faq.a1",
   },
   {
-    question: "How fast can you produce and ship?",
-    answer:
-      "Stock + custom orders: 5-day standard turnaround. Rush orders: 3 days when needed. Large-volume custom orders follow contracted timelines. One of our Amazon clients places 4 orders per week, averaging 3,000+ pieces each — and we have never missed a window.",
+    question: "faq.q2",
+    answer: "faq.a2",
   },
   {
-    question: "What are your shipping options and costs?",
-    answer:
-      "We ship worldwide via sea, air, and express courier (DHL/FedEx/UPS). Sea freight is most economical for bulk orders (20-40 days). Air freight balances speed and cost (7-15 days). Express courier is best for samples and small orders (3-7 days). All prices are FOB — we provide freight quotes upon receiving your shipping details.",
+    question: "faq.q3",
+    answer: "faq.a3",
   },
   {
-    question: "How do samples work? What is the cost?",
-    answer:
-      "No minimums for samples. We offer sample service for any product in our catalog. Sample cost varies by product but is fully deductible from your first bulk order. Samples are dispatched within 5-7 days of confirmation. Shipping for samples is charged separately and varies by destination.",
+    question: "faq.q4",
+    answer: "faq.a4",
   },
   {
-    question: "Do you offer custom labels, packaging, and branding?",
-    answer:
-      "Yes — neck labels, hang tags, poly bags, custom boxes, and garment finishing. We also offer three curated package tiers: an entry-level 'traffic builder' set, a balanced 'quality-value' set, and a premium 'high-margin' set. Each tier is transparently priced so you know exactly what you are paying for.",
+    question: "faq.q5",
+    answer: "faq.a5",
   },
   {
-    question: "What is your price range?",
-    answer:
-      SITE_CONFIG.showPricing
-        ? "Our blank garment prices range from $0.85 for lightweight basic tees to $9.90 for heavyweight premium hoodies. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you."
-        : "Our pricing is competitive and transparent. Garment prices depend on fabric weight, style, and quantity. Processing, customization, and logistics are quoted separately — so you see exactly where every dollar goes. No hidden factory real estate costs passed on to you. Contact us for a quote tailored to your specific needs.",
+    question: "faq.q6",
+    answer: "faq.a6",
   },
   {
-    question: "Can you develop a completely custom garment from a tech pack or sketch?",
-    answer:
-      "Absolutely. Send us a tech pack, a reference sample, or even a rough sketch. Our pattern team — trained the old way, hand-to-hand — will produce a counter-sample for your approval. From clean basics to vintage washes to full custom builds.",
+    question: "faq.q7",
+    answer: "faq.a7",
   },
   {
-    question: "Who are your typical clients?",
-    answer:
-      "Independent DTC brands, Amazon sellers (including top-tier accounts), brick-and-mortar stores, event companies needing team uniforms, training institutions, trading companies, and custom apparel brands. Our patterns are optimized for international body types — clients consistently tell us: 'The fit is exactly right for our foreign customers.'",
+    question: "faq.q8",
+    answer: "faq.a8",
   },
   {
-    question: "Where are you located?",
-    answer:
-      "Our online sales team is based in Hangzhou. Our production base is in Hebei — strategically located to minimize overhead and maximize speed. All prices are FOB. We do not charge you for expensive downtown real estate.",
+    question: "faq.q9",
+    answer: "faq.a9",
   },
   {
-    question: "What makes BOAZ different from other factories?",
-    answer:
-      "We are not a trading company. We are the production line. Three generations of hands-on manufacturing means we control every stitch, every checkpoint, every delivery window. Clients tell us four things consistently: 'This price for this quality?' 'True source factory.' 'Fast.' 'The fit works for our market.'",
+    question: "faq.q10",
+    answer: "faq.a10",
   },
 ];
 
-function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
+function FAQItemComponent({ item, index, t }: { item: FAQItem; index: number; t: (key: string) => string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -90,7 +78,7 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
         className="w-full py-6 flex items-center justify-between text-left group"
       >
         <span className="text-body-md font-medium text-charcoal group-hover:text-ink transition-colors pr-8">
-          {item.question}
+          {t(item.question)}
         </span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
@@ -107,7 +95,7 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
             transition={{ duration: 0.3 }}
           >
             <p className="text-body-md text-muted pb-6 max-w-3xl leading-relaxed">
-              {item.answer}
+              {t(item.answer)}
             </p>
           </motion.div>
         )}
@@ -117,14 +105,18 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
 }
 
 export default function FAQ({
-  title = "Frequently Asked Questions",
-  subtitle = "Everything you need to know before starting.",
+  title,
+  subtitle,
   faqs = defaultFaqs,
 }: {
   title?: string;
   subtitle?: string;
   faqs?: FAQItem[];
 }) {
+  const { t } = useLang();
+  const resolvedTitle = title ?? t("faq.title");
+  const resolvedSubtitle = subtitle ?? t("faq.subtitle");
+
   return (
     <section className="py-24 md:py-32 bg-cream section-padding">
       <div className="max-w-4xl mx-auto">
@@ -136,17 +128,17 @@ export default function FAQ({
           className="text-center mb-16"
         >
           <p className="text-caption uppercase tracking-[0.3em] text-muted mb-4">
-            FAQ
+            {t("faq.sectionLabel")}
           </p>
           <h2 className="text-display-lg font-serif text-charcoal mb-4 text-balance">
-            {title}
+            {resolvedTitle}
           </h2>
-          <p className="text-body-md text-muted">{subtitle}</p>
+          <p className="text-body-md text-muted">{resolvedSubtitle}</p>
         </motion.div>
 
         <div>
           {faqs.map((faq, i) => (
-            <FAQItemComponent key={i} item={faq} index={i} />
+            <FAQItemComponent key={i} item={faq} index={i} t={t} />
           ))}
         </div>
       </div>
