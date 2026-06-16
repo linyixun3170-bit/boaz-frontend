@@ -3,6 +3,25 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { languages, type LangMeta } from "./languages";
 import en from "./en";
+import zh from "./zh";
+
+// 所有语言文件在构建时全量加载，切换零延迟
+const ALL_DICTS: Record<string, Record<string, string>> = {
+  en,
+  zh,
+};
+
+// 延迟加载其他语言（fallback 到英文）
+async function ensureDict(code: string): Promise<Record<string, string>> {
+  if (ALL_DICTS[code]) return ALL_DICTS[code];
+  try {
+    const mod = await import(`./${code}.ts`);
+    ALL_DICTS[code] = mod.default;
+  } catch {
+    ALL_DICTS[code] = en;
+  }
+  return ALL_DICTS[code];
+}
 
 type Lang = string;
 
@@ -20,65 +39,47 @@ const LangContext = createContext<LangContextType>({
   t: (key) => key,
 });
 
-// Cache loaded translations
-const translationCache: Record<string, Record<string, string>> = { en };
+function getDict(code: string): Record<string, string> {
+  return ALL_DICTS[code] || ALL_DICTS.en;
+}
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");
   const [dict, setDict] = useState<Record<string, string>>(en);
-  const [mounted, setMounted] = useState(false);
   const meta = languages.find((l) => l.code === lang) || languages[0];
 
-  // Load translation file
-  const loadLang = useCallback(async (code: string) => {
-    if (translationCache[code]) {
-      setDict(translationCache[code]);
-      return;
-    }
-    try {
-      const mod = await import(`./${code}.ts`);
-      translationCache[code] = mod.default;
-      setDict(mod.default);
-    } catch {
-      // Fallback to English
-      setDict(en);
-    }
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
-    // 默认英文，只有用户手动选择过才用 localStorage 记住的语言
-    const saved = localStorage.getItem("boaz-lang") as Lang | null;
-    const langToUse = saved || "en";
-    
-    if (langToUse !== "en") {
-      loadLang(langToUse);
-    }
-    setLangState(langToUse);
-  }, [loadLang]);
-
+  // 同步切换：已加载的语言直接切换，未加载的异步拉取
   const setLang = useCallback((newLang: Lang) => {
     setLangState(newLang);
     localStorage.setItem("boaz-lang", newLang);
-    if (newLang !== "en") {
-      loadLang(newLang);
+
+    const d = getDict(newLang);
+    if (d) {
+      setDict(d);
     } else {
-      setDict(en);
+      // 非中英文首次使用需要异步加载
+      ensureDict(newLang).then(setDict);
     }
-  }, [loadLang]);
+  }, []);
+
+  // 初始化：读 localStorage，中英文同步，其他异步
+  useEffect(() => {
+    const saved = localStorage.getItem("boaz-lang") as Lang | null;
+    const langToUse = saved || "en";
+
+    const d = getDict(langToUse);
+    if (d) {
+      setDict(d);
+    } else {
+      ensureDict(langToUse).then(setDict);
+    }
+    setLangState(langToUse);
+  }, []);
 
   const t = useCallback(
     (key: string): string => dict[key] || en[key] || key,
     [dict]
   );
-
-  if (!mounted) {
-    return (
-      <LangContext.Provider value={{ lang: "en", meta: languages[0], setLang, t }}>
-        {children}
-      </LangContext.Provider>
-    );
-  }
 
   return (
     <LangContext.Provider value={{ lang, meta, setLang, t }}>
