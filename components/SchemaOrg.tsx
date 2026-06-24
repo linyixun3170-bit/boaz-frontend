@@ -70,21 +70,12 @@ export default function SchemaOrg({ type = "home", product }: SchemaOrgProps) {
             : `${BASE}${product.image}`,
           url: `${BASE}/wholesale/${product.slug}`,
           category: product.category,
-          brand: { "@type": "Brand", name: "BOAZ" },
+          brand: { "@type": "Brand", name: "BOAZ Apparel" },
           sku: product.slug,
           offers: {
             "@type": "Offer",
-            priceCurrency: "USD",
-            price: 3.50,
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              priceType: "MinimumAdvertisedPrice",
-              minPrice: 3.0,
-              maxPrice: 12.5,
-              unitText: `${product.moq}+ pcs`,
-            },
             availability: "https://schema.org/InStock",
-            seller: { "@type": "Organization", name: "BOAZ Apparel" },
+            seller: { "@type": "Organization", "@id": `${BASE}/#organization` },
           },
         }
       : {},
