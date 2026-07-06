@@ -42,7 +42,8 @@ export interface Product {
   fabric: string;
   fit: string;
   moq: number;
-  priceFOB: string; // USD FOB
+  priceFOB: string; // USD FOB (display)
+  basePriceUSD?: number; // Schema price (hidden from UI)
   colors: ProductColor[];
   images: { main: string; gallery: string[] };
   tags: string[];
@@ -67,6 +68,7 @@ export const products: Product[] = [
     fit: "Cropped / Relaxed",
     moq: 50,
     priceFOB: "From $3.50/unit (FOB)",
+    basePriceUSD: 3.50,
     // ⚠️ 颜色名+hex待你确认
     colors: [
       { name: "Coffee", hex: "#8B6914", image: `${imgBase}/230g-washed-tee/sku/sku-coffee.webp`, imageBack: `${imgBase}/230g-washed-tee/sku/sku-coffee-back.webp` },
@@ -103,6 +105,7 @@ export const products: Product[] = [
     fit: "Cropped / Relaxed",
     moq: 50,
     priceFOB: "From $3.80/unit (FOB)",
+    basePriceUSD: 3.80,
     colors: [
       { name: "White", hex: "#ffffff", image: `${imgBase}/240g-vintage-crop/flat/flat-white.webp` },
       { name: "Black", hex: "#1a1a1a", image: `${imgBase}/240g-vintage-crop/flat/flat-black.webp` },
@@ -369,6 +372,7 @@ export const products: Product[] = [
     fit: "Open Shoulder / Relaxed Drop Shoulder",
     moq: 50,
     priceFOB: "From $4.50/unit (FOB)",
+    basePriceUSD: 4.50,
     colors: [
       { name: "Pure White", hex: "#FFFFFF", image: `${imgBase}/xsl-260g-sorona/sku/sku-white.webp` },
       { name: "Midnight Black", hex: "#1A1A1A", image: `${imgBase}/xsl-260g-sorona/sku/sku-black.webp` },
@@ -412,6 +416,7 @@ export const products: Product[] = [
     fit: "Regular / Relaxed Fit",
     moq: 50,
     priceFOB: "From $3.50/unit (FOB)",
+    basePriceUSD: 3.50,
     colors: [
       { name: "Black", hex: "#1A1A1A", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-black.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-black.webp` },
       { name: "Gray", hex: "#808080", image: `${imgBase}/cl-sunscreen-vintage/flat/flat-gray.webp`, imageBack: `${imgBase}/cl-sunscreen-vintage/flat-back/flat-back-gray.webp` },
@@ -449,6 +454,7 @@ export const products: Product[] = [
     fit: "Relaxed / Drop Shoulder",
     moq: 50,
     priceFOB: "From $4.50/unit (FOB)",
+    basePriceUSD: 4.50,
     colors: [
       { name: "Black", hex: "#1A1A1A", image: `${imgBase}/cl-longsleeve-vintage/flat/flat-black.webp`, imageBack: `${imgBase}/cl-longsleeve-vintage/flat-back/flat-back-black.webp` },
       { name: "Gray", hex: "#808080", image: `${imgBase}/cl-longsleeve-vintage/flat/flat-gray.webp`, imageBack: `${imgBase}/cl-longsleeve-vintage/flat-back/flat-back-gray.webp` },
@@ -489,6 +495,7 @@ export const products: Product[] = [
     fit: "Oversized / Relaxed Drop Shoulder",
     moq: 50,
     priceFOB: "From $8.50/set (FOB)",
+    basePriceUSD: 8.50,
     colors: [
       { name: "Coffee", hex: "#6F4E37", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Coffee-back.webp` },
       { name: "Gray", hex: "#808080", image: `${imgBase}/xc-280g-gradient-set/sku/sku-Gray.webp`, imageBack: `${imgBase}/xc-280g-gradient-set/sku/sku-Gray-back.webp` },
@@ -533,6 +540,7 @@ export const products: Product[] = [
     fit: "Relaxed / Loose Fit",
     moq: 50,
     priceFOB: "From $12.50/set (FOB), inquire for individual pricing",
+    basePriceUSD: 12.50,
     colors: [
       {
         name: "Gray", hex: "#969696",

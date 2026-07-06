@@ -10,6 +10,7 @@ interface SchemaOrgProps {
     slug: string;
     moq: number;
     category: string;
+    basePriceUSD?: number;
   };
 }
 
@@ -75,6 +76,9 @@ export default function SchemaOrg({ type = "home", product }: SchemaOrgProps) {
           offers: {
             "@type": "Offer",
             availability: "https://schema.org/InStock",
+            ...(product.basePriceUSD
+              ? { price: product.basePriceUSD, priceCurrency: "USD" }
+              : {}),
             seller: { "@type": "Organization", "@id": `${BASE}/#organization` },
           },
         }

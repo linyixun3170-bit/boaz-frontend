@@ -47,6 +47,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           slug: product.slug,
           moq: product.moq,
           category: product.category,
+          basePriceUSD: product.basePriceUSD,
         }}
       />
       <ProductDetailClient product={product} />
