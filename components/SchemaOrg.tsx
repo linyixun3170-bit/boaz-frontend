@@ -80,6 +80,33 @@ export default function SchemaOrg({ type = "home", product }: SchemaOrgProps) {
               ? { price: product.basePriceUSD, priceCurrency: "USD" }
               : {}),
             seller: { "@type": "Organization", "@id": `${BASE}/#organization` },
+            shippingDetails: {
+              "@type": "OfferShippingDetails",
+              shippingDestination: {
+                "@type": "DefinedRegion",
+                addressCountry: "WW",
+              },
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                handlingTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 3,
+                  maxValue: 5,
+                  unitCode: "DAY",
+                },
+                transitTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 7,
+                  maxValue: 20,
+                  unitCode: "DAY",
+                },
+              },
+            },
+            hasMerchantReturnPolicy: {
+              "@type": "MerchantReturnPolicy",
+              applicableCountry: "WW",
+              returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+            },
           },
         }
       : {},
