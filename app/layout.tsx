@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     canonical: "https://boaz-clothes.com",
   },
   verification: {
-    google: "your-google-verification-code",
+    google: "v9OAS8SJyq5uWjs74yg7ZM4s4O6yV9nE1lckO0uTtgo",
   },
 };
 
