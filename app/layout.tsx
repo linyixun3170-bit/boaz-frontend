@@ -42,9 +42,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://boaz-clothes.com",
   },
-  verification: {
-    google: "v9OAS8SJyq5uWjs74yg7ZM4s4O6yV9nE1lckO0uTtgo",
-  },
 };
 
 export default function RootLayout({
